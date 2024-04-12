@@ -1,11 +1,14 @@
 #include "pch.h"
+#include<iostream>
 #include <fstream>
 #include <string>
 #include <sstream>
 #include"common.h"
+#include"json.hpp"
 #include "Load.h"
 
 Load* Load::m_load = nullptr;
+string m_filename = "data.json";
 
 //コンストラクタ
 Load::Load() :
@@ -40,67 +43,9 @@ void Load::DestroyInstance()
 }
 
 //ファイルからデータ取得
-void Load::ReadFile(string filePath, bool isHeader, bool isIndex)
+void Load::ReadFile()
 {
-	m_filePath = filePath;
-	m_isHeader = isHeader;
-	m_isIndex = isIndex;
-
-	string buf;
-	string commaBuf;
-
-	//読み込むcsvファイルを開く
-	ifstream file(m_filePath);
-
-	//getline関数で1行ずつ読み込んでbufに格納
-	for (int i = initializeNum; getline(file, buf); i++)
-	{
-		m_cell.push_back(vector<string>());
-
-		//delim区切りごとにデータを読み込むためにistringstreamにする
-		istringstream iStream(buf);
-
-		for (int j = initializeNum; getline(iStream, commaBuf, m_delim); j++)
-		{
-			if (m_isHeader && m_isIndex)
-			{
-				if (i == initializeNum && j == initializeNum)continue;
-				//ヘッダー情報の格納
-				if (i == initializeNum && j != initializeNum)m_header.push_back(commaBuf);
-				//インデックス情報の格納
-				if (i != initializeNum && j == initializeNum)m_index.push_back(commaBuf);
-				//要素の格納
-				if (i != initializeNum && j != initializeNum)m_cell.at(i).push_back(commaBuf);
-			}
-			else if (m_isHeader)
-			{
-				//ヘッダー情報の格納
-				if (i == initializeNum)m_header.push_back(commaBuf);
-				//インデックス情報の格納
-				if (i != initializeNum && j == initializeNum)m_index.push_back(string());
-				//要素の格納
-				if (i != initializeNum)m_cell.at(i).push_back(commaBuf);
-			}
-			else if (m_isIndex)
-			{
-				//ヘッダー情報の格納
-				if (i == initializeNum && j != initializeNum)m_header.push_back(string());
-				//インデックス情報の格納
-				if (j == initializeNum)m_index.push_back(commaBuf);
-				//要素の格納
-				if (j != initializeNum)m_cell.at(i).push_back(commaBuf);
-			}
-			else
-			{
-				//ヘッダー情報の格納
-				if (i == initializeNum)m_header.push_back(string());
-				//インデックス情報の格納
-				if (j == initializeNum)m_index.push_back(string());
-				//要素の格納
-				m_cell.at(i).push_back(commaBuf);
-			}
-		}
-	}
+	ifstream ifs(m_fileName.c_str());
 }
 
 //データのロード
@@ -116,7 +61,18 @@ void Load::LoadData(unique_ptr<DX::DeviceResources> deviceResources)
 	{
 		for (int j = initializeNum; j < m_cell.at(i).size(); j++)
 		{
-
+			if (m_header.at(j) == m_tankHeader && m_cell.at(i).at(j) != "")
+			{
+				size_t size = strlen(m_cell.at(i).at(j).c_str());
+				const wchar_t* cell = new const wchar_t[size];
+				m_tankModelHandle.push_back(Model::CreateFromSDKMESH(device, cell, *m_fxFactory, ModelLoader_CounterClockwise | ModelLoader_IncludeBones));
+			}
+			if (m_header.at(j) == m_blockHeader && m_cell.at(i).at(j) != "")
+			{
+				size_t size = strlen(m_cell.at(i).at(j).c_str());
+				const wchar_t* cell = new const wchar_t[size];
+				m_blockModelHandle.push_back(Model::CreateFromCMO(device, cell, *m_fxFactory));
+			}
 		}
 	}
 }

@@ -6,6 +6,7 @@
 #include"Effects.h"
 #include"Model.h"
 
+using namespace DirectX;
 using namespace DirectX::SimpleMath;
 using namespace std;
 
@@ -45,7 +46,7 @@ public:
 	/// <param name="filepath">csvファイルのパス</param>
 	/// <param name="isHeader">ヘッダーがあるかどうか</param>
 	/// <param name="isIndex">インデックスがあるかどうか</param>
-	void ReadFile(string filepath, bool isHeader, bool isIndex);
+	void ReadFile();
 
 	/// <summary>
 	/// データのロード
@@ -55,6 +56,9 @@ public:
 
 private:
 	static Load* m_load;				//ロードクラスのインスタンス
+
+	static const string m_fileName;
+	string jsonStr;
 
 	string m_filePath;					//ゲームに必要なデータのパスが入ったファイルのパス
 	bool m_isHeader;						//ヘッダーがあるかどうか
@@ -68,10 +72,14 @@ private:
 	unique_ptr<DirectX::CommonStates> m_states;
 	unique_ptr<DirectX::IEffectFactory> m_fxFactory;
 
-	vector<DirectX::Model> m_tankModelHandle;
+	vector<unique_ptr<DirectX::Model>> m_tankModelHandle;
 	vector<Vector3> m_tankPos;
 
-	vector<DirectX::Model> m_blockModelHandle;
-	vector<Vector3> m_blockPos;
+	vector<unique_ptr<DirectX::Model>> m_blockModelHandle;
+	static constexpr int m_mapSize = 48;
+	char m_map[m_mapSize][m_mapSize];
+
+	static constexpr const char* m_tankHeader = "TANK";
+	static constexpr const char* m_blockHeader = "BLOCK";
 };
 

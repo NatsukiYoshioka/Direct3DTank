@@ -8,6 +8,12 @@
       <UniqueIdentifier>cb7ec6f3-eac0-4029-811d-66795088319f</UniqueIdentifier>
       <Extensions>ico;cur;bmp;dds;dlg;fbx;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tga;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Load">
+      <UniqueIdentifier>{37b5d2fc-f1b4-4cf8-aa2d-2cb207f8f207}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="json">
+      <UniqueIdentifier>{fd95c6cc-a15c-4e97-b451-e520f4f34b0c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
@@ -18,9 +24,13 @@
     <ClInclude Include="DeviceResources.h">
       <Filter>Common</Filter>
     </ClInclude>
-    <ClInclude Include="Block.h" />
-    <ClInclude Include="Load.h" />
     <ClInclude Include="common.h" />
+    <ClInclude Include="Load.h">
+      <Filter>Load</Filter>
+    </ClInclude>
+    <ClInclude Include="json.hpp">
+      <Filter>json</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
@@ -29,8 +39,9 @@
     <ClCompile Include="DeviceResources.cpp">
       <Filter>Common</Filter>
     </ClCompile>
-    <ClCompile Include="Block.cpp" />
-    <ClCompile Include="Load.cpp" />
+    <ClCompile Include="Load.cpp">
+      <Filter>Load</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="resource.rc" />
@@ -47,5 +58,8 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+    <None Include="data.json">
+      <Filter>json</Filter>
+    </None>
   </ItemGroup>
 </Project>
