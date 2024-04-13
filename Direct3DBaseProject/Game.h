@@ -7,6 +7,8 @@
 #include "DeviceResources.h"
 #include "StepTimer.h"
 
+class Load;
+class BlockManager;
 
 // A basic game implementation that creates a D3D11 device and
 // provides a game loop.
@@ -46,6 +48,8 @@ public:
     void GetDefaultSize( int& width, int& height ) const noexcept;
 
 private:
+    Load* m_load;
+    BlockManager* m_blockManager;
 
     void Update(DX::StepTimer const& timer);
     void Render();

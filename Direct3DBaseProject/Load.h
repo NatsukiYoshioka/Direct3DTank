@@ -1,11 +1,15 @@
 #pragma once
+#include <sstream>
 #include<string>
 #include<vector>
 #include "DeviceResources.h"
 #include"CommonStates.h"
 #include"Effects.h"
 #include"Model.h"
+#include"json.hpp"
+#include"common.h"
 
+using json = nlohmann::json;
 using namespace DirectX;
 using namespace DirectX::SimpleMath;
 using namespace std;
@@ -52,34 +56,50 @@ public:
 	/// データのロード
 	/// </summary>
 	/// <param name="deviceResources">ゲームデバイス</param>
-	void LoadData(unique_ptr<DX::DeviceResources> deviceResources);
+	void LoadData(ID3D11Device* deviceResources);
+
+	/// <summary>
+	/// const wchar_t* 変換関数
+	/// </summary>
+	/// <param name="str">変換する変数</param>
+	/// <returns>変換した変数</returns>
+	wstring Widen(const string& str);
+
+	/// <summary>
+	/// タンクモデルハンドル配列を取得
+	/// </summary>
+	/// <returns>タンクモデルハンドル配列</returns>
+	vector<unique_ptr<DirectX::Model>>&& GetTankModelHandle() { return move(m_tankModelHandle); }
+
+	/// <summary>
+	/// タンク座標配列を取得
+	/// </summary>
+	/// <returns>タンク座標配列</returns>
+	vector<Vector3> GetTankPos() { return m_tankPos; }
+
+	/// <summary>
+	/// ブロックモデルハンドル配列を取得
+	/// </summary>
+	/// <returns>ブロックモデルハンドル配列</returns>
+	vector<unique_ptr<DirectX::Model>>&& GetBlockModelHandle() { return move(m_blockModelHandle); }
+
+	vector<vector<int>> GetMap() { return m_map; }
 
 private:
 	static Load* m_load;				//ロードクラスのインスタンス
 
-	static const string m_fileName;
-	string jsonStr;
+	static const string m_fileName;		//jsonファイル名
+	json m_json;						//jsonファイルの情報を格納
 
 	string m_filePath;					//ゲームに必要なデータのパスが入ったファイルのパス
-	bool m_isHeader;						//ヘッダーがあるかどうか
-	bool m_isIndex;						//インデックスがあるかどうか
-	static constexpr char m_delim = ',';	//区切りの文字
-
-	vector<string> m_header;				//ヘッダー名保管
-	vector<string> m_index;				//インデックス名保管
-	vector<vector<string>> m_cell;		//要素保管
 
 	unique_ptr<DirectX::CommonStates> m_states;
 	unique_ptr<DirectX::IEffectFactory> m_fxFactory;
 
-	vector<unique_ptr<DirectX::Model>> m_tankModelHandle;
-	vector<Vector3> m_tankPos;
+	vector<unique_ptr<DirectX::Model>> m_tankModelHandle;	//戦車のモデルハンドル配列
+	vector<Vector3> m_tankPos;								//戦車の座標配列
 
-	vector<unique_ptr<DirectX::Model>> m_blockModelHandle;
-	static constexpr int m_mapSize = 48;
-	char m_map[m_mapSize][m_mapSize];
-
-	static constexpr const char* m_tankHeader = "TANK";
-	static constexpr const char* m_blockHeader = "BLOCK";
+	vector<unique_ptr<DirectX::Model>> m_blockModelHandle;	//マップ用ブロックモデルの配列
+	vector<vector<int>> m_map;						//マップチップ
 };
 

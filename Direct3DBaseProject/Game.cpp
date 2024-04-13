@@ -3,6 +3,8 @@
 //
 
 #include "pch.h"
+#include"Load.h"
+#include"BlockManager.h"
 #include "Game.h"
 
 extern void ExitGame() noexcept;
@@ -10,10 +12,11 @@ extern void ExitGame() noexcept;
 using namespace DirectX;
 using namespace DirectX::SimpleMath;
 
-
 using Microsoft::WRL::ComPtr;
 
-Game::Game() noexcept(false)
+Game::Game() noexcept(false):
+    m_load(nullptr),
+    m_blockManager(nullptr)
 {
     m_deviceResources = std::make_unique<DX::DeviceResources>();
     // TODO: Provide parameters for swapchain format, depth/stencil format, and backbuffer count.
@@ -170,6 +173,14 @@ void Game::CreateDeviceDependentResources()
     auto device = m_deviceResources->GetD3DDevice();
 
     // TODO: Initialize device dependent objects here (independent of window size).
+    //オブジェクトのロード
+    Load::CreateInstance();
+    m_load = Load::GetInstance();
+    m_load->ReadFile();
+    m_load->LoadData(device);
+
+    m_blockManager = new BlockManager(move(m_load->GetBlockModelHandle()), m_load->GetMap());
+
     device;
 }
 
@@ -182,6 +193,7 @@ void Game::CreateWindowSizeDependentResources()
 void Game::OnDeviceLost()
 {
     // TODO: Add Direct3D resource cleanup here.
+    //Load::DestroyInstance();
 }
 
 void Game::OnDeviceRestored()

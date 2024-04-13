@@ -14,6 +14,12 @@
     <Filter Include="json">
       <UniqueIdentifier>{fd95c6cc-a15c-4e97-b451-e520f4f34b0c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Block">
+      <UniqueIdentifier>{ac404769-ea5e-4b30-a1e8-2680926b2997}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Block\BlockManager">
+      <UniqueIdentifier>{79872bed-6cfe-45a0-9425-cdfc42391c96}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
@@ -31,6 +37,12 @@
     <ClInclude Include="json.hpp">
       <Filter>json</Filter>
     </ClInclude>
+    <ClInclude Include="BlockManager.h">
+      <Filter>Block\BlockManager</Filter>
+    </ClInclude>
+    <ClInclude Include="Block.h">
+      <Filter>Block</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
@@ -41,6 +53,12 @@
     </ClCompile>
     <ClCompile Include="Load.cpp">
       <Filter>Load</Filter>
+    </ClCompile>
+    <ClCompile Include="BlockManager.cpp">
+      <Filter>Block\BlockManager</Filter>
+    </ClCompile>
+    <ClCompile Include="Block.cpp">
+      <Filter>Block</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
