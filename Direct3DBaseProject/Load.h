@@ -14,6 +14,9 @@ using namespace DirectX;
 using namespace DirectX::SimpleMath;
 using namespace std;
 
+/// <summary>
+/// 外部データロードクラス
+/// </summary>
 class Load
 {
 private:
@@ -83,6 +86,10 @@ public:
 	/// <returns>ブロックモデルハンドル配列</returns>
 	vector<unique_ptr<DirectX::Model>>&& GetBlockModelHandle() { return move(m_blockModelHandle); }
 
+	/// <summary>
+	/// マップ情報の取得
+	/// </summary>
+	/// <returns></returns>
 	vector<vector<int>> GetMap() { return m_map; }
 
 private:

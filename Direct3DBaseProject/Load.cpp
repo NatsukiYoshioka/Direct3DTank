@@ -72,17 +72,11 @@ void Load::LoadData(ID3D11Device* deviceResources)
 	m_tankPos.push_back({ m_json["TankBPosX"],m_json["TankBPosY"],m_json["TankBPosZ"] });
 	
 	//マップチップのロード
-	str = m_json["YellowBlock"];
-	m_blockModelHandle.push_back(Model::CreateFromCMO(device, Widen(str).c_str(), *m_fxFactory));
-
-	str = m_json["WoodBlock"];
-	m_blockModelHandle.push_back(Model::CreateFromCMO(device, Widen(str).c_str(), *m_fxFactory));
-
-	str = m_json["RedBlock"];
-	m_blockModelHandle.push_back(Model::CreateFromCMO(device, Widen(str).c_str(), *m_fxFactory));
-
-	str = m_json["BlueBlock"];
-	m_blockModelHandle.push_back(Model::CreateFromCMO(device, Widen(str).c_str(), *m_fxFactory));
+	for (int i = initializeNum; i < m_json["Blocks"].size(); i++)
+	{
+		str = m_json["Blocks"].at(i);
+		m_blockModelHandle.push_back(Model::CreateFromCMO(device, Widen(str).c_str(), *m_fxFactory));
+	}
 
 	//マップチップのロード
 	m_map.assign(mapSize, vector<int>(mapSize, initializeNum));
@@ -90,57 +84,7 @@ void Load::LoadData(ID3D11Device* deviceResources)
 	{
 		for (int j = initializeNum; j < mapSize; j++)
 		{
-			switch (i)
-			{
-			case 0:
-				m_map.at(i).at(j) = m_json["Mapchip0"][j];
-				break;
-			case 1:
-				m_map.at(i).at(j) = m_json["Mapchip1"][j];
-				break;
-			case 2:
-				m_map.at(i).at(j) = m_json["Mapchip2"][j];
-				break;
-			case 3:
-				m_map.at(i).at(j) = m_json["Mapchip3"][j];
-				break;
-			case 4:
-				m_map.at(i).at(j) = m_json["Mapchip4"][j];
-				break;
-			case 5:
-				m_map.at(i).at(j) = m_json["Mapchip5"][j];
-				break;
-			case 6:
-				m_map.at(i).at(j) = m_json["Mapchip6"][j];
-				break;
-			case 7:
-				m_map.at(i).at(j) = m_json["Mapchip7"][j];
-				break;
-			case 8:
-				m_map.at(i).at(j) = m_json["Mapchip8"][j];
-				break;
-			case 9:
-				m_map.at(i).at(j) = m_json["Mapchip9"][j];
-				break;
-			case 10:
-				m_map.at(i).at(j) = m_json["Mapchip10"][j];
-				break;
-			case 11:
-				m_map.at(i).at(j) = m_json["Mapchip11"][j];
-				break;
-			case 12:
-				m_map.at(i).at(j) = m_json["Mapchip12"][j];
-				break;
-			case 13:
-				m_map.at(i).at(j) = m_json["Mapchip13"][j];
-				break;
-			case 14:
-				m_map.at(i).at(j) = m_json["Mapchip14"][j];
-				break;
-			case 15:
-				m_map.at(i).at(j) = m_json["Mapchip15"][j];
-				break;
-			}
+			m_map.at(i).at(j) = m_json["Mapchip"][i].at(j);
 		}
 	}
 }
