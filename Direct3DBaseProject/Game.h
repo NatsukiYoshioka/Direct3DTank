@@ -6,6 +6,7 @@
 
 #include "DeviceResources.h"
 #include "StepTimer.h"
+#include"CommonStates.h"
 
 class Load;
 class BlockManager;
@@ -64,4 +65,8 @@ private:
 
     // Rendering loop timer.
     DX::StepTimer                           m_timer;
+
+    DirectX::SimpleMath::Matrix m_world;
+    DirectX::SimpleMath::Matrix m_view;
+    DirectX::SimpleMath::Matrix m_proj;
 };

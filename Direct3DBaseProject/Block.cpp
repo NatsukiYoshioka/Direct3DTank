@@ -4,6 +4,7 @@
 Block::Block(unique_ptr<DirectX::Model>&& blockModelHandle, Vector3 pos, BlockManager::BlockType blockType):
     m_blockType(blockType),
     m_blockModelHandle(move(blockModelHandle)),
+    m_local(),
     m_pos(pos),
     m_destroy(false)
 {
@@ -15,12 +16,13 @@ Block::~Block()
 
 }
 
-void Block::Update()
+void Block::Update(DirectX::SimpleMath::Matrix world)
 {
-
+    m_local = XMMatrixTranslation(m_pos.x, m_pos.y, m_pos.z);
+    m_local = XMMatrixMultiply(world, m_local);
 }
 
-void Block::Draw()
+void Block::Draw(ID3D11DeviceContext1* context, unique_ptr<DirectX::CommonStates>&& states, DirectX::SimpleMath::Matrix view, DirectX::SimpleMath::Matrix projection)
 {
-
+    m_blockModelHandle->Draw(context, *states, m_local, view, projection);
 }

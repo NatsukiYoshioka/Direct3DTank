@@ -92,6 +92,8 @@ public:
 	/// <returns></returns>
 	vector<vector<int>> GetMap() { return m_map; }
 
+	unique_ptr<DirectX::CommonStates>&& GetStates() { return move(m_states); }
+
 private:
 	static Load* m_load;				//ロードクラスのインスタンス
 

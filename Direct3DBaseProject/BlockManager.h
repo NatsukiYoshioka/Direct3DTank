@@ -34,10 +34,9 @@ public:
     ~BlockManager();
 
     void Init();
-    void Update();
-    void Draw();
+    void Update(DirectX::SimpleMath::Matrix world);
+    void Draw(ID3D11DeviceContext1* context, unique_ptr<DirectX::CommonStates>&& states, DirectX::SimpleMath::Matrix view, DirectX::SimpleMath::Matrix projection);
 private:
     vector<Block*> m_blocks;
-    vector<vector<int>> m_map;        //マップチップ
 };
 

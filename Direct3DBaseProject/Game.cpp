@@ -62,6 +62,7 @@ void Game::Update(DX::StepTimer const& timer)
     float elapsedTime = float(timer.GetElapsedSeconds());
 
     // TODO: Add your game logic here.
+    m_blockManager->Update(m_world);
     elapsedTime;
 }
 #pragma endregion
@@ -82,6 +83,7 @@ void Game::Render()
     auto context = m_deviceResources->GetD3DDeviceContext();
 
     // TODO: Add your rendering code here.
+    m_blockManager->Draw(context, m_load->GetStates(), m_view, m_proj);
     context;
 
     m_deviceResources->PIXEndEvent();
@@ -181,6 +183,7 @@ void Game::CreateDeviceDependentResources()
 
     m_blockManager = new BlockManager(move(m_load->GetBlockModelHandle()), m_load->GetMap());
 
+    m_world = Matrix::Identity;
     device;
 }
 
@@ -188,6 +191,11 @@ void Game::CreateDeviceDependentResources()
 void Game::CreateWindowSizeDependentResources()
 {
     // TODO: Initialize windows-size dependent objects here.
+    auto size = m_deviceResources->GetOutputSize();
+    m_view = Matrix::CreateLookAt(Vector3(0, 50, 0),
+        Vector3(0, 10, 0), Vector3::UnitY);
+    m_proj = Matrix::CreatePerspectiveFieldOfView(XM_PI / 4.f,
+        float(size.right) / float(size.bottom), 0.1f, 10.f);
 }
 
 void Game::OnDeviceLost()

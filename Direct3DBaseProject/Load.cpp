@@ -6,6 +6,7 @@
 #include <sstream>
 #include"common.h"
 #include"json.hpp"
+#include"BlockManager.h"
 #include "Load.h"
 
 using json = nlohmann::json;
@@ -71,12 +72,12 @@ void Load::LoadData(ID3D11Device* deviceResources)
 	m_tankModelHandle.push_back(Model::CreateFromSDKMESH(device, Widen(str).c_str(), *m_fxFactory, ModelLoader_CounterClockwise | ModelLoader_IncludeBones));
 	m_tankPos.push_back({ m_json["TankBPosX"],m_json["TankBPosY"],m_json["TankBPosZ"] });
 	
-	//マップチップのロード
-	for (int i = initializeNum; i < m_json["Blocks"].size(); i++)
-	{
-		str = m_json["Blocks"].at(i);
-		m_blockModelHandle.push_back(Model::CreateFromCMO(device, Widen(str).c_str(), *m_fxFactory));
-	}
+	////ブロックのロード
+	//for (int i = initializeNum; i < m_json["Blocks"].size(); i++)
+	//{
+	//	str = m_json["Blocks"].at(i);
+	//	m_blockModelHandle.push_back(Model::CreateFromCMO(device, Widen(str).c_str(), *m_fxFactory));
+	//}
 
 	//マップチップのロード
 	m_map.assign(mapSize, vector<int>(mapSize, initializeNum));
@@ -85,6 +86,30 @@ void Load::LoadData(ID3D11Device* deviceResources)
 		for (int j = initializeNum; j < mapSize; j++)
 		{
 			m_map.at(i).at(j) = m_json["Mapchip"][i].at(j);
+		}
+	}
+
+	//ブロックのロード
+	for (int i = initializeNum; i < mapSize; i++)
+	{
+		for (int j = initializeNum; j < mapSize; j++)
+		{
+			switch (m_map[i][j])
+			{
+			case static_cast<int>(BlockManager::BlockType::YELLOW):
+				str = m_json["Blocks"].at(static_cast<int>(BlockManager::BlockType::YELLOW));
+				break;
+			case static_cast<int>(BlockManager::BlockType::WOOD):
+				str = m_json["Blocks"].at(static_cast<int>(BlockManager::BlockType::WOOD));
+				break;
+			case static_cast<int>(BlockManager::BlockType::RED):
+				str = m_json["Blocks"].at(static_cast<int>(BlockManager::BlockType::RED));
+				break;
+			case static_cast<int>(BlockManager::BlockType::BLUE):
+				str = m_json["Blocks"].at(static_cast<int>(BlockManager::BlockType::BLUE));
+				break;
+			}
+			m_blockModelHandle.push_back(Model::CreateFromCMO(device, Widen(str).c_str(), *m_fxFactory));
 		}
 	}
 }
