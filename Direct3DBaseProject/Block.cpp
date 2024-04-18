@@ -24,5 +24,7 @@ void Block::Update(DirectX::SimpleMath::Matrix world)
 
 void Block::Draw(ID3D11DeviceContext1* context, unique_ptr<DirectX::CommonStates>&& states, DirectX::SimpleMath::Matrix view, DirectX::SimpleMath::Matrix projection)
 {
+    /*m_sphere = GeometricPrimitive::CreateSphere(context, 0.5f);
+    m_sphere->Draw(m_local, view, projection, Colors::Gray, nullptr, true);*/
     m_blockModelHandle->Draw(context, *states, m_local, view, projection);
 }

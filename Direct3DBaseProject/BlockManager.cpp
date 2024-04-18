@@ -2,6 +2,7 @@
 #include"Block.h"
 #include "BlockManager.h"
 
+//ブロックインスタンスの生成
 BlockManager::BlockManager(vector<unique_ptr<DirectX::Model>>&& blockModelHandle, vector<vector<int>> map)
 {
     for (int i = initializeNum; i < mapSize; i++)
@@ -29,7 +30,13 @@ BlockManager::BlockManager(vector<unique_ptr<DirectX::Model>>&& blockModelHandle
 
 BlockManager::~BlockManager()
 {
-
+    if (m_blocks.size() > initializeNum)
+    {
+        for (int i = initializeNum; i < m_blocks.size(); i++)
+        {
+            delete(m_blocks.at(i));
+        }
+    }
 }
 
 void BlockManager::Init()
@@ -37,6 +44,7 @@ void BlockManager::Init()
 
 }
 
+//全ブロックの更新処理
 void BlockManager::Update(DirectX::SimpleMath::Matrix world)
 {
     for (int i = initializeNum; i < m_blocks.size(); i++)
@@ -45,6 +53,7 @@ void BlockManager::Update(DirectX::SimpleMath::Matrix world)
     }
 }
 
+//全ブロックの描画
 void BlockManager::Draw(ID3D11DeviceContext1* context, unique_ptr<DirectX::CommonStates>&& states, DirectX::SimpleMath::Matrix view, DirectX::SimpleMath::Matrix projection)
 {
     for (int i = initializeNum; i < m_blocks.size(); i++)

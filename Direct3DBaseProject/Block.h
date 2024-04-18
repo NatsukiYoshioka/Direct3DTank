@@ -12,13 +12,33 @@ class Block
 {
 public:
 
+    /// <summary>
+    /// ブロックの初期化
+    /// </summary>
+    /// <param name="blockModelHandle"></param>
+    /// <param name="pos"></param>
+    /// <param name="blockType"></param>
     Block(unique_ptr<DirectX::Model>&& blockModelHandle, Vector3 pos, BlockManager::BlockType blockType);
+
     ~Block();
 
+    /// <summary>
+    /// ブロックの座標設定
+    /// </summary>
+    /// <param name="world"></param>
     void Update(DirectX::SimpleMath::Matrix world);
+
+    /// <summary>
+    /// ブロックの描画
+    /// </summary>
+    /// <param name="context"></param>
+    /// <param name="states"></param>
+    /// <param name="view"></param>
+    /// <param name="projection"></param>
     void Draw(ID3D11DeviceContext1* context, unique_ptr<DirectX::CommonStates>&& states, DirectX::SimpleMath::Matrix view, DirectX::SimpleMath::Matrix projection);
 
 private:
+    //unique_ptr<DirectX::GeometricPrimitive> m_sphere;
     unique_ptr<DirectX::Model> m_blockModelHandle;
     BlockManager::BlockType m_blockType;
     XMMATRIX m_local;

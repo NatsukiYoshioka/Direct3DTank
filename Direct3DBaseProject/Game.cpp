@@ -192,10 +192,10 @@ void Game::CreateWindowSizeDependentResources()
 {
     // TODO: Initialize windows-size dependent objects here.
     auto size = m_deviceResources->GetOutputSize();
-    m_view = Matrix::CreateLookAt(Vector3(0, 50, 0),
-        Vector3(0, 10, 0), Vector3::UnitY);
+    m_view = Matrix::CreateLookAt(Vector3(7.5f, 25.f, 7.5f),
+        Vector3(7.5f, 0.f, 7.5f), Vector3::UnitX);
     m_proj = Matrix::CreatePerspectiveFieldOfView(XM_PI / 4.f,
-        float(size.right) / float(size.bottom), 0.1f, 10.f);
+        float(size.right) / float(size.bottom), 0.1f, 500.f);
 }
 
 void Game::OnDeviceLost()
