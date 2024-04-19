@@ -181,7 +181,7 @@ void Game::CreateDeviceDependentResources()
     m_load->ReadFile();
     m_load->LoadData(device);
 
-    m_blockManager = new BlockManager(move(m_load->GetBlockModelHandle()), m_load->GetMap());
+    m_blockManager = new BlockManager(move(m_load->GetBlockModelHandle()), move(m_load->GetGroundBlockUnderWoodsModelHandle()), m_load->GetMap());
 
     m_world = Matrix::Identity;
     device;

@@ -15,7 +15,8 @@ Load* Load::m_load = nullptr;
 const string Load::m_fileName = "data.json";
 
 //コンストラクタ
-Load::Load()
+Load::Load():
+	m_blockUnderWoods(initializeNum)
 {
 	
 }
@@ -94,6 +95,7 @@ void Load::LoadData(ID3D11Device* deviceResources)
 	{
 		for (int j = initializeNum; j < mapSize; j++)
 		{
+			
 			switch (m_map[i][j])
 			{
 			case static_cast<int>(BlockManager::BlockType::YELLOW):
@@ -101,6 +103,7 @@ void Load::LoadData(ID3D11Device* deviceResources)
 				break;
 			case static_cast<int>(BlockManager::BlockType::WOOD):
 				str = m_json["Blocks"].at(static_cast<int>(BlockManager::BlockType::WOOD));
+				m_blockUnderWoods++;
 				break;
 			case static_cast<int>(BlockManager::BlockType::RED):
 				str = m_json["Blocks"].at(static_cast<int>(BlockManager::BlockType::RED));
@@ -112,16 +115,23 @@ void Load::LoadData(ID3D11Device* deviceResources)
 			m_blockModelHandle.push_back(Model::CreateFromCMO(device, Widen(str).c_str(), *m_fxFactory));
 		}
 	}
+
+	//木ブロックの下の地面ブロックの数分ロード
+	str = m_json["Blocks"].at(static_cast<int>(BlockManager::BlockType::WOOD));
+	for (int i = initializeNum; i < m_blockUnderWoods; i++)
+	{
+		m_groundBlockModelHandle.push_back(Model::CreateFromCMO(device, Widen(str).c_str(), *m_fxFactory));
+	}
 }
 
-//文字列をワイド文字列に変換
-wstring Load::Widen(const string& str)
-{
-	wostringstream wstm;
-	const ctype<wchar_t>& ctfacet = use_facet<ctype<wchar_t>>(wstm.getloc());
-	for (size_t i = initializeNum; i < str.size(); ++i)
-	{
-		wstm << ctfacet.widen(str[i]);
-	}
-	return wstm.str();
-}
+////文字列をワイド文字列に変換
+//wstring Load::Widen(const string& str)
+//{
+//	wostringstream wstm;
+//	const ctype<wchar_t>& ctfacet = use_facet<ctype<wchar_t>>(wstm.getloc());
+//	for (size_t i = initializeNum; i < str.size(); ++i)
+//	{
+//		wstm << ctfacet.widen(str[i]);
+//	}
+//	return wstm.str();
+//}

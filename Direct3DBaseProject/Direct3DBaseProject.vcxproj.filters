@@ -20,6 +20,9 @@
     <Filter Include="Block\BlockManager">
       <UniqueIdentifier>{79872bed-6cfe-45a0-9425-cdfc42391c96}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Tank">
+      <UniqueIdentifier>{a9dbcf2d-19e7-41b2-abc2-b97ac8df4ba3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
@@ -43,6 +46,9 @@
     <ClInclude Include="Block.h">
       <Filter>Block</Filter>
     </ClInclude>
+    <ClInclude Include="Tank.h">
+      <Filter>Tank</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
@@ -59,6 +65,9 @@
     </ClCompile>
     <ClCompile Include="Block.cpp">
       <Filter>Block</Filter>
+    </ClCompile>
+    <ClCompile Include="Tank.cpp">
+      <Filter>Tank</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

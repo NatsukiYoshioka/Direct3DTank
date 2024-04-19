@@ -7,7 +7,6 @@
 #include"Effects.h"
 #include"Model.h"
 #include"json.hpp"
-#include"common.h"
 
 using json = nlohmann::json;
 using namespace DirectX;
@@ -66,7 +65,7 @@ public:
 	/// </summary>
 	/// <param name="str">変換する変数</param>
 	/// <returns>変換した変数</returns>
-	wstring Widen(const string& str);
+	//wstring Widen(const string& str);
 
 	/// <summary>
 	/// タンクモデルハンドル配列を取得
@@ -85,6 +84,12 @@ public:
 	/// </summary>
 	/// <returns>ブロックモデルハンドル配列</returns>
 	vector<unique_ptr<DirectX::Model>>&& GetBlockModelHandle() { return move(m_blockModelHandle); }
+
+	/// <summary>
+	/// 木ブロックの下の地面ブロックを取得
+	/// </summary>
+	/// <returns></returns>
+	vector<unique_ptr<DirectX::Model>>&& GetGroundBlockUnderWoodsModelHandle() { return move(m_groundBlockModelHandle); }
 
 	/// <summary>
 	/// マップ情報の取得
@@ -110,5 +115,8 @@ private:
 
 	vector<unique_ptr<DirectX::Model>> m_blockModelHandle;	//マップ用ブロックモデルの配列
 	vector<vector<int>> m_map;						//マップチップ
+
+	vector<unique_ptr<DirectX::Model>> m_groundBlockModelHandle;
+	int m_blockUnderWoods;
 };
 

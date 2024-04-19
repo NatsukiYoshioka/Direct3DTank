@@ -1,7 +1,6 @@
 #pragma once
 #include<vector>
 #include"Model.h"
-#include"common.h"
 
 using namespace DirectX;
 using namespace std;
@@ -30,7 +29,7 @@ public:
     /// </summary>
     /// <param name="blockModelHandle">ブロックモデルハンドル配列</param>
     /// <param name="map">マップ情報</param>
-    BlockManager(vector<unique_ptr<DirectX::Model>>&& blockModelHandle, vector<vector<int>> map);
+    BlockManager(vector<unique_ptr<DirectX::Model>>&& blockModelHandle, vector<unique_ptr<DirectX::Model>>&& groundBlockUnderWoodsModelHandle, vector<vector<int>> map);
     ~BlockManager();
 
     void Init();

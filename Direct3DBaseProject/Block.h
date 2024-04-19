@@ -2,7 +2,6 @@
 #include"Model.h"
 #include"BlockManager.h"
 #include"CommonStates.h"
-#include"common.h"
 
 using namespace DirectX;
 using namespace DirectX::SimpleMath;

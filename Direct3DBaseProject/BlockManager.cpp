@@ -1,10 +1,12 @@
 #include "pch.h"
+#include"common.h"
 #include"Block.h"
 #include "BlockManager.h"
 
 //ブロックインスタンスの生成
-BlockManager::BlockManager(vector<unique_ptr<DirectX::Model>>&& blockModelHandle, vector<vector<int>> map)
+BlockManager::BlockManager(vector<unique_ptr<DirectX::Model>>&& blockModelHandle, vector<unique_ptr<DirectX::Model>>&& groundBlockUnderWoodsModelHandle, vector<vector<int>> map)
 {
+    int groundBlockUnderWoodsNum = 0;
     for (int i = initializeNum; i < mapSize; i++)
     {
         for (int j = initializeNum; j < mapSize; j++)
@@ -16,6 +18,8 @@ BlockManager::BlockManager(vector<unique_ptr<DirectX::Model>>&& blockModelHandle
                 break;
             case static_cast<int>(BlockType::WOOD):
                 m_blocks.push_back(new Block(move(blockModelHandle.at(i * mapSize + j)), Vector3(j * blockSize, blockSize, i * blockSize), BlockType::WOOD));
+                m_blocks.push_back(new Block(move(groundBlockUnderWoodsModelHandle.at(groundBlockUnderWoodsNum)), Vector3(j * blockSize, static_cast<float>(initializeNum), i * blockSize), BlockType::YELLOW));
+                groundBlockUnderWoodsNum++;
                 break;
             case static_cast<int>(BlockType::RED):
                 m_blocks.push_back(new Block(move(blockModelHandle.at(i * mapSize + j)), Vector3(j * blockSize, blockSize, i * blockSize), BlockType::RED));
