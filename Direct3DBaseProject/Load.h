@@ -61,13 +61,6 @@ public:
 	void LoadData(ID3D11Device* deviceResources);
 
 	/// <summary>
-	/// const wchar_t* 変換関数
-	/// </summary>
-	/// <param name="str">変換する変数</param>
-	/// <returns>変換した変数</returns>
-	//wstring Widen(const string& str);
-
-	/// <summary>
 	/// タンクモデルハンドル配列を取得
 	/// </summary>
 	/// <returns>タンクモデルハンドル配列</returns>

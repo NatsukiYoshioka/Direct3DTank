@@ -49,12 +49,17 @@ Tank::Tank(unique_ptr<DirectX::Model>&& tankModelHandle, Vector3 pos):
     }
 
     m_tankModelHandle->CopyBoneTransformsTo(nbones, m_animBones.get());
+
+    /*for (int i = initializeNum; i < m_tankModelHandle->meshes.size(); i++)
+    {
+        m_tankModelHandle->meshes.at(i)->boundingBox
+    }*/
 }
 
 //インスタンス破棄
 Tank::~Tank()
 {
-
+    m_tankModelHandle.reset();
 }
 
 //タンクの更新処理

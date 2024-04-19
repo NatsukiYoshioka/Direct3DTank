@@ -1,13 +1,13 @@
 {
   "TankAPath": "tank.sdkmesh",
   "TankAPosX": 0,
-  "TankAPosY": 0,
+  "TankAPosY": 1,
   "TankAPosZ": 0,
 
   "TankBPath": "tank.sdkmesh",
-  "TankBPosX": 0,
-  "TankBPosY": 0,
-  "TankBPosZ": 0,
+  "TankBPosX": 16,
+  "TankBPosY": 1,
+  "TankBPosZ": 16,
 
   "Blocks": [
     "yellowcube.cmo",

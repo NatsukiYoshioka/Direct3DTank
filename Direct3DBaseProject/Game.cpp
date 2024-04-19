@@ -5,6 +5,7 @@
 #include "pch.h"
 #include"Load.h"
 #include"BlockManager.h"
+#include"TankManager.h"
 #include "Game.h"
 
 extern void ExitGame() noexcept;
@@ -63,6 +64,7 @@ void Game::Update(DX::StepTimer const& timer)
 
     // TODO: Add your game logic here.
     m_blockManager->Update(m_world);
+    m_tankManager->Update(m_world);
     elapsedTime;
 }
 #pragma endregion
@@ -84,6 +86,7 @@ void Game::Render()
 
     // TODO: Add your rendering code here.
     m_blockManager->Draw(context, m_load->GetStates(), m_view, m_proj);
+    m_tankManager->Draw(context, m_load->GetStates(), m_view, m_proj);
     context;
 
     m_deviceResources->PIXEndEvent();
@@ -182,6 +185,8 @@ void Game::CreateDeviceDependentResources()
     m_load->LoadData(device);
 
     m_blockManager = new BlockManager(move(m_load->GetBlockModelHandle()), move(m_load->GetGroundBlockUnderWoodsModelHandle()), m_load->GetMap());
+
+    m_tankManager = new TankManager(move(m_load->GetTankModelHandle()), m_load->GetTankPos());
 
     m_world = Matrix::Identity;
     device;

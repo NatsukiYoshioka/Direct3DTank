@@ -13,7 +13,7 @@ Block::Block(unique_ptr<DirectX::Model>&& blockModelHandle, Vector3 pos, BlockMa
 
 Block::~Block()
 {
-
+    m_blockModelHandle.reset();
 }
 
 void Block::Update(DirectX::SimpleMath::Matrix world)

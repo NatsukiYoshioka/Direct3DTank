@@ -61,5 +61,7 @@ private:
     static const string m_turretName;
     static const string m_canonName;
     static const string m_hatchName;
+
+    static constexpr float m_scale = 0.5f;
 };
 

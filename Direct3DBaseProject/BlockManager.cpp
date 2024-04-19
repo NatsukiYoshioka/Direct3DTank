@@ -32,6 +32,7 @@ BlockManager::BlockManager(vector<unique_ptr<DirectX::Model>>&& blockModelHandle
     }
 }
 
+//全ブロックの破棄
 BlockManager::~BlockManager()
 {
     if (m_blocks.size() > initializeNum)
