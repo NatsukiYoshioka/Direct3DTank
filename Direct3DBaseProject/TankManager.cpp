@@ -5,9 +5,12 @@
 
 TankManager::TankManager(vector<unique_ptr<DirectX::Model>>&& tankModelHandle, vector<Vector3> pos)
 {
+    float playerAngle[m_playerNum];
+    playerAngle[m_player1] = atan2f(pos.at(m_player1).z - pos.at(m_player2).z, pos.at(m_player1).x - pos.at(m_player2).x);
+    playerAngle[m_player2] = atan2f(pos.at(m_player2).z - pos.at(m_player1).z, pos.at(m_player2).x - pos.at(m_player1).x);
     for (int i = initializeNum; i < m_playerNum; i++)
     {
-        m_tank[i] = new Tank(move(tankModelHandle.at(i)), pos.at(i));
+        m_tank[i] = new Tank(move(tankModelHandle.at(i)), pos.at(i), playerAngle[i]);
     }
 }
 

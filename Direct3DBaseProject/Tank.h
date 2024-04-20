@@ -13,7 +13,7 @@ public:
     /// </summary>
     /// <param name="tankModelHandle"></param>
     /// <param name="pos"></param>
-    Tank(unique_ptr<DirectX::Model>&& tankModelHandle, Vector3 pos);
+    Tank(unique_ptr<DirectX::Model>&& tankModelHandle, Vector3 pos, float angle);
 
     /// <summary>
     /// インスタンス破棄
@@ -33,7 +33,13 @@ public:
     /// <param name="states"></param>
     /// <param name="view"></param>
     /// <param name="projection"></param>
-    void Draw(ID3D11DeviceContext1* context, unique_ptr<DirectX::CommonStates>&& states, DirectX::SimpleMath::Matrix view, DirectX::SimpleMath::Matrix projection);
+    void Draw(ID3D11DeviceContext1* deviceContext, unique_ptr<DirectX::CommonStates>&& states, DirectX::SimpleMath::Matrix view, DirectX::SimpleMath::Matrix projection);
+
+    /// <summary>
+    /// タンクの座標取得
+    /// </summary>
+    /// <returns>タンク座標</returns>
+    Vector3 GetPos() const { return m_pos; }
 
 private:
     unique_ptr<DirectX::Model> m_tankModelHandle;       //タンクモデルハンドル
@@ -51,6 +57,7 @@ private:
 
     Vector3 m_pos;          //タンクのベクトル座標
     XMMATRIX m_local;       //タンクの行列座標
+    float m_angle;        //タンクの向き
 
     //タンクのボーン名
     static const string m_tankBonesName;
@@ -62,6 +69,6 @@ private:
     static const string m_canonName;
     static const string m_hatchName;
 
-    static constexpr float m_scale = 0.5f;
+    static constexpr float m_scale = 0.2f;
 };
 

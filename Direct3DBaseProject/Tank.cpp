@@ -12,10 +12,11 @@ const string Tank::m_canonName = "canon_geo";
 const string Tank::m_hatchName = "hatch_geo";
 
 //タンクの初期化
-Tank::Tank(unique_ptr<DirectX::Model>&& tankModelHandle, Vector3 pos):
+Tank::Tank(unique_ptr<DirectX::Model>&& tankModelHandle, Vector3 pos,float angle):
     m_tankModelHandle(move(tankModelHandle)),
     m_pos(pos),
     m_local(),
+    m_angle(angle),
     m_leftBackWheelBone(ModelBone::c_Invalid),
     m_rightBackWheelBone(ModelBone::c_Invalid),
     m_leftFrontWheelBone(ModelBone::c_Invalid),
@@ -66,13 +67,17 @@ Tank::~Tank()
 void Tank::Update(DirectX::SimpleMath::Matrix world)
 {
     //座標処理
+    world = XMMatrixMultiply(world, Matrix::CreateScale(m_scale));
+    world= XMMatrixMultiply(world, Matrix::CreateRotationY(m_angle));
     m_local = XMMatrixTranslation(m_pos.x, m_pos.y, m_pos.z);
     m_local = XMMatrixMultiply(world, m_local);
 }
 
 //タンクの描画処理
-void Tank::Draw(ID3D11DeviceContext1* context, unique_ptr<DirectX::CommonStates>&& states, DirectX::SimpleMath::Matrix view, DirectX::SimpleMath::Matrix projection)
+void Tank::Draw(ID3D11DeviceContext1* deviceContext, unique_ptr<DirectX::CommonStates>&& states, DirectX::SimpleMath::Matrix view, DirectX::SimpleMath::Matrix projection)
 {
+    auto context = deviceContext;
+
     size_t nbones = m_tankModelHandle->bones.size();
 
     m_tankModelHandle->CopyAbsoluteBoneTransforms(nbones, m_animBones.get(), m_drawBones.get());
