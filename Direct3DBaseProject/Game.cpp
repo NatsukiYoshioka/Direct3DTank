@@ -17,7 +17,8 @@ using Microsoft::WRL::ComPtr;
 
 Game::Game() noexcept(false):
     m_load(nullptr),
-    m_blockManager(nullptr)
+    m_blockManager(nullptr),
+    m_tankManager(nullptr)
 {
     m_deviceResources = std::make_unique<DX::DeviceResources>();
     // TODO: Provide parameters for swapchain format, depth/stencil format, and backbuffer count.
@@ -132,6 +133,7 @@ void Game::OnDeactivated()
 void Game::OnSuspending()
 {
     // TODO: Game is being power-suspended (or minimized).
+    m_tankManager->SuspendGamePad();
 }
 
 void Game::OnResuming()
@@ -139,6 +141,7 @@ void Game::OnResuming()
     m_timer.ResetElapsedTime();
 
     // TODO: Game is being power-resumed (or returning from minimize).
+    m_tankManager->ResumeGamePad();
 }
 
 void Game::OnWindowMoved()

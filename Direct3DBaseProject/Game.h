@@ -7,6 +7,7 @@
 #include "DeviceResources.h"
 #include "StepTimer.h"
 #include"CommonStates.h"
+#include"common.h"
 
 class Load;
 class BlockManager;

@@ -1,5 +1,6 @@
 #pragma once
 #include<vector>
+#include"common.h"
 #include"Model.h"
 
 using namespace DirectX;
@@ -27,7 +28,7 @@ public:
     /// 全タンクの更新処理
     /// </summary>
     /// <param name="world">単位行列</param>
-    void Update(DirectX::SimpleMath::Matrix world);
+    void Update(DirectX::SimpleMath::Matrix world)const;
 
     /// <summary>
     /// 全タンクの描画
@@ -36,13 +37,19 @@ public:
     /// <param name="states"></param>
     /// <param name="view"></param>
     /// <param name="projection"></param>
-    void Draw(ID3D11DeviceContext1* context, unique_ptr<DirectX::CommonStates>&& states, DirectX::SimpleMath::Matrix view, DirectX::SimpleMath::Matrix projection);
+    void Draw(ID3D11DeviceContext1* context, unique_ptr<DirectX::CommonStates>&& states, DirectX::SimpleMath::Matrix view, DirectX::SimpleMath::Matrix projection)const;
 
+    /// <summary>
+    /// コントローラーの中断処理
+    /// </summary>
+    void SuspendGamePad();
+
+    /// <summary>
+    /// コントローラーの再開処理
+    /// </summary>
+    void ResumeGamePad();
 private:
-    static constexpr int m_player1 = 0;         //プレイヤー1のindex
-    static constexpr int m_player2 = 1;         //プレイヤー2のindex
-    static constexpr int m_playerNum = 2;       //プレイヤー数
-
-    Tank* m_tank[m_playerNum];                  //各タンクのインスタンス
+    Tank* m_tank[playerNum];                  //各タンクのインスタンス
+    unique_ptr<DirectX::GamePad> m_gamePad;   //コントローラーの状態を管理するポインタ
 };
 

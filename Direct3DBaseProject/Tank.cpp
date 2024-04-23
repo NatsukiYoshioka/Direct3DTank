@@ -1,3 +1,4 @@
+#include<string>
 #include "pch.h"
 #include"common.h"
 #include "Tank.h"
@@ -11,9 +12,12 @@ const string Tank::m_turretName = "turret_geo";
 const string Tank::m_canonName = "canon_geo";
 const string Tank::m_hatchName = "hatch_geo";
 
+extern void ExitGame() noexcept;
+
 //タンクの初期化
 Tank::Tank(unique_ptr<DirectX::Model>&& tankModelHandle, Vector3 pos,float angle):
     m_tankModelHandle(move(tankModelHandle)),
+    m_direction(),
     m_pos(pos),
     m_local(),
     m_angle(angle),
@@ -50,11 +54,6 @@ Tank::Tank(unique_ptr<DirectX::Model>&& tankModelHandle, Vector3 pos,float angle
     }
 
     m_tankModelHandle->CopyBoneTransformsTo(nbones, m_animBones.get());
-
-    /*for (int i = initializeNum; i < m_tankModelHandle->meshes.size(); i++)
-    {
-        m_tankModelHandle->meshes.at(i)->boundingBox
-    }*/
 }
 
 //インスタンス破棄
@@ -64,8 +63,9 @@ Tank::~Tank()
 }
 
 //タンクの更新処理
-void Tank::Update(DirectX::SimpleMath::Matrix world)
+void Tank::Update(DirectX::SimpleMath::Matrix world, DirectX::GamePad::State padState)
 {
+    UpdateInput(padState);
     //座標処理
     world = XMMatrixMultiply(world, Matrix::CreateScale(m_scale));
     world= XMMatrixMultiply(world, Matrix::CreateRotationY(m_angle));
@@ -83,4 +83,23 @@ void Tank::Draw(ID3D11DeviceContext1* deviceContext, unique_ptr<DirectX::CommonS
     m_tankModelHandle->CopyAbsoluteBoneTransforms(nbones, m_animBones.get(), m_drawBones.get());
 
     m_tankModelHandle->Draw(context, *states, nbones, m_drawBones.get(), m_local, view, projection);
+}
+
+void Tank::UpdateInput(DirectX::GamePad::State padState)
+{
+    if (padState.IsConnected())
+    {
+        if (padState.IsViewPressed())
+        {
+            ExitGame();
+        }
+        if (padState.thumbSticks.leftX != static_cast<float>(initializeNum) || padState.thumbSticks.leftY != static_cast<float>(initializeNum))
+        m_angle = atan2f(padState.thumbSticks.leftY, padState.thumbSticks.leftX);
+
+        m_direction.x = padState.thumbSticks.leftX;
+        m_direction.y = padState.thumbSticks.leftY;
+        m_direction.Normalize();
+        m_pos.z += m_direction.x * m_speed;
+        m_pos.x += m_direction.y * m_speed;
+    }
 }

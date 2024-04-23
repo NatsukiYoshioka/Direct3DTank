@@ -98,8 +98,6 @@ private:
 	static const string m_fileName;		//jsonファイル名
 	json m_json;						//jsonファイルの情報を格納
 
-	string m_filePath;					//ゲームに必要なデータのパスが入ったファイルのパス
-
 	unique_ptr<DirectX::CommonStates> m_states;
 	unique_ptr<DirectX::IEffectFactory> m_fxFactory;
 

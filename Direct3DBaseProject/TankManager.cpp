@@ -3,37 +3,54 @@
 #include"common.h"
 #include "TankManager.h"
 
-TankManager::TankManager(vector<unique_ptr<DirectX::Model>>&& tankModelHandle, vector<Vector3> pos)
+//全タンクの初期化
+TankManager::TankManager(vector<unique_ptr<DirectX::Model>>&& tankModelHandle, vector<Vector3> pos):
+    m_gamePad(make_unique<GamePad>())
 {
-    float playerAngle[m_playerNum];
-    playerAngle[m_player1] = atan2f(pos.at(m_player1).z - pos.at(m_player2).z, pos.at(m_player1).x - pos.at(m_player2).x);
-    playerAngle[m_player2] = atan2f(pos.at(m_player2).z - pos.at(m_player1).z, pos.at(m_player2).x - pos.at(m_player1).x);
-    for (int i = initializeNum; i < m_playerNum; i++)
+    float playerAngle[playerNum];
+    playerAngle[player1] = atan2f(pos.at(player1).z - pos.at(player2).z, pos.at(player1).x - pos.at(player2).x);
+    playerAngle[player2] = atan2f(pos.at(player2).z - pos.at(player1).z, pos.at(player2).x - pos.at(player1).x);
+    for (int i = initializeNum; i < playerNum; i++)
     {
         m_tank[i] = new Tank(move(tankModelHandle.at(i)), pos.at(i), playerAngle[i]);
     }
 }
 
+//インスタンス破棄
 TankManager::~TankManager()
 {
-    for (int i = initializeNum; i < m_playerNum; i++)
+    for (int i = initializeNum; i < playerNum; i++)
     {
         delete(m_tank[i]);
     }
 }
 
-void TankManager::Update(DirectX::SimpleMath::Matrix world)
+//全タンクの更新
+void TankManager::Update(DirectX::SimpleMath::Matrix world) const
 {
-    for (int i = initializeNum; i < m_playerNum; i++)
+    for (int i = initializeNum; i < playerNum; i++)
     {
-        m_tank[i]->Update(world);
+        m_tank[i]->Update(world, m_gamePad->GetState(i));
     }
 }
 
-void TankManager::Draw(ID3D11DeviceContext1* context, unique_ptr<DirectX::CommonStates>&& states, DirectX::SimpleMath::Matrix view, DirectX::SimpleMath::Matrix projection)
+//全タンクの描画
+void TankManager::Draw(ID3D11DeviceContext1* context, unique_ptr<DirectX::CommonStates>&& states, DirectX::SimpleMath::Matrix view, DirectX::SimpleMath::Matrix projection) const
 {
-    for (int i = initializeNum; i < m_playerNum; i++)
+    for (int i = initializeNum; i < playerNum; i++)
     {
         m_tank[i]->Draw(context, move(states), view, projection);
     }
+}
+
+//コントローラーの中断処理
+void TankManager::SuspendGamePad()
+{
+    m_gamePad->Suspend();
+}
+
+//コントローラーの再開処理
+void TankManager::ResumeGamePad()
+{
+    m_gamePad->Resume();
 }

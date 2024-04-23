@@ -123,15 +123,3 @@ void Load::LoadData(ID3D11Device* deviceResources)
 		m_groundBlockModelHandle.push_back(Model::CreateFromCMO(device, Widen(str).c_str(), *m_fxFactory));
 	}
 }
-
-////•¶š—ñ‚ğƒƒCƒh•¶š—ñ‚É•ÏŠ·
-//wstring Load::Widen(const string& str)
-//{
-//	wostringstream wstm;
-//	const ctype<wchar_t>& ctfacet = use_facet<ctype<wchar_t>>(wstm.getloc());
-//	for (size_t i = initializeNum; i < str.size(); ++i)
-//	{
-//		wstm << ctfacet.widen(str[i]);
-//	}
-//	return wstm.str();
-//}

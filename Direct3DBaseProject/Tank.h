@@ -24,7 +24,7 @@ public:
     /// タンク更新処理
     /// </summary>
     /// <param name="world">単位行列</param>
-    void Update(DirectX::SimpleMath::Matrix world);
+    void Update(DirectX::SimpleMath::Matrix world, DirectX::GamePad::State padState);
 
     /// <summary>
     /// タンク描画
@@ -41,6 +41,11 @@ public:
     /// <returns>タンク座標</returns>
     Vector3 GetPos() const { return m_pos; }
 
+    /// <summary>
+    /// 入力更新処理
+    /// </summary>
+    void UpdateInput(DirectX::GamePad::State padState);
+
 private:
     unique_ptr<DirectX::Model> m_tankModelHandle;       //タンクモデルハンドル
     DirectX::ModelBone::TransformArray m_drawBones;     //タンクの描画用ボーン
@@ -55,9 +60,11 @@ private:
     uint32_t m_canonBone;
     uint32_t m_hatchBone;
 
+    Vector2 m_direction;    //タンクの向きベクトル
     Vector3 m_pos;          //タンクのベクトル座標
     XMMATRIX m_local;       //タンクの行列座標
-    float m_angle;        //タンクの向き
+    float m_angle;          //タンクの向き
+    static constexpr float m_speed = 0.01f;    //タンクのスピード
 
     //タンクのボーン名
     static const string m_tankBonesName;
