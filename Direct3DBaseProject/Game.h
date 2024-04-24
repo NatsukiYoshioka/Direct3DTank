@@ -50,6 +50,12 @@ public:
     // Properties
     void GetDefaultSize( int& width, int& height ) const noexcept;
 
+    /// <summary>
+    /// ŽžŠÔ‚ÌŽæ“¾
+    /// </summary>
+    /// <returns></returns>
+    static float GetTime() { return m_time; }
+
 private:
     Load* m_load;
     BlockManager* m_blockManager;
@@ -68,6 +74,7 @@ private:
 
     // Rendering loop timer.
     DX::StepTimer                           m_timer;
+    static float m_time;
 
     DirectX::SimpleMath::Matrix m_world;
     DirectX::SimpleMath::Matrix m_view;

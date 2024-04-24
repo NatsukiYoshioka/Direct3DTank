@@ -26,6 +26,9 @@
     <Filter Include="Tank\TankManager">
       <UniqueIdentifier>{26f3ec13-65ee-49e7-a434-7cf8eee89f39}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Tank\Bullet">
+      <UniqueIdentifier>{e28ef4b9-e53c-413f-a9cd-692ce9389643}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
@@ -55,6 +58,9 @@
     <ClInclude Include="TankManager.h">
       <Filter>Tank\TankManager</Filter>
     </ClInclude>
+    <ClInclude Include="Bullet.h">
+      <Filter>Tank\Bullet</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
@@ -77,6 +83,9 @@
     </ClCompile>
     <ClCompile Include="TankManager.cpp">
       <Filter>Tank\TankManager</Filter>
+    </ClCompile>
+    <ClCompile Include="Bullet.cpp">
+      <Filter>Tank\Bullet</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -90,6 +90,12 @@ public:
 	/// <returns></returns>
 	vector<vector<int>> GetMap() { return m_map; }
 
+	/// <summary>
+	/// 弾モデルの取得
+	/// </summary>
+	/// <returns></returns>
+	unique_ptr<DirectX::Model>&& GetBulletModelHandle() { return move(m_bulletModelHandle); }
+
 	unique_ptr<DirectX::CommonStates>&& GetStates() { return move(m_states); }
 
 private:
@@ -104,10 +110,12 @@ private:
 	vector<unique_ptr<DirectX::Model>> m_tankModelHandle;	//戦車のモデルハンドル配列
 	vector<Vector3> m_tankPos;								//戦車の座標配列
 
+	unique_ptr<DirectX::Model> m_bulletModelHandle;			//弾のモデルハンドル
+
 	vector<unique_ptr<DirectX::Model>> m_blockModelHandle;	//マップ用ブロックモデルの配列
 	vector<vector<int>> m_map;						//マップチップ
 
-	vector<unique_ptr<DirectX::Model>> m_groundBlockModelHandle;
-	int m_blockUnderWoods;
+	vector<unique_ptr<DirectX::Model>> m_groundBlockModelHandle;	//ブロックモデルハンドル配列
+	int m_blockUnderWoods;							//木ブロックの下にあるブロックの数
 };
 

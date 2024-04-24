@@ -17,7 +17,7 @@ public:
     /// </summary>
     /// <param name="tankModelHandle">タンクのモデルハンドル</param>
     /// <param name="pos">タンクの初期座標</param>
-    TankManager(vector<unique_ptr<DirectX::Model>>&& tankModelHandle, vector<Vector3> pos);
+    TankManager(vector<unique_ptr<DirectX::Model>>&& tankModelHandle, unique_ptr<DirectX::Model>&& bulletModelHandle, vector<Vector3> pos);
 
     /// <summary>
     /// インスタンス破棄
@@ -50,6 +50,7 @@ public:
     void ResumeGamePad();
 private:
     Tank* m_tank[playerNum];                  //各タンクのインスタンス
+    unique_ptr<DirectX::Model> m_bulletModelHandle; //弾のモデルハンドル
     unique_ptr<DirectX::GamePad> m_gamePad;   //コントローラーの状態を管理するポインタ
 };
 

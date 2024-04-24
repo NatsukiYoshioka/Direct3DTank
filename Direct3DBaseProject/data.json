@@ -7,7 +7,9 @@
   "TankBPath": "tank.sdkmesh",
   "TankBPosX": 2,
   "TankBPosY": 1,
-  "TankBPosZ": 13,
+    "TankBPosZ": 13,
+
+    "Bullet": "bullet.cmo",
 
   "Blocks": [
     "yellowcube.cmo",

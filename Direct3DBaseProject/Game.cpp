@@ -15,6 +15,8 @@ using namespace DirectX::SimpleMath;
 
 using Microsoft::WRL::ComPtr;
 
+float Game::m_time = static_cast<float>(initializeNum);
+
 Game::Game() noexcept(false):
     m_load(nullptr),
     m_blockManager(nullptr),
@@ -62,6 +64,7 @@ void Game::Tick()
 void Game::Update(DX::StepTimer const& timer)
 {
     float elapsedTime = float(timer.GetElapsedSeconds());
+    m_time = float(timer.GetTotalSeconds());
 
     // TODO: Add your game logic here.
     m_blockManager->Update(m_world);
@@ -189,7 +192,7 @@ void Game::CreateDeviceDependentResources()
 
     m_blockManager = new BlockManager(move(m_load->GetBlockModelHandle()), move(m_load->GetGroundBlockUnderWoodsModelHandle()), m_load->GetMap());
 
-    m_tankManager = new TankManager(move(m_load->GetTankModelHandle()), m_load->GetTankPos());
+    m_tankManager = new TankManager(move(m_load->GetTankModelHandle()), move(m_load->GetBulletModelHandle()), m_load->GetTankPos());
 
     m_world = Matrix::Identity;
     device;

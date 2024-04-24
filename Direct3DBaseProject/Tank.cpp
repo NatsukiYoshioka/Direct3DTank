@@ -1,5 +1,7 @@
 #include<string>
 #include "pch.h"
+#include"Game.h"
+#include"Bullet.h"
 #include"common.h"
 #include "Tank.h"
 
@@ -15,12 +17,16 @@ const string Tank::m_hatchName = "hatch_geo";
 extern void ExitGame() noexcept;
 
 //タンクの初期化
-Tank::Tank(unique_ptr<DirectX::Model>&& tankModelHandle, Vector3 pos,float angle):
+Tank::Tank(unique_ptr<DirectX::Model>&& tankModelHandle, DirectX::Model *bulletModelHandle, Vector3 pos, float angle) :
     m_tankModelHandle(move(tankModelHandle)),
     m_direction(),
     m_pos(pos),
     m_local(),
     m_angle(angle),
+    isMove(false),
+    isMoveLeft(false),
+    isMoveRight(false),
+    m_turretRotation(angle),
     m_leftBackWheelBone(ModelBone::c_Invalid),
     m_rightBackWheelBone(ModelBone::c_Invalid),
     m_leftFrontWheelBone(ModelBone::c_Invalid),
@@ -29,6 +35,8 @@ Tank::Tank(unique_ptr<DirectX::Model>&& tankModelHandle, Vector3 pos,float angle
     m_canonBone(ModelBone::c_Invalid),
     m_hatchBone(ModelBone::c_Invalid)
 {
+    m_bulletModelHandle = bulletModelHandle;
+
     const size_t nbones = m_tankModelHandle->bones.size();
 
     //ボーン配列の生成
@@ -66,9 +74,10 @@ Tank::~Tank()
 void Tank::Update(DirectX::SimpleMath::Matrix world, DirectX::GamePad::State padState)
 {
     UpdateInput(padState);
+    UpdateAnimation();
     //座標処理
     world = XMMatrixMultiply(world, Matrix::CreateScale(m_scale));
-    world= XMMatrixMultiply(world, Matrix::CreateRotationY(m_angle));
+    world = XMMatrixMultiply(world, Matrix::CreateRotationY(m_angle));
     m_local = XMMatrixTranslation(m_pos.x, m_pos.y, m_pos.z);
     m_local = XMMatrixMultiply(world, m_local);
 }
@@ -93,8 +102,34 @@ void Tank::UpdateInput(DirectX::GamePad::State padState)
         {
             ExitGame();
         }
+        //左スティックの入力状態
         if (padState.thumbSticks.leftX != static_cast<float>(initializeNum) || padState.thumbSticks.leftY != static_cast<float>(initializeNum))
-        m_angle = atan2f(padState.thumbSticks.leftY, padState.thumbSticks.leftX);
+        {
+            m_angle = atan2f(padState.thumbSticks.leftY, padState.thumbSticks.leftX);
+            isMove = true;
+        }
+        else isMove = false;
+        
+        //右スティックの入力状態
+        if (padState.thumbSticks.rightX > static_cast<float>(initializeNum))
+        {
+            isMoveRight = true;
+            isMoveLeft = false;
+        }
+        else if (padState.thumbSticks.rightX < static_cast<float>(initializeNum))
+        {
+            isMoveRight = false;
+            isMoveLeft = true;
+        }
+        else
+        {
+            isMoveRight = false;
+            isMoveLeft = false;
+        }
+        if (padState.IsRightTriggerPressed())
+        {
+
+        }
 
         m_direction.x = padState.thumbSticks.leftX;
         m_direction.y = padState.thumbSticks.leftY;
@@ -102,4 +137,31 @@ void Tank::UpdateInput(DirectX::GamePad::State padState)
         m_pos.z += m_direction.x * m_speed;
         m_pos.x += m_direction.y * m_speed;
     }
+}
+
+//アニメーション更新
+void Tank::UpdateAnimation()
+{
+    float wheelRotation = Game::GetTime() * m_wheelRotationSpeed;
+    XMMATRIX mat;
+    if (isMove)
+    {
+        //ホイールのアニメーション
+        mat = XMMatrixRotationX(wheelRotation);
+        m_animBones[m_leftFrontWheelBone] = XMMatrixMultiply(mat, m_tankModelHandle->boneMatrices[m_leftFrontWheelBone]);
+        m_animBones[m_rightFrontWheelBone] = XMMatrixMultiply(mat, m_tankModelHandle->boneMatrices[m_rightFrontWheelBone]);
+        m_animBones[m_leftBackWheelBone] = XMMatrixMultiply(mat, m_tankModelHandle->boneMatrices[m_leftBackWheelBone]);
+        m_animBones[m_rightBackWheelBone] = XMMatrixMultiply(mat, m_tankModelHandle->boneMatrices[m_rightBackWheelBone]);
+    }
+    //タレットのアニメーション
+    if (isMoveRight)
+    {
+        m_turretRotation -= m_turretRotationSpeed;
+    }
+    if (isMoveLeft)
+    {
+        m_turretRotation += m_turretRotationSpeed;
+    }
+    mat = XMMatrixMultiply(XMMatrixRotationY(m_turretRotation), Matrix::CreateRotationY(-m_angle));
+    m_animBones[m_turretBone] = XMMatrixMultiply(mat, m_tankModelHandle->boneMatrices[m_turretBone]);
 }

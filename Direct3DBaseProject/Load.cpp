@@ -73,12 +73,8 @@ void Load::LoadData(ID3D11Device* deviceResources)
 	m_tankModelHandle.push_back(Model::CreateFromSDKMESH(device, Widen(str).c_str(), *m_fxFactory, ModelLoader_CounterClockwise | ModelLoader_IncludeBones));
 	m_tankPos.push_back({ m_json["TankBPosX"],m_json["TankBPosY"],m_json["TankBPosZ"] });
 	
-	////ブロックのロード
-	//for (int i = initializeNum; i < m_json["Blocks"].size(); i++)
-	//{
-	//	str = m_json["Blocks"].at(i);
-	//	m_blockModelHandle.push_back(Model::CreateFromCMO(device, Widen(str).c_str(), *m_fxFactory));
-	//}
+	str = m_json["Bullet"];
+	m_bulletModelHandle = Model::CreateFromCMO(device, Widen(str).c_str(), *m_fxFactory);
 
 	//マップチップのロード
 	m_map.assign(mapSize, vector<int>(mapSize, initializeNum));

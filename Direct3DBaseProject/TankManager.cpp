@@ -4,15 +4,16 @@
 #include "TankManager.h"
 
 //‘Sƒ^ƒ“ƒN‚Ì‰Šú‰»
-TankManager::TankManager(vector<unique_ptr<DirectX::Model>>&& tankModelHandle, vector<Vector3> pos):
-    m_gamePad(make_unique<GamePad>())
+TankManager::TankManager(vector<unique_ptr<DirectX::Model>>&& tankModelHandle, unique_ptr<DirectX::Model>&& bulletModelHandle, vector<Vector3> pos) :
+    m_gamePad(make_unique<GamePad>()),
+    m_bulletModelHandle(move(bulletModelHandle))
 {
     float playerAngle[playerNum];
     playerAngle[player1] = atan2f(pos.at(player1).z - pos.at(player2).z, pos.at(player1).x - pos.at(player2).x);
     playerAngle[player2] = atan2f(pos.at(player2).z - pos.at(player1).z, pos.at(player2).x - pos.at(player1).x);
     for (int i = initializeNum; i < playerNum; i++)
     {
-        m_tank[i] = new Tank(move(tankModelHandle.at(i)), pos.at(i), playerAngle[i]);
+        m_tank[i] = new Tank(move(tankModelHandle.at(i)), m_bulletModelHandle.get(), pos.at(i), playerAngle[i]);
     }
 }
 
