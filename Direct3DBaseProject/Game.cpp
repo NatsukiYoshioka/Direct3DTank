@@ -68,7 +68,7 @@ void Game::Update(DX::StepTimer const& timer)
 
     // TODO: Add your game logic here.
     m_blockManager->Update(m_world);
-    m_tankManager->Update(m_world);
+    m_tankManager->Update(m_world, m_blockManager);
     elapsedTime;
 }
 #pragma endregion

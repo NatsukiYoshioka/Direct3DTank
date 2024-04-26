@@ -9,7 +9,7 @@ Block::Block(unique_ptr<DirectX::Model>&& blockModelHandle, Vector3 pos, BlockMa
     m_pos(pos),
     m_destroy(false)
 {
-    m_box = BoundingBox(m_blockModelHandle->meshes.at(initializeNum)->boundingBox.Center, m_blockModelHandle->meshes.at(initializeNum)->boundingBox.Extents);
+    
 }
 
 Block::~Block()
@@ -25,7 +25,5 @@ void Block::Update(DirectX::SimpleMath::Matrix world)
 
 void Block::Draw(ID3D11DeviceContext1* context, unique_ptr<DirectX::CommonStates>&& states, DirectX::SimpleMath::Matrix view, DirectX::SimpleMath::Matrix projection)
 {
-    m_shape = GeometricPrimitive::CreateBox(context, XMFLOAT3(m_blockModelHandle->meshes.at(initializeNum)->boundingBox.Extents.x * extentsWidth, m_blockModelHandle->meshes.at(initializeNum)->boundingBox.Extents.y * extentsWidth, m_blockModelHandle->meshes.at(initializeNum)->boundingBox.Extents.z * extentsWidth));
-    m_shape->Draw(m_local, view, projection, Colors::White);
     m_blockModelHandle->Draw(context, *states, m_local, view, projection);
 }

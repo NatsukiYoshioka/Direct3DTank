@@ -1,5 +1,7 @@
 #include "pch.h"
 #include"Tank.h"
+#include"Block.h"
+#include"BlockManager.h"
 #include"common.h"
 #include "TankManager.h"
 
@@ -27,11 +29,25 @@ TankManager::~TankManager()
 }
 
 //全タンクの更新
-void TankManager::Update(DirectX::SimpleMath::Matrix world) const
+void TankManager::Update(DirectX::SimpleMath::Matrix world, BlockManager* blockManager)
 {
     for (int i = initializeNum; i < playerNum; i++)
     {
         m_tank[i]->Update(world, m_gamePad->GetState(i));
+    }
+    //タンク関連とブロックとの当たり判定
+    for (int i = initializeNum; i < playerNum; i++)
+    {
+        for (int j = initializeNum; j < blockManager->GetBlocks().size(); j++)
+        {
+            if (blockManager->GetBlocks().at(j)->GetBlockType() != BlockManager::BlockType::YELLOW)
+            {
+                for (int l = initializeNum; l < blockManager->GetBlocks().at(j)->GetModelMesh().size(); l++)
+                {
+                    m_tank[i]->CheckHitBlock(blockManager->GetBlocks().at(j)->GetModelMesh().at(l)->boundingBox);
+                }
+            }
+        }
     }
 }
 

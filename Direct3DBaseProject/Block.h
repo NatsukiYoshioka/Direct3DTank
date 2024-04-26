@@ -36,10 +36,19 @@ public:
     /// <param name="projection"></param>
     void Draw(ID3D11DeviceContext1* context, unique_ptr<DirectX::CommonStates>&& states, DirectX::SimpleMath::Matrix view, DirectX::SimpleMath::Matrix projection);
 
+    /// <summary>
+    /// ブロックの種類を取得
+    /// </summary>
+    /// <returns></returns>
+    BlockManager::BlockType GetBlockType()const { return m_blockType; }
+
+    /// <summary>
+    /// モデルのメッシュを取得
+    /// </summary>
+    /// <returns></returns>
+    ModelMesh::Collection GetModelMesh() { return m_blockModelHandle->meshes; }
 private:
     unique_ptr<DirectX::Model> m_blockModelHandle;
-    DirectX::BoundingBox m_box;
-    unique_ptr<GeometricPrimitive> m_shape;
     BlockManager::BlockType m_blockType;
     XMMATRIX m_local;
     Vector3 m_pos;

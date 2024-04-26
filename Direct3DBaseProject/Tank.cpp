@@ -22,12 +22,14 @@ Tank::Tank(unique_ptr<DirectX::Model>&& tankModelHandle, DirectX::Model *bulletM
     m_direction(),
     m_pos(pos),
     m_local(),
+    m_previousLocal(),
     m_angle(angle),
     m_fireRecast(static_cast<float>(initializeNum)),
     m_isMove(false),
     m_isMoveLeft(false),
     m_isMoveRight(false),
     m_isFire(false),
+    m_isHitBlock(false),
     m_turretRotation(angle),
     m_leftBackWheelBone(ModelBone::c_Invalid),
     m_rightBackWheelBone(ModelBone::c_Invalid),
@@ -39,8 +41,6 @@ Tank::Tank(unique_ptr<DirectX::Model>&& tankModelHandle, DirectX::Model *bulletM
     m_shapeLocal()
 {
     m_bulletModelHandle = bulletModelHandle;
-
-    //m_box = BoundingBox(m_tankModelHandle->meshes.at(initializeNum)->boundingBox.Center, m_tankModelHandle->meshes.at(initializeNum)->boundingBox.Extents);
 
     const size_t nbones = m_tankModelHandle->bones.size();
 
@@ -67,6 +67,11 @@ Tank::Tank(unique_ptr<DirectX::Model>&& tankModelHandle, DirectX::Model *bulletM
     }
 
     m_tankModelHandle->CopyBoneTransformsTo(nbones, m_animBones.get());
+
+    for (int i = initializeNum; i < m_tankModelHandle->meshes.size(); i++)
+    {
+        /*m_tankModelHandle->meshes.at(i)->boundingBox.Transform(m_tankModelHandle->meshes.at(i)->boundingBox, m_tankModelHandle->meshes.at(i)->boundingBox.Extents.y, XMVectorMultiply(Vector3::One, Vector3::One), XMVectorMultiply(Vector3::One, Vector3::One));*/
+    }
 }
 
 //インスタンス破棄
@@ -82,6 +87,7 @@ void Tank::Update(DirectX::SimpleMath::Matrix world, DirectX::GamePad::State pad
     UpdateAnimation();
     UpdateBullets(world);
     //座標処理
+    if (!m_isHitBlock)m_previousLocal = m_local;
     auto m_world = world;
 
     m_world = XMMatrixMultiply(world, Matrix::CreateScale(m_scale));
@@ -105,8 +111,6 @@ void Tank::Draw(ID3D11DeviceContext1* deviceContext, unique_ptr<DirectX::CommonS
 
     m_tankModelHandle->CopyAbsoluteBoneTransforms(nbones, m_animBones.get(), m_drawBones.get());
 
-    m_shape = GeometricPrimitive::CreateBox(deviceContext, XMFLOAT3(1.f,1.f,1.f));
-    m_shape->Draw(m_shapeLocal, view, projection, Colors::White);
     m_tankModelHandle->Draw(context, *states, nbones, m_drawBones.get(), m_local, view, projection);
 
     if (m_bullets.size() > initializeNum)
@@ -216,5 +220,18 @@ void Tank::UpdateBullets(DirectX::SimpleMath::Matrix world)
         {
             m_bullets.at(i)->Update(world);
         }
+    }
+}
+
+//ブロックとの当たり判定
+void Tank::CheckHitBlock(BoundingBox blockBox)
+{
+    for (int i = initializeNum; i < m_tankModelHandle->meshes.size(); i++)
+    {
+        m_isHitBlock = m_tankModelHandle->meshes.at(i)->boundingBox.Intersects(blockBox);
+    }
+    if (m_isHitBlock)
+    {
+        //m_local = m_previousLocal;
     }
 }

@@ -58,6 +58,18 @@ public:
     /// </summary>
     void UpdateBullets(DirectX::SimpleMath::Matrix world);
 
+    /// <summary>
+    /// ブロックとの当たり判定
+    /// </summary>
+    /// <param name="blockBox"></param>
+    void CheckHitBlock(BoundingBox blockBox);
+
+    /// <summary>
+    /// 弾の取得
+    /// </summary>
+    /// <returns></returns>
+    vector<Bullet*> GetBullets() { return m_bullets; }
+
 private:
     DirectX::Model *m_bulletModelHandle;                //弾のモデルハンドル
     vector<Bullet*> m_bullets;                          //弾クラス
@@ -69,9 +81,6 @@ private:
     unique_ptr<DirectX::Model> m_tankModelHandle;       //タンクモデルハンドル
     DirectX::ModelBone::TransformArray m_drawBones;     //タンクの描画用ボーン
     DirectX::ModelBone::TransformArray m_animBones;     //タンクのアニメーション用ボーン
-
-    DirectX::BoundingBox m_box;
-    unique_ptr<GeometricPrimitive> m_shape;
 
     //タンクのボーンの種類
     uint32_t m_leftBackWheelBone;
@@ -85,13 +94,15 @@ private:
     Vector2 m_direction;    //タンクの向きベクトル
     Vector3 m_pos;          //タンクのベクトル座標
     XMMATRIX m_local;       //タンクの行列座標
+    XMMATRIX m_previousLocal;   //更新前の行列
     float m_angle;          //タンクの向き
     static constexpr float m_speed = 0.01f;    //タンクのスピード
 
     bool m_isMove;            //動いているかどうか
     bool m_isMoveLeft;        //タレットが左に動いたか
     bool m_isMoveRight;       //タレットが右に動いたか
-    bool m_isFire;
+    bool m_isFire;            //弾を発射したかどうか
+    bool m_isHitBlock;        //ブロックと当たったかどうか
     static constexpr float m_wheelRotationSpeed = 5.f;  //タンクのホイールの回転スピード
     float m_turretRotation;                             //タレットの回転値
     static constexpr float m_turretRotationSpeed = 0.025f; //タンクのタレットの回転スピード
@@ -107,6 +118,8 @@ private:
     static const string m_hatchName;
 
     static constexpr float m_scale = 0.2f;
+
     Matrix m_shapeLocal;
+    static constexpr float m_extents = 0.5f;
 };
 

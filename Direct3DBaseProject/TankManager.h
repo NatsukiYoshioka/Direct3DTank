@@ -8,6 +8,7 @@ using namespace DirectX::SimpleMath;
 using namespace std;
 
 class Tank;
+class BlockManager;
 
 class TankManager
 {
@@ -28,7 +29,7 @@ public:
     /// 全タンクの更新処理
     /// </summary>
     /// <param name="world">単位行列</param>
-    void Update(DirectX::SimpleMath::Matrix world)const;
+    void Update(DirectX::SimpleMath::Matrix world, BlockManager* blockManager);
 
     /// <summary>
     /// 全タンクの描画

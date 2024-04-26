@@ -48,6 +48,12 @@ public:
     /// <param name="view">m_view</param>
     /// <param name="projection">m_proj</param>
     void Draw(ID3D11DeviceContext1* context, unique_ptr<DirectX::CommonStates>&& states, DirectX::SimpleMath::Matrix view, DirectX::SimpleMath::Matrix projection);
+
+    /// <summary>
+    /// ブロックの取得
+    /// </summary>
+    /// <returns></returns>
+    vector<Block*> GetBlocks() { return m_blocks; }
 private:
     vector<Block*> m_blocks;                //各ブロックのインスタンス
 };
