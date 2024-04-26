@@ -23,9 +23,11 @@ Tank::Tank(unique_ptr<DirectX::Model>&& tankModelHandle, DirectX::Model *bulletM
     m_pos(pos),
     m_local(),
     m_angle(angle),
-    isMove(false),
-    isMoveLeft(false),
-    isMoveRight(false),
+    m_fireRecast(static_cast<float>(initializeNum)),
+    m_isMove(false),
+    m_isMoveLeft(false),
+    m_isMoveRight(false),
+    m_isFire(false),
     m_turretRotation(angle),
     m_leftBackWheelBone(ModelBone::c_Invalid),
     m_rightBackWheelBone(ModelBone::c_Invalid),
@@ -33,9 +35,12 @@ Tank::Tank(unique_ptr<DirectX::Model>&& tankModelHandle, DirectX::Model *bulletM
     m_rightFrontWheelBone(ModelBone::c_Invalid),
     m_turretBone(ModelBone::c_Invalid),
     m_canonBone(ModelBone::c_Invalid),
-    m_hatchBone(ModelBone::c_Invalid)
+    m_hatchBone(ModelBone::c_Invalid),
+    m_shapeLocal()
 {
     m_bulletModelHandle = bulletModelHandle;
+
+    //m_box = BoundingBox(m_tankModelHandle->meshes.at(initializeNum)->boundingBox.Center, m_tankModelHandle->meshes.at(initializeNum)->boundingBox.Extents);
 
     const size_t nbones = m_tankModelHandle->bones.size();
 
@@ -75,11 +80,20 @@ void Tank::Update(DirectX::SimpleMath::Matrix world, DirectX::GamePad::State pad
 {
     UpdateInput(padState);
     UpdateAnimation();
+    UpdateBullets(world);
     //座標処理
-    world = XMMatrixMultiply(world, Matrix::CreateScale(m_scale));
-    world = XMMatrixMultiply(world, Matrix::CreateRotationY(m_angle));
+    auto m_world = world;
+
+    m_world = XMMatrixMultiply(world, Matrix::CreateScale(m_scale));
+    m_world = XMMatrixMultiply(m_world, Matrix::CreateRotationY(m_angle));
     m_local = XMMatrixTranslation(m_pos.x, m_pos.y, m_pos.z);
-    m_local = XMMatrixMultiply(world, m_local);
+    m_local = XMMatrixMultiply(m_world, m_local);
+
+    m_shapeLocal = world;
+    auto shapeWorld = world;
+    shapeWorld = XMMatrixMultiply(world, Matrix::CreateRotationY(m_angle));
+    m_shapeLocal = XMMatrixTranslation(m_pos.x, m_pos.y, m_pos.z);
+    m_shapeLocal = XMMatrixMultiply(shapeWorld, m_shapeLocal);
 }
 
 //タンクの描画処理
@@ -91,7 +105,17 @@ void Tank::Draw(ID3D11DeviceContext1* deviceContext, unique_ptr<DirectX::CommonS
 
     m_tankModelHandle->CopyAbsoluteBoneTransforms(nbones, m_animBones.get(), m_drawBones.get());
 
+    m_shape = GeometricPrimitive::CreateBox(deviceContext, XMFLOAT3(1.f,1.f,1.f));
+    m_shape->Draw(m_shapeLocal, view, projection, Colors::White);
     m_tankModelHandle->Draw(context, *states, nbones, m_drawBones.get(), m_local, view, projection);
+
+    if (m_bullets.size() > initializeNum)
+    {
+        for (int i = initializeNum; i < m_bullets.size(); i++)
+        {
+            m_bullets.at(i)->Draw(deviceContext, move(states), view, projection);
+        }
+    }
 }
 
 void Tank::UpdateInput(DirectX::GamePad::State padState)
@@ -106,29 +130,29 @@ void Tank::UpdateInput(DirectX::GamePad::State padState)
         if (padState.thumbSticks.leftX != static_cast<float>(initializeNum) || padState.thumbSticks.leftY != static_cast<float>(initializeNum))
         {
             m_angle = atan2f(padState.thumbSticks.leftY, padState.thumbSticks.leftX);
-            isMove = true;
+            m_isMove = true;
         }
-        else isMove = false;
+        else m_isMove = false;
         
         //右スティックの入力状態
         if (padState.thumbSticks.rightX > static_cast<float>(initializeNum))
         {
-            isMoveRight = true;
-            isMoveLeft = false;
+            m_isMoveRight = true;
+            m_isMoveLeft = false;
         }
         else if (padState.thumbSticks.rightX < static_cast<float>(initializeNum))
         {
-            isMoveRight = false;
-            isMoveLeft = true;
+            m_isMoveRight = false;
+            m_isMoveLeft = true;
         }
         else
         {
-            isMoveRight = false;
-            isMoveLeft = false;
+            m_isMoveRight = false;
+            m_isMoveLeft = false;
         }
-        if (padState.IsRightTriggerPressed())
+        if (padState.IsRightShoulderPressed() && m_fireRecast == static_cast<float>(initializeNum))
         {
-
+            m_isFire = true;
         }
 
         m_direction.x = padState.thumbSticks.leftX;
@@ -144,7 +168,7 @@ void Tank::UpdateAnimation()
 {
     float wheelRotation = Game::GetTime() * m_wheelRotationSpeed;
     XMMATRIX mat;
-    if (isMove)
+    if (m_isMove)
     {
         //ホイールのアニメーション
         mat = XMMatrixRotationX(wheelRotation);
@@ -154,14 +178,43 @@ void Tank::UpdateAnimation()
         m_animBones[m_rightBackWheelBone] = XMMatrixMultiply(mat, m_tankModelHandle->boneMatrices[m_rightBackWheelBone]);
     }
     //タレットのアニメーション
-    if (isMoveRight)
+    if (m_isMoveRight)
     {
         m_turretRotation -= m_turretRotationSpeed;
     }
-    if (isMoveLeft)
+    if (m_isMoveLeft)
     {
         m_turretRotation += m_turretRotationSpeed;
     }
     mat = XMMatrixMultiply(XMMatrixRotationY(m_turretRotation), Matrix::CreateRotationY(-m_angle));
     m_animBones[m_turretBone] = XMMatrixMultiply(mat, m_tankModelHandle->boneMatrices[m_turretBone]);
+}
+
+//弾の更新
+void Tank::UpdateBullets(DirectX::SimpleMath::Matrix world)
+{
+    //リキャスト計算
+    if (m_fireRecast > static_cast<float>(initializeNum))
+    {
+        m_fireRecast -= m_recastSpeed;
+    }
+    if (m_fireRecast < static_cast<float>(initializeNum))
+    {
+        m_fireRecast = static_cast<float>(initializeNum);
+    }
+    //弾の発射処理
+    if (m_bullets.size() <= m_maxBulletNum && m_isFire)
+    {
+        m_bullets.push_back(new Bullet(m_bulletModelHandle, m_pos, m_turretRotation));
+        m_isFire = false;
+        m_fireRecast = m_maxFireRecast;
+    }
+    //弾の更新処理
+    if (m_bullets.size() > initializeNum)
+    {
+        for (int i = initializeNum; i < m_bullets.size(); i++)
+        {
+            m_bullets.at(i)->Update(world);
+        }
+    }
 }

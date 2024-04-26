@@ -37,8 +37,9 @@ public:
     void Draw(ID3D11DeviceContext1* context, unique_ptr<DirectX::CommonStates>&& states, DirectX::SimpleMath::Matrix view, DirectX::SimpleMath::Matrix projection);
 
 private:
-    //unique_ptr<DirectX::GeometricPrimitive> m_sphere;
     unique_ptr<DirectX::Model> m_blockModelHandle;
+    DirectX::BoundingBox m_box;
+    unique_ptr<GeometricPrimitive> m_shape;
     BlockManager::BlockType m_blockType;
     XMMATRIX m_local;
     Vector3 m_pos;

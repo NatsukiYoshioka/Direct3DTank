@@ -18,6 +18,9 @@ private:
     DirectX::Model* m_bulletModelHandle;
     Vector3 m_pos;
     XMMATRIX m_local;
+    static constexpr float m_scale = 0.1f;
     float m_angle;
+    Vector3 m_direction;
+    static constexpr float m_speed = 0.02f;
 };
 
