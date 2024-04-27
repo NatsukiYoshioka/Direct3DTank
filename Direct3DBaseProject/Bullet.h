@@ -37,9 +37,6 @@ public:
     void Draw(ID3D11DeviceContext1* deviceContext, unique_ptr<DirectX::CommonStates>&& states, DirectX::SimpleMath::Matrix view, DirectX::SimpleMath::Matrix projection);
 
 private:
-    XMMATRIX m_shapeLocal;                          //当たり判定の位置更新用変数
-    static const XMFLOAT3 m_extents;                //当たり判定矩形の範囲
-
     DirectX::Model* m_bulletModelHandle;            //弾モデルハンドル
     Vector3 m_pos;                                  //弾の座標
     XMMATRIX m_local;                               //弾の情報を格納した行列

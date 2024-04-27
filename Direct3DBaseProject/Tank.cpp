@@ -22,7 +22,7 @@ Tank::Tank(unique_ptr<DirectX::Model>&& tankModelHandle, DirectX::Model *bulletM
     m_direction(),
     m_pos(pos),
     m_local(),
-    m_previousLocal(),
+    m_hitLocal(),
     m_angle(angle),
     m_fireRecast(static_cast<float>(initializeNum)),
     m_isMove(false),
@@ -37,8 +37,7 @@ Tank::Tank(unique_ptr<DirectX::Model>&& tankModelHandle, DirectX::Model *bulletM
     m_rightFrontWheelBone(ModelBone::c_Invalid),
     m_turretBone(ModelBone::c_Invalid),
     m_canonBone(ModelBone::c_Invalid),
-    m_hatchBone(ModelBone::c_Invalid),
-    m_shapeLocal()
+    m_hatchBone(ModelBone::c_Invalid)
 {
     m_bulletModelHandle = bulletModelHandle;
 
@@ -68,10 +67,9 @@ Tank::Tank(unique_ptr<DirectX::Model>&& tankModelHandle, DirectX::Model *bulletM
 
     m_tankModelHandle->CopyBoneTransformsTo(nbones, m_animBones.get());
 
-    for (int i = initializeNum; i < m_tankModelHandle->meshes.size(); i++)
-    {
-        /*m_tankModelHandle->meshes.at(i)->boundingBox.Transform(m_tankModelHandle->meshes.at(i)->boundingBox, m_tankModelHandle->meshes.at(i)->boundingBox.Extents.y, XMVectorMultiply(Vector3::One, Vector3::One), XMVectorMultiply(Vector3::One, Vector3::One));*/
-    }
+    m_tankModelHandle->meshes.at(initializeNum)->boundingBox.Extents.x = m_boundingboxExtents;
+    m_tankModelHandle->meshes.at(initializeNum)->boundingBox.Extents.y = m_boundingboxExtents;
+    m_tankModelHandle->meshes.at(initializeNum)->boundingBox.Extents.z = m_boundingboxExtents;
 }
 
 //インスタンス破棄
@@ -87,19 +85,15 @@ void Tank::Update(DirectX::SimpleMath::Matrix world, DirectX::GamePad::State pad
     UpdateAnimation();
     UpdateBullets(world);
     //座標処理
-    if (!m_isHitBlock)m_previousLocal = m_local;
     auto m_world = world;
 
     m_world = XMMatrixMultiply(world, Matrix::CreateScale(m_scale));
     m_world = XMMatrixMultiply(m_world, Matrix::CreateRotationY(m_angle));
     m_local = XMMatrixTranslation(m_pos.x, m_pos.y, m_pos.z);
     m_local = XMMatrixMultiply(m_world, m_local);
-
-    m_shapeLocal = world;
-    auto shapeWorld = world;
-    shapeWorld = XMMatrixMultiply(world, Matrix::CreateRotationY(m_angle));
-    m_shapeLocal = XMMatrixTranslation(m_pos.x, m_pos.y, m_pos.z);
-    m_shapeLocal = XMMatrixMultiply(shapeWorld, m_shapeLocal);
+    m_tankModelHandle->meshes.at(initializeNum)->boundingBox.Center.x = m_pos.x;
+    m_tankModelHandle->meshes.at(initializeNum)->boundingBox.Center.y = m_pos.y;
+    m_tankModelHandle->meshes.at(initializeNum)->boundingBox.Center.z = m_pos.z;
 }
 
 //タンクの描画処理
@@ -226,12 +220,9 @@ void Tank::UpdateBullets(DirectX::SimpleMath::Matrix world)
 //ブロックとの当たり判定
 void Tank::CheckHitBlock(BoundingBox blockBox)
 {
-    for (int i = initializeNum; i < m_tankModelHandle->meshes.size(); i++)
-    {
-        m_isHitBlock = m_tankModelHandle->meshes.at(i)->boundingBox.Intersects(blockBox);
-    }
+    m_isHitBlock = m_tankModelHandle->meshes.at(initializeNum)->boundingBox.Intersects(blockBox);
     if (m_isHitBlock)
     {
-        //m_local = m_previousLocal;
+        m_isHitBlock = true;
     }
 }

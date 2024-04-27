@@ -2,16 +2,13 @@
 #include"common.h"
 #include "Bullet.h"
 
-const XMFLOAT3 Bullet::m_extents = XMFLOAT3(0.1f, 0.3f, 0.1f);
-
 //íeÇÃèâä˙âª
 Bullet::Bullet(DirectX::Model* bulletModelHandle, DirectX::SimpleMath::Vector3 pos, float angle):
     m_bulletModelHandle(bulletModelHandle),
     m_pos(pos),
     m_local(),
     m_angle(angle),
-    m_direction(),
-    m_shapeLocal()
+    m_direction()
 {
     
 }
@@ -42,14 +39,6 @@ void Bullet::Update(DirectX::SimpleMath::Matrix world)
     m_world = XMMatrixMultiply(m_world, Matrix::CreateRotationY(m_angle));
     m_local = XMMatrixTranslation(m_pos.x, m_pos.y, m_pos.z);
     m_local = XMMatrixMultiply(m_world, m_local);
-
-    //ìñÇΩÇËîªíËÇÃçXêV
-    m_shapeLocal = world;
-    auto shapeWorld = world;
-    shapeWorld = XMMatrixMultiply(world, Matrix::CreateRotationX(XM_PIDIV2));
-    shapeWorld = XMMatrixMultiply(shapeWorld, Matrix::CreateRotationY(m_angle));
-    m_shapeLocal = XMMatrixTranslation(m_pos.x, m_pos.y, m_pos.z);
-    m_shapeLocal = XMMatrixMultiply(shapeWorld, m_shapeLocal);
 }
 
 //íeÇÃï`âÊ

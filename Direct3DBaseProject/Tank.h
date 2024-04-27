@@ -94,7 +94,7 @@ private:
     Vector2 m_direction;    //タンクの向きベクトル
     Vector3 m_pos;          //タンクのベクトル座標
     XMMATRIX m_local;       //タンクの行列座標
-    XMMATRIX m_previousLocal;   //更新前の行列
+    XMMATRIX m_hitLocal;    //ブロックに当たった時の行列
     float m_angle;          //タンクの向き
     static constexpr float m_speed = 0.01f;    //タンクのスピード
 
@@ -118,8 +118,6 @@ private:
     static const string m_hatchName;
 
     static constexpr float m_scale = 0.2f;
-
-    Matrix m_shapeLocal;
-    static constexpr float m_extents = 0.5f;
+    static constexpr float m_boundingboxExtents = 0.5f;
 };
 
