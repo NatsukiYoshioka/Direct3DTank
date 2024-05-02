@@ -21,6 +21,7 @@ Tank::Tank(unique_ptr<DirectX::Model>&& tankModelHandle, DirectX::Model *bulletM
     m_tankModelHandle(move(tankModelHandle)),
     m_direction(),
     m_pos(pos),
+    m_world(),
     m_local(),
     m_hitLocal(),
     m_angle(angle),
@@ -85,7 +86,7 @@ void Tank::Update(DirectX::SimpleMath::Matrix world, DirectX::GamePad::State pad
     UpdateAnimation();
     UpdateBullets(world);
     //座標処理
-    auto m_world = world;
+    m_world = world;
 
     m_world = XMMatrixMultiply(world, Matrix::CreateScale(m_scale));
     m_world = XMMatrixMultiply(m_world, Matrix::CreateRotationY(m_angle));
@@ -218,11 +219,33 @@ void Tank::UpdateBullets(DirectX::SimpleMath::Matrix world)
 }
 
 //ブロックとの当たり判定
-void Tank::CheckHitBlock(BoundingBox blockBox)
+bool Tank::CheckHitBlock(BoundingBox blockBox, Vector3 blockPos)
 {
     m_isHitBlock = m_tankModelHandle->meshes.at(initializeNum)->boundingBox.Intersects(blockBox);
     if (m_isHitBlock)
     {
-        m_isHitBlock = true;
+        if (blockPos.x + blockBox.Extents.x - (m_pos.x - m_tankModelHandle->meshes.at(initializeNum)->boundingBox.Extents.x) < m_pos.x + m_tankModelHandle->meshes.at(initializeNum)->boundingBox.Extents.x - (blockPos.x - blockBox.Extents.x))
+        {
+            m_pos.x += blockPos.x + blockBox.Extents.x - (m_pos.x - m_tankModelHandle->meshes.at(initializeNum)->boundingBox.Extents.x);
+        }
+        else
+        {
+            m_pos.x -= m_pos.x + m_tankModelHandle->meshes.at(initializeNum)->boundingBox.Extents.x - (blockPos.x - blockBox.Extents.x);
+        }
+        if (blockPos.z + blockBox.Extents.z - (m_pos.z - m_tankModelHandle->meshes.at(initializeNum)->boundingBox.Extents.z) < m_pos.z + m_tankModelHandle->meshes.at(initializeNum)->boundingBox.Extents.z - (blockPos.z - blockBox.Extents.z))
+        {
+            m_pos.z += blockPos.z + blockBox.Extents.z - (m_pos.z - m_tankModelHandle->meshes.at(initializeNum)->boundingBox.Extents.z);
+        }
+        else
+        {
+            m_pos.z -= m_pos.z + m_tankModelHandle->meshes.at(initializeNum)->boundingBox.Extents.z - (blockPos.z - blockBox.Extents.z);
+        }
+
+        m_local = XMMatrixTranslation(m_pos.x, m_pos.y, m_pos.z);
+        m_local = XMMatrixMultiply(m_world, m_local);
+        m_tankModelHandle->meshes.at(initializeNum)->boundingBox.Center.x = m_pos.x;
+        m_tankModelHandle->meshes.at(initializeNum)->boundingBox.Center.y = m_pos.y;
+        m_tankModelHandle->meshes.at(initializeNum)->boundingBox.Center.z = m_pos.z;
     }
+    return m_isHitBlock;
 }

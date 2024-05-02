@@ -78,14 +78,14 @@
     <ClCompile Include="Block.cpp">
       <Filter>Block</Filter>
     </ClCompile>
-    <ClCompile Include="Tank.cpp">
-      <Filter>Tank</Filter>
-    </ClCompile>
     <ClCompile Include="TankManager.cpp">
       <Filter>Tank\TankManager</Filter>
     </ClCompile>
     <ClCompile Include="Bullet.cpp">
       <Filter>Tank\Bullet</Filter>
+    </ClCompile>
+    <ClCompile Include="Tank.cpp">
+      <Filter>Tank</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

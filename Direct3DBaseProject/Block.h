@@ -47,6 +47,13 @@ public:
     /// </summary>
     /// <returns></returns>
     ModelMesh::Collection GetModelMesh() { return m_blockModelHandle->meshes; }
+
+    /// <summary>
+    /// ƒ‚ƒfƒ‹‚ÌÀ•W‚ğæ“¾
+    /// </summary>
+    /// <returns></returns>
+    Vector3 GetPos()const { return m_pos; }
+
 private:
     unique_ptr<DirectX::Model> m_blockModelHandle;
     BlockManager::BlockType m_blockType;

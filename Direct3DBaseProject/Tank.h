@@ -62,7 +62,7 @@ public:
     /// ブロックとの当たり判定
     /// </summary>
     /// <param name="blockBox"></param>
-    void CheckHitBlock(BoundingBox blockBox);
+    bool CheckHitBlock(BoundingBox blockBox, Vector3 blockPos);
 
     /// <summary>
     /// 弾の取得
@@ -93,6 +93,7 @@ private:
 
     Vector2 m_direction;    //タンクの向きベクトル
     Vector3 m_pos;          //タンクのベクトル座標
+    XMMATRIX m_world;        
     XMMATRIX m_local;       //タンクの行列座標
     XMMATRIX m_hitLocal;    //ブロックに当たった時の行列
     float m_angle;          //タンクの向き

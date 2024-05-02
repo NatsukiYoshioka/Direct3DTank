@@ -42,10 +42,7 @@ void TankManager::Update(DirectX::SimpleMath::Matrix world, BlockManager* blockM
         {
             if (blockManager->GetBlocks().at(j)->GetBlockType() != BlockManager::BlockType::YELLOW)
             {
-                for (int l = initializeNum; l < blockManager->GetBlocks().at(j)->GetModelMesh().size(); l++)
-                {
-                    m_tank[i]->CheckHitBlock(blockManager->GetBlocks().at(j)->GetModelMesh().at(l)->boundingBox);
-                }
+                if (m_tank[i]->CheckHitBlock(blockManager->GetBlocks().at(j)->GetModelMesh().at(initializeNum)->boundingBox, blockManager->GetBlocks().at(j)->GetPos()))break;
             }
         }
     }
