@@ -224,21 +224,33 @@ bool Tank::CheckHitBlock(BoundingBox blockBox, Vector3 blockPos)
     m_isHitBlock = m_tankModelHandle->meshes.at(initializeNum)->boundingBox.Intersects(blockBox);
     if (m_isHitBlock)
     {
-        if (blockPos.x + blockBox.Extents.x - (m_pos.x - m_tankModelHandle->meshes.at(initializeNum)->boundingBox.Extents.x) < m_pos.x + m_tankModelHandle->meshes.at(initializeNum)->boundingBox.Extents.x - (blockPos.x - blockBox.Extents.x))
+        Vector2 distance;
+        distance.x = m_pos.x - blockPos.x;
+        distance.y = m_pos.z - blockPos.z;
+        if (distance.x < initializeNum)distance.x *= -1;
+        if (distance.y < initializeNum)distance.y *= -1;
+        
+        if (distance.x > distance.y)
         {
-            m_pos.x += blockPos.x + blockBox.Extents.x - (m_pos.x - m_tankModelHandle->meshes.at(initializeNum)->boundingBox.Extents.x);
+            if (blockPos.x + blockBox.Extents.x - (m_pos.x - m_tankModelHandle->meshes.at(initializeNum)->boundingBox.Extents.x) < m_pos.x + m_tankModelHandle->meshes.at(initializeNum)->boundingBox.Extents.x - (blockPos.x - blockBox.Extents.x))
+            {
+                m_pos.x += blockPos.x + blockBox.Extents.x - (m_pos.x - m_tankModelHandle->meshes.at(initializeNum)->boundingBox.Extents.x);
+            }
+            else
+            {
+                m_pos.x -= m_pos.x + m_tankModelHandle->meshes.at(initializeNum)->boundingBox.Extents.x - (blockPos.x - blockBox.Extents.x);
+            }
         }
-        else
+        else if(distance.x < distance.y)
         {
-            m_pos.x -= m_pos.x + m_tankModelHandle->meshes.at(initializeNum)->boundingBox.Extents.x - (blockPos.x - blockBox.Extents.x);
-        }
-        if (blockPos.z + blockBox.Extents.z - (m_pos.z - m_tankModelHandle->meshes.at(initializeNum)->boundingBox.Extents.z) < m_pos.z + m_tankModelHandle->meshes.at(initializeNum)->boundingBox.Extents.z - (blockPos.z - blockBox.Extents.z))
-        {
-            m_pos.z += blockPos.z + blockBox.Extents.z - (m_pos.z - m_tankModelHandle->meshes.at(initializeNum)->boundingBox.Extents.z);
-        }
-        else
-        {
-            m_pos.z -= m_pos.z + m_tankModelHandle->meshes.at(initializeNum)->boundingBox.Extents.z - (blockPos.z - blockBox.Extents.z);
+            if (blockPos.z + blockBox.Extents.z - (m_pos.z - m_tankModelHandle->meshes.at(initializeNum)->boundingBox.Extents.z) < m_pos.z + m_tankModelHandle->meshes.at(initializeNum)->boundingBox.Extents.z - (blockPos.z - blockBox.Extents.z))
+            {
+                m_pos.z += blockPos.z + blockBox.Extents.z - (m_pos.z - m_tankModelHandle->meshes.at(initializeNum)->boundingBox.Extents.z);
+            }
+            else
+            {
+                m_pos.z -= m_pos.z + m_tankModelHandle->meshes.at(initializeNum)->boundingBox.Extents.z - (blockPos.z - blockBox.Extents.z);
+            }
         }
 
         m_local = XMMatrixTranslation(m_pos.x, m_pos.y, m_pos.z);
