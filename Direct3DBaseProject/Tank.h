@@ -62,7 +62,7 @@ public:
     /// ブロックとの当たり判定
     /// </summary>
     /// <param name="blockBox"></param>
-    bool CheckHitBlock(BoundingBox blockBox, Vector3 blockPos);
+    void CheckHitBlock(BoundingBox blockBox, Vector3 blockPos);
 
     /// <summary>
     /// 弾の取得
@@ -73,7 +73,7 @@ public:
 private:
     DirectX::Model *m_bulletModelHandle;                //弾のモデルハンドル
     vector<Bullet*> m_bullets;                          //弾クラス
-    static constexpr int m_maxBulletNum = 2;            //自分がステージ上に撃てる弾の最大数
+    static constexpr int m_maxBulletNum = 3;            //自分がステージ上に撃てる弾の最大数
     float m_fireRecast;                                 //弾を再度打てるようになるまでの時間
     static constexpr float m_maxFireRecast = 5.f;       //リキャスト時間
     static constexpr float m_recastSpeed = 0.01f;        //リキャストクールタイムスピード

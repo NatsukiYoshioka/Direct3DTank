@@ -202,7 +202,7 @@ void Tank::UpdateBullets(DirectX::SimpleMath::Matrix world)
         m_fireRecast = static_cast<float>(initializeNum);
     }
     //íeÇÃî≠éÀèàóù
-    if (m_bullets.size() <= m_maxBulletNum && m_isFire)
+    if (m_bullets.size() < m_maxBulletNum && m_isFire)
     {
         m_bullets.push_back(new Bullet(m_bulletModelHandle, m_pos, m_turretRotation));
         m_isFire = false;
@@ -219,7 +219,7 @@ void Tank::UpdateBullets(DirectX::SimpleMath::Matrix world)
 }
 
 //ÉuÉçÉbÉNÇ∆ÇÃìñÇΩÇËîªíË
-bool Tank::CheckHitBlock(BoundingBox blockBox, Vector3 blockPos)
+void Tank::CheckHitBlock(BoundingBox blockBox, Vector3 blockPos)
 {
     m_isHitBlock = m_tankModelHandle->meshes.at(initializeNum)->boundingBox.Intersects(blockBox);
     if (m_isHitBlock)
@@ -227,8 +227,8 @@ bool Tank::CheckHitBlock(BoundingBox blockBox, Vector3 blockPos)
         Vector2 distance;
         distance.x = m_pos.x - blockPos.x;
         distance.y = m_pos.z - blockPos.z;
-        if (distance.x < initializeNum)distance.x *= -1;
-        if (distance.y < initializeNum)distance.y *= -1;
+        if (distance.x < initializeNum)distance.x = -distance.x;
+        if (distance.y < initializeNum)distance.y = -distance.y;
         
         if (distance.x > distance.y)
         {
@@ -259,5 +259,4 @@ bool Tank::CheckHitBlock(BoundingBox blockBox, Vector3 blockPos)
         m_tankModelHandle->meshes.at(initializeNum)->boundingBox.Center.y = m_pos.y;
         m_tankModelHandle->meshes.at(initializeNum)->boundingBox.Center.z = m_pos.z;
     }
-    return m_isHitBlock;
 }

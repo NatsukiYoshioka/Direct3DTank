@@ -7,10 +7,14 @@ Bullet::Bullet(DirectX::Model* bulletModelHandle, DirectX::SimpleMath::Vector3 p
     m_bulletModelHandle(bulletModelHandle),
     m_pos(pos),
     m_local(),
+    m_world(),
     m_angle(angle),
-    m_direction()
+    m_direction(),
+    m_isHitBlock(false)
 {
-    
+    m_bulletModelHandle->meshes.at(initializeNum)->boundingBox.Extents.x = m_boundingboxExtentsXZ;
+    m_bulletModelHandle->meshes.at(initializeNum)->boundingBox.Extents.y = m_boundingboxExtentsY;
+    m_bulletModelHandle->meshes.at(initializeNum)->boundingBox.Extents.z = m_boundingboxExtentsXZ;
 }
 
 //ƒfƒXƒgƒ‰ƒNƒ^
@@ -33,16 +37,42 @@ void Bullet::Update(DirectX::SimpleMath::Matrix world)
     m_pos.z += m_direction.z * m_speed;
 
     //’e‚Ìî•ñ‚ðs—ñ‚É•ÏŠ·
-    auto m_world = world;
+    m_world = world;
     m_world = XMMatrixMultiply(world, Matrix::CreateScale(m_scale));
     m_world = XMMatrixMultiply(m_world, Matrix::CreateRotationX(XM_PIDIV2));
     m_world = XMMatrixMultiply(m_world, Matrix::CreateRotationY(m_angle));
     m_local = XMMatrixTranslation(m_pos.x, m_pos.y, m_pos.z);
     m_local = XMMatrixMultiply(m_world, m_local);
+
+    m_bulletModelHandle->meshes.at(initializeNum)->boundingBox.Center.x = m_pos.x;
+    m_bulletModelHandle->meshes.at(initializeNum)->boundingBox.Center.y = m_pos.y;
+    m_bulletModelHandle->meshes.at(initializeNum)->boundingBox.Center.z = m_pos.z;
 }
 
 //’e‚Ì•`‰æ
 void Bullet::Draw(ID3D11DeviceContext1* deviceContext, unique_ptr<DirectX::CommonStates>&& states, DirectX::SimpleMath::Matrix view, DirectX::SimpleMath::Matrix projection)
 {
     m_bulletModelHandle->Draw(deviceContext, *states, m_local, view, projection);
+}
+
+bool Bullet::CheckHitBlock(BoundingBox blockBox, Vector3 blockPos)
+{
+    m_isHitBlock = m_bulletModelHandle->meshes.at(initializeNum)->boundingBox.Intersects(blockBox);
+    if (m_isHitBlock)
+    {
+        Vector2 distance;
+        distance.x = m_pos.x - blockPos.x;
+        distance.y = m_pos.z - blockPos.z;
+
+        if (distance.x > distance.y)
+        {
+            m_direction.z = -m_direction.z;
+        }
+        else if (distance.x < distance.y)
+        {
+            m_direction.x = -m_direction.x;
+        }
+        m_angle = atan2f(m_direction.z, m_direction.x);
+    }
+    return m_isHitBlock;
 }

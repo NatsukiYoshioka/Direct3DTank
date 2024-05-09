@@ -1,5 +1,6 @@
 #include "pch.h"
 #include"Tank.h"
+#include"Bullet.h"
 #include"Block.h"
 #include"BlockManager.h"
 #include"common.h"
@@ -35,15 +36,26 @@ void TankManager::Update(DirectX::SimpleMath::Matrix world, BlockManager* blockM
     {
         m_tank[i]->Update(world, m_gamePad->GetState(i));
     }
-    //タンク関連とブロックとの当たり判定
+    
     for (int i = initializeNum; i < playerNum; i++)
     {
         for (int j = initializeNum; j < blockManager->GetBlocks().size(); j++)
         {
+            //タンク関連とブロックとの当たり判定
             if (blockManager->GetBlocks().at(j)->GetBlockType() != BlockManager::BlockType::YELLOW)
             {
                 m_tank[i]->CheckHitBlock(blockManager->GetBlocks().at(j)->GetModelMesh().at(initializeNum)->boundingBox, blockManager->GetBlocks().at(j)->GetPos());
             }
+            //弾とブロックの当たり判定
+            float isHitBulletBlock = false;
+            for (int l = initializeNum; l < m_tank[i]->GetBullets().size(); l++)
+            {
+                if (blockManager->GetBlocks().at(j)->GetBlockType() != BlockManager::BlockType::YELLOW)
+                {
+                    isHitBulletBlock = m_tank[i]->GetBullets().at(l)->CheckHitBlock(blockManager->GetBlocks().at(j)->GetModelMesh().at(initializeNum)->boundingBox, blockManager->GetBlocks().at(j)->GetPos());
+                }
+            }
+            if (isHitBulletBlock)break;
         }
     }
 }

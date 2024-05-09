@@ -36,13 +36,26 @@ public:
     /// <param name="projection"></param>
     void Draw(ID3D11DeviceContext1* deviceContext, unique_ptr<DirectX::CommonStates>&& states, DirectX::SimpleMath::Matrix view, DirectX::SimpleMath::Matrix projection);
 
+    /// <summary>
+    /// ステージブロックとの当たり判定
+    /// </summary>
+    /// <param name="blockBox"></param>
+    /// <param name="blockPos"></param>
+    bool CheckHitBlock(BoundingBox blockBox, Vector3 blockPos);
+
 private:
     DirectX::Model* m_bulletModelHandle;            //弾モデルハンドル
     Vector3 m_pos;                                  //弾の座標
     XMMATRIX m_local;                               //弾の情報を格納した行列
+    XMMATRIX m_world;
     static constexpr float m_scale = 0.1f;          //弾の大きさ
     float m_angle;                                  //弾の向き
     Vector3 m_direction;                            //弾の方向ベクトル
-    static constexpr float m_speed = 0.02f;         //弾の動くスピード                
+    static constexpr float m_speed = 0.01f;         //弾の動くスピード         
+
+    static constexpr float m_boundingboxExtentsXZ = 0.35f;
+    static constexpr float m_boundingboxExtentsY = 0.35f;
+
+    bool m_isHitBlock;                              //ブロックと当たったかどうか
 };
 
