@@ -37,16 +37,33 @@ public:
     void Draw(ID3D11DeviceContext1* deviceContext, unique_ptr<DirectX::CommonStates>&& states, DirectX::SimpleMath::Matrix view, DirectX::SimpleMath::Matrix projection);
 
     /// <summary>
+    /// 弾のモデルハンドル取得
+    /// </summary>
+    /// <returns></returns>
+    DirectX::Model* GetBulletModelHandle() { return m_bulletModelHandle; }
+
+    /// <summary>
+    /// 座標の取得
+    /// </summary>
+    /// <returns></returns>
+    Vector3 GetPos() { return m_pos; }
+
+    /// <summary>
     /// ステージブロックとの当たり判定
     /// </summary>
     /// <param name="blockBox"></param>
     /// <param name="blockPos"></param>
     bool CheckHitBlock(BoundingBox blockBox, Vector3 blockPos);
 
+    /// <summary>
+    /// 弾が壊れたか取得
+    /// </summary>
+    /// <returns></returns>
+    bool GetIsBreak() { return m_isBreak; }
+
 private:
     DirectX::Model* m_bulletModelHandle;            //弾モデルハンドル
     Vector3 m_pos;                                  //弾の座標
-    Vector3 m_prevPos;
     XMMATRIX m_local;                               //弾の情報を格納した行列
     XMMATRIX m_world;
     static constexpr float m_scale = 0.1f;          //弾の大きさ
@@ -54,10 +71,15 @@ private:
     Vector3 m_direction;                            //弾の方向ベクトル
     static constexpr float m_speed = 0.04f;         //弾の動くスピード         
 
-    static constexpr float m_boundingboxExtentsX = 0.3f;
+    static constexpr float m_boundingboxExtentsX = 0.2f;
     static constexpr float m_boundingboxExtentsY = 0.1f;
-    static constexpr float m_boundingboxExtentsZ = 0.3f;
+    static constexpr float m_boundingboxExtentsZ = 0.2f;
 
     bool m_isHitBlock;                              //ブロックと当たったかどうか
+    bool m_isBreak;                                 //弾が壊れたかどうか
+    int m_boundBlockCount;                          //ブロックに跳ね返った回数
+    static constexpr int m_maxBoundCount = 3;       //ブロックに跳ね返る最大回数
+
+    static constexpr float m_fireFrontWidth = 1.f;
 };
 

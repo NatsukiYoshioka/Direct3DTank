@@ -15,7 +15,7 @@ public:
     /// </summary>
     /// <param name="tankModelHandle"></param>
     /// <param name="pos"></param>
-    Tank(unique_ptr<DirectX::Model>&& tankModelHandle, DirectX::Model *bulletModelHandle, Vector3 pos, float angle);
+    Tank(unique_ptr<DirectX::Model>&& tankModelHandle, Vector3 pos, float angle);
 
     /// <summary>
     /// インスタンス破棄
@@ -65,10 +65,11 @@ public:
     void CheckHitBlock(BoundingBox blockBox, Vector3 blockPos);
 
     /// <summary>
-    /// 弾の取得
+    /// 弾との当たり判定
     /// </summary>
-    /// <returns></returns>
-    vector<Bullet*> GetBullets() { return m_bullets; }
+    /// <param name="bulletBox"></param>
+    /// <param name="bulletPos"></param>
+    bool CheckHitBullet(BoundingBox bulletBox, Vector3 bulletPos);
 
     /// <summary>
     /// 座標の取得
@@ -94,12 +95,14 @@ public:
     /// <returns></returns>
     bool GetIsFire() { return m_isFire; }
 
+    int GetHP() { return m_hp; }
+
 private:
-    DirectX::Model *m_bulletModelHandle;                //弾のモデルハンドル
-    vector<Bullet*> m_bullets;                          //弾クラス
-    static constexpr int m_maxBulletNum = 3;            //自分がステージ上に撃てる弾の最大数
+    int m_hp;
+    static constexpr int m_maxHp = 5;
+
     float m_fireRecast;                                 //弾を再度打てるようになるまでの時間
-    static constexpr float m_maxFireRecast = 5.f;       //リキャスト時間
+    static constexpr float m_maxFireRecast = 2.5f;       //リキャスト時間
     static constexpr float m_recastSpeed = 0.01f;        //リキャストクールタイムスピード
 
     unique_ptr<DirectX::Model> m_tankModelHandle;       //タンクモデルハンドル
@@ -128,6 +131,7 @@ private:
     bool m_isMoveRight;       //タレットが右に動いたか
     bool m_isFire;            //弾を発射したかどうか
     bool m_isHitBlock;        //ブロックと当たったかどうか
+    bool m_isHitBullet;       //弾と当たったかどうか
     static constexpr float m_wheelRotationSpeed = 5.f;  //タンクのホイールの回転スピード
     float m_turretRotation;                             //タレットの回転値
     static constexpr float m_turretRotationSpeed = 0.05f; //タンクのタレットの回転スピード

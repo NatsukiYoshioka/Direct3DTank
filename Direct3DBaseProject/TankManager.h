@@ -9,6 +9,7 @@ using namespace std;
 
 class Tank;
 class BlockManager;
+class BulletManager;
 
 class TankManager
 {
@@ -18,7 +19,7 @@ public:
     /// </summary>
     /// <param name="tankModelHandle">タンクのモデルハンドル</param>
     /// <param name="pos">タンクの初期座標</param>
-    TankManager(vector<unique_ptr<DirectX::Model>>&& tankModelHandle, unique_ptr<DirectX::Model>&& bulletModelHandle, vector<Vector3> pos);
+    TankManager(vector<unique_ptr<DirectX::Model>>&& tankModelHandle, vector<Vector3> pos);
 
     /// <summary>
     /// インスタンス破棄
@@ -29,7 +30,7 @@ public:
     /// 全タンクの更新処理
     /// </summary>
     /// <param name="world">単位行列</param>
-    void Update(DirectX::SimpleMath::Matrix world, BlockManager* blockManager);
+    void Update(DirectX::SimpleMath::Matrix world, BlockManager* blockManager, BulletManager* bulletManager);
 
     /// <summary>
     /// 全タンクの描画
@@ -57,7 +58,8 @@ public:
     vector<Tank*> GetTanks() { return m_tank; }
 private:
     vector<Tank*> m_tank;                  //各タンクのインスタンス
-    unique_ptr<DirectX::Model> m_bulletModelHandle; //弾のモデルハンドル
     unique_ptr<DirectX::GamePad> m_gamePad;   //コントローラーの状態を管理するポインタ
+
+    static constexpr int m_maxBulletNum = 3;            //自分がステージ上に撃てる弾の最大数
 };
 

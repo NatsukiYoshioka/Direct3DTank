@@ -74,7 +74,10 @@ void Load::LoadData(ID3D11Device* deviceResources)
 	m_tankPos.push_back({ m_json["TankBPosX"],m_json["TankBPosY"],m_json["TankBPosZ"] });
 	
 	str = m_json["Bullet"];
-	m_bulletModelHandle = Model::CreateFromCMO(device, Widen(str).c_str(), *m_fxFactory);
+	for (int i = initializeNum; i < m_maxBulletNum; i++)
+	{
+		m_bulletModelHandle.push_back(Model::CreateFromCMO(device, Widen(str).c_str(), *m_fxFactory));
+	}
 
 	//マップチップのロード
 	m_map.assign(mapSize, vector<int>(mapSize, initializeNum));

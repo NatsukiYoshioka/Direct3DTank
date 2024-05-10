@@ -6,13 +6,26 @@
 Bullet::Bullet(DirectX::Model* bulletModelHandle, DirectX::SimpleMath::Vector3 pos, float angle):
     m_bulletModelHandle(bulletModelHandle),
     m_pos(pos),
-    m_prevPos(pos),
     m_local(),
     m_world(),
     m_angle(angle),
     m_direction(),
-    m_isHitBlock(false)
+    m_isHitBlock(false),
+    m_isBreak(false),
+    m_boundBlockCount(initializeNum)
 {
+    float cos, sin;
+    cos = std::cos(m_angle);
+    sin = std::sin(m_angle);
+    m_direction.x = sin;
+    m_direction.z = cos;
+    m_pos.x += m_direction.x * m_fireFrontWidth;
+    m_pos.z += m_direction.z * m_fireFrontWidth;
+
+    m_bulletModelHandle->meshes.at(initializeNum)->boundingBox.Center.x = m_pos.x;
+    m_bulletModelHandle->meshes.at(initializeNum)->boundingBox.Center.y = m_pos.y;
+    m_bulletModelHandle->meshes.at(initializeNum)->boundingBox.Center.z = m_pos.z;
+
     m_bulletModelHandle->meshes.at(initializeNum)->boundingBox.Extents.x = m_boundingboxExtentsX;
     m_bulletModelHandle->meshes.at(initializeNum)->boundingBox.Extents.y = m_boundingboxExtentsY;
     m_bulletModelHandle->meshes.at(initializeNum)->boundingBox.Extents.z = m_boundingboxExtentsZ;
@@ -27,7 +40,6 @@ Bullet::~Bullet()
 //’e‚ÌXV
 void Bullet::Update(DirectX::SimpleMath::Matrix world)
 {
-    m_prevPos = m_pos;
     //’e‚Ì‰Ÿ‚µo‚µˆ—
     float cos, sin;
     cos = std::cos(m_angle);
@@ -62,6 +74,12 @@ bool Bullet::CheckHitBlock(BoundingBox blockBox, Vector3 blockPos)
     m_isHitBlock = m_bulletModelHandle->meshes.at(initializeNum)->boundingBox.Intersects(blockBox);
     if (m_isHitBlock)
     {
+        m_boundBlockCount++;
+        if (m_boundBlockCount > m_maxBoundCount)
+        {
+            m_isBreak = true;
+        }
+
         Vector2 distance;
         distance.x = m_pos.x - blockPos.x;
         distance.y = m_pos.z - blockPos.z;

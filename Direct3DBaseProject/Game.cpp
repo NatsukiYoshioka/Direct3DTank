@@ -21,7 +21,8 @@ float Game::m_time = static_cast<float>(initializeNum);
 Game::Game() noexcept(false):
     m_load(nullptr),
     m_blockManager(nullptr),
-    m_tankManager(nullptr)
+    m_tankManager(nullptr),
+    m_bulletManager(nullptr)
 {
     m_deviceResources = std::make_unique<DX::DeviceResources>();
     // TODO: Provide parameters for swapchain format, depth/stencil format, and backbuffer count.
@@ -69,7 +70,8 @@ void Game::Update(DX::StepTimer const& timer)
 
     // TODO: Add your game logic here.
     m_blockManager->Update(m_world);
-    m_tankManager->Update(m_world, m_blockManager);
+    m_tankManager->Update(m_world, m_blockManager,m_bulletManager);
+    m_bulletManager->Update(m_world, m_tankManager, m_blockManager);
     elapsedTime;
 }
 #pragma endregion
@@ -92,6 +94,7 @@ void Game::Render()
     // TODO: Add your rendering code here.
     m_blockManager->Draw(context, m_load->GetStates(), m_view, m_proj);
     m_tankManager->Draw(context, m_load->GetStates(), m_view, m_proj);
+    m_bulletManager->Draw(context, m_load->GetStates(), m_view, m_proj);
     context;
 
     m_deviceResources->PIXEndEvent();
@@ -193,7 +196,7 @@ void Game::CreateDeviceDependentResources()
 
     m_blockManager = new BlockManager(move(m_load->GetBlockModelHandle()), move(m_load->GetGroundBlockUnderWoodsModelHandle()), m_load->GetMap());
 
-    m_tankManager = new TankManager(move(m_load->GetTankModelHandle()), move(m_load->GetBulletModelHandle()), m_load->GetTankPos());
+    m_tankManager = new TankManager(move(m_load->GetTankModelHandle()), m_load->GetTankPos());
 
     m_bulletManager = new BulletManager(move(m_load->GetBulletModelHandle()));
 
