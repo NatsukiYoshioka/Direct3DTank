@@ -16,7 +16,7 @@ TankManager::TankManager(vector<unique_ptr<DirectX::Model>>&& tankModelHandle, u
     playerAngle[player2] = atan2f(pos.at(player2).z - pos.at(player1).z, pos.at(player2).x - pos.at(player1).x);
     for (int i = initializeNum; i < playerNum; i++)
     {
-        m_tank[i] = new Tank(move(tankModelHandle.at(i)), m_bulletModelHandle.get(), pos.at(i), playerAngle[i]);
+        m_tank.push_back(new Tank(move(tankModelHandle.at(i)), m_bulletModelHandle.get(), pos.at(i), playerAngle[i]));
     }
 }
 
@@ -46,16 +46,16 @@ void TankManager::Update(DirectX::SimpleMath::Matrix world, BlockManager* blockM
             {
                 m_tank[i]->CheckHitBlock(blockManager->GetBlocks().at(j)->GetModelMesh().at(initializeNum)->boundingBox, blockManager->GetBlocks().at(j)->GetPos());
             }
+            bool isHitBlockBullet = false;
             //’e‚ÆƒuƒƒbƒN‚Ì“–‚½‚è”»’è
-            float isHitBulletBlock = false;
             for (int l = initializeNum; l < m_tank[i]->GetBullets().size(); l++)
             {
                 if (blockManager->GetBlocks().at(j)->GetBlockType() != BlockManager::BlockType::YELLOW)
                 {
-                    isHitBulletBlock = m_tank[i]->GetBullets().at(l)->CheckHitBlock(blockManager->GetBlocks().at(j)->GetModelMesh().at(initializeNum)->boundingBox, blockManager->GetBlocks().at(j)->GetPos());
+                    isHitBlockBullet = m_tank[i]->GetBullets().at(l)->CheckHitBlock(blockManager->GetBlocks().at(j)->GetModelMesh().at(initializeNum)->boundingBox, blockManager->GetBlocks().at(j)->GetPos());
                 }
             }
-            if (isHitBulletBlock)break;
+            if (isHitBlockBullet)break;
         }
     }
 }

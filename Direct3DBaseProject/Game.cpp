@@ -6,6 +6,7 @@
 #include"Load.h"
 #include"BlockManager.h"
 #include"TankManager.h"
+#include"BulletManager.h"
 #include "Game.h"
 
 extern void ExitGame() noexcept;
@@ -42,10 +43,10 @@ void Game::Initialize(HWND window, int width, int height)
 
     // TODO: Change the timer settings if you want something other than the default variable timestep mode.
     // e.g. for 60 FPS fixed timestep update logic, call:
-    /*
+    
     m_timer.SetFixedTimeStep(true);
     m_timer.SetTargetElapsedSeconds(1.0 / 60);
-    */
+    
 }
 
 #pragma region Frame Update
@@ -193,6 +194,8 @@ void Game::CreateDeviceDependentResources()
     m_blockManager = new BlockManager(move(m_load->GetBlockModelHandle()), move(m_load->GetGroundBlockUnderWoodsModelHandle()), m_load->GetMap());
 
     m_tankManager = new TankManager(move(m_load->GetTankModelHandle()), move(m_load->GetBulletModelHandle()), m_load->GetTankPos());
+
+    m_bulletManager = new BulletManager(move(m_load->GetBulletModelHandle()));
 
     m_world = Matrix::Identity;
     device;

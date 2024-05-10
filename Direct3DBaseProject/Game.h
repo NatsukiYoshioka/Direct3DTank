@@ -12,6 +12,7 @@
 class Load;
 class BlockManager;
 class TankManager;
+class BulletManager;
 
 // A basic game implementation that creates a D3D11 device and
 // provides a game loop.
@@ -60,6 +61,8 @@ private:
     Load* m_load;
     BlockManager* m_blockManager;
     TankManager* m_tankManager;
+    BulletManager* m_bulletManager;
+
 
     void Update(DX::StepTimer const& timer);
     void Render();

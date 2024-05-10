@@ -9,7 +9,9 @@ Block::Block(unique_ptr<DirectX::Model>&& blockModelHandle, Vector3 pos, BlockMa
     m_pos(pos),
     m_destroy(false)
 {
-    
+    /*m_blockModelHandle->meshes.at(initializeNum)->boundingBox.Extents.x = m_extents;
+    m_blockModelHandle->meshes.at(initializeNum)->boundingBox.Extents.y = m_extents;
+    m_blockModelHandle->meshes.at(initializeNum)->boundingBox.Extents.z = m_extents;*/
 }
 
 Block::~Block()

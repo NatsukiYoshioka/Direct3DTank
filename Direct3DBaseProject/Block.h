@@ -60,5 +60,7 @@ private:
     XMMATRIX m_local;
     Vector3 m_pos;
     bool m_destroy;
+
+    static constexpr float m_extents = 1.f;
 };
 

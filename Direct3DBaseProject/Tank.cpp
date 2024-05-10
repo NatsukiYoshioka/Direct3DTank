@@ -200,21 +200,7 @@ void Tank::UpdateBullets(DirectX::SimpleMath::Matrix world)
     if (m_fireRecast < static_cast<float>(initializeNum))
     {
         m_fireRecast = static_cast<float>(initializeNum);
-    }
-    //’e‚Ì”­Ëˆ—
-    if (m_bullets.size() < m_maxBulletNum && m_isFire)
-    {
-        m_bullets.push_back(new Bullet(m_bulletModelHandle, m_pos, m_turretRotation));
         m_isFire = false;
-        m_fireRecast = m_maxFireRecast;
-    }
-    //’e‚ÌXVˆ—
-    if (m_bullets.size() > initializeNum)
-    {
-        for (int i = initializeNum; i < m_bullets.size(); i++)
-        {
-            m_bullets.at(i)->Update(world);
-        }
     }
 }
 

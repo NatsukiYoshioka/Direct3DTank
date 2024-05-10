@@ -70,6 +70,30 @@ public:
     /// <returns></returns>
     vector<Bullet*> GetBullets() { return m_bullets; }
 
+    /// <summary>
+    /// 座標の取得
+    /// </summary>
+    /// <returns></returns>
+    Vector3 GetPos() { return m_pos; }
+
+    /// <summary>
+    /// タンクのタレットのアングルを取得
+    /// </summary>
+    /// <returns></returns>
+    float GetTurretAngle() { return m_turretRotation; }
+
+    /// <summary>
+    /// 弾の発射リキャスト時間取得
+    /// </summary>
+    /// <returns></returns>
+    float GetFireRecast() { return m_fireRecast; }
+
+    /// <summary>
+    /// 撃ったかどうか取得
+    /// </summary>
+    /// <returns></returns>
+    bool GetIsFire() { return m_isFire; }
+
 private:
     DirectX::Model *m_bulletModelHandle;                //弾のモデルハンドル
     vector<Bullet*> m_bullets;                          //弾クラス
@@ -97,7 +121,7 @@ private:
     XMMATRIX m_local;       //タンクの行列座標
     XMMATRIX m_hitLocal;    //ブロックに当たった時の行列
     float m_angle;          //タンクの向き
-    static constexpr float m_speed = 0.01f;    //タンクのスピード
+    static constexpr float m_speed = 0.02f;    //タンクのスピード
 
     bool m_isMove;            //動いているかどうか
     bool m_isMoveLeft;        //タレットが左に動いたか
@@ -106,7 +130,7 @@ private:
     bool m_isHitBlock;        //ブロックと当たったかどうか
     static constexpr float m_wheelRotationSpeed = 5.f;  //タンクのホイールの回転スピード
     float m_turretRotation;                             //タレットの回転値
-    static constexpr float m_turretRotationSpeed = 0.025f; //タンクのタレットの回転スピード
+    static constexpr float m_turretRotationSpeed = 0.05f; //タンクのタレットの回転スピード
 
     //タンクのボーン名
     static const string m_tankBonesName;

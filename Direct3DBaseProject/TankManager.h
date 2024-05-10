@@ -49,8 +49,14 @@ public:
     /// コントローラーの再開処理
     /// </summary>
     void ResumeGamePad();
+
+    /// <summary>
+    /// タンクの取得
+    /// </summary>
+    /// <returns></returns>
+    vector<Tank*> GetTanks() { return m_tank; }
 private:
-    Tank* m_tank[playerNum];                  //各タンクのインスタンス
+    vector<Tank*> m_tank;                  //各タンクのインスタンス
     unique_ptr<DirectX::Model> m_bulletModelHandle; //弾のモデルハンドル
     unique_ptr<DirectX::GamePad> m_gamePad;   //コントローラーの状態を管理するポインタ
 };

@@ -6,15 +6,16 @@
 Bullet::Bullet(DirectX::Model* bulletModelHandle, DirectX::SimpleMath::Vector3 pos, float angle):
     m_bulletModelHandle(bulletModelHandle),
     m_pos(pos),
+    m_prevPos(pos),
     m_local(),
     m_world(),
     m_angle(angle),
     m_direction(),
     m_isHitBlock(false)
 {
-    m_bulletModelHandle->meshes.at(initializeNum)->boundingBox.Extents.x = m_boundingboxExtentsXZ;
+    m_bulletModelHandle->meshes.at(initializeNum)->boundingBox.Extents.x = m_boundingboxExtentsX;
     m_bulletModelHandle->meshes.at(initializeNum)->boundingBox.Extents.y = m_boundingboxExtentsY;
-    m_bulletModelHandle->meshes.at(initializeNum)->boundingBox.Extents.z = m_boundingboxExtentsXZ;
+    m_bulletModelHandle->meshes.at(initializeNum)->boundingBox.Extents.z = m_boundingboxExtentsZ;
 }
 
 //デストラクタ
@@ -26,6 +27,7 @@ Bullet::~Bullet()
 //弾の更新
 void Bullet::Update(DirectX::SimpleMath::Matrix world)
 {
+    m_prevPos = m_pos;
     //弾の押し出し処理
     float cos, sin;
     cos = std::cos(m_angle);
@@ -63,16 +65,19 @@ bool Bullet::CheckHitBlock(BoundingBox blockBox, Vector3 blockPos)
         Vector2 distance;
         distance.x = m_pos.x - blockPos.x;
         distance.y = m_pos.z - blockPos.z;
+        if (distance.x < initializeNum)distance.x = -distance.x;
+        if (distance.y < initializeNum)distance.y = -distance.y;
 
         if (distance.x > distance.y)
         {
-            m_direction.z = -m_direction.z;
+            m_direction.x = -m_direction.x;
         }
         else if (distance.x < distance.y)
         {
-            m_direction.x = -m_direction.x;
+            m_direction.z = -m_direction.z;
         }
-        m_angle = atan2f(m_direction.z, m_direction.x);
+        m_angle = atan2f(m_direction.x, m_direction.z);
+        m_world = XMMatrixMultiply(m_world, Matrix::CreateRotationY(m_angle));
     }
     return m_isHitBlock;
 }
