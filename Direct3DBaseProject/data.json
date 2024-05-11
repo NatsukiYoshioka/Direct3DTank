@@ -1,22 +1,24 @@
 {
-  "TankAPath": "tank.sdkmesh",
-  "TankAPosX": 13,
-  "TankAPosY": 1,
-  "TankAPosZ": 2,
+    "TankAPath": "tank.sdkmesh",
+    "TankAPosX": 13,
+    "TankAPosY": 1,
+    "TankAPosZ": 2,
 
-  "TankBPath": "tank.sdkmesh",
-  "TankBPosX": 2,
-  "TankBPosY": 1,
+    "TankBPath": "tank.sdkmesh",
+    "TankBPosX": 2,
+    "TankBPosY": 1,
     "TankBPosZ": 13,
 
     "Bullet": "bullet.cmo",
 
-  "Blocks": [
-    "yellowcube.cmo",
-    "redcube.cmo",
-    "bluecube.cmo",
-    "woodcube.cmo"
-  ],
+    "Blocks": [
+        "yellowcube.cmo",
+        "redcube.cmo",
+        "bluecube.cmo",
+        "woodcube.cmo"
+    ],
+
+    "WoodParticle": "plank.cmo",
 
     "Mapchip": [
         [ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2 ],

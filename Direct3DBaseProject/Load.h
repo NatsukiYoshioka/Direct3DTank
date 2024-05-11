@@ -96,6 +96,12 @@ public:
 	/// <returns></returns>
 	vector<unique_ptr<DirectX::Model>>&& GetBulletModelHandle() { return move(m_bulletModelHandle); }
 
+	/// <summary>
+	/// 木片パーティクルモデルの取得
+	/// </summary>
+	/// <returns></returns>
+	vector<unique_ptr<DirectX::Model>>&& GetWoodParticleModelHandle() { return move(m_woodParticleModelHandle); }
+
 	unique_ptr<DirectX::CommonStates>&& GetStates() { return move(m_states); }
 
 private:
@@ -117,6 +123,9 @@ private:
 
 	vector<unique_ptr<DirectX::Model>> m_groundBlockModelHandle;	//ブロックモデルハンドル配列
 	int m_blockUnderWoods;							//木ブロックの下にあるブロックの数
+
+	vector<unique_ptr<DirectX::Model>> m_woodParticleModelHandle;
+	static constexpr int m_maxWoodParticleNum = 60;
 
 	static constexpr int m_maxBulletNum = 6;
 };

@@ -32,6 +32,15 @@
     <Filter Include="Tank\BulletManager">
       <UniqueIdentifier>{3b364444-3bd6-42dd-a2b6-0ebc63655793}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Particle">
+      <UniqueIdentifier>{811964a4-2872-4396-b462-172a33eca62c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Particle\WoodParticle">
+      <UniqueIdentifier>{c0014de0-bf40-48c6-85f4-7f2b240605c4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Particle\ParticleManager">
+      <UniqueIdentifier>{8ada2fce-0ba2-4302-96dc-cdbfacd6b424}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
@@ -67,6 +76,12 @@
     <ClInclude Include="BulletManager.h">
       <Filter>Tank\BulletManager</Filter>
     </ClInclude>
+    <ClInclude Include="WoodParticle.h">
+      <Filter>Particle\WoodParticle</Filter>
+    </ClInclude>
+    <ClInclude Include="ParticleManager.h">
+      <Filter>Particle\ParticleManager</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
@@ -95,6 +110,12 @@
     </ClCompile>
     <ClCompile Include="BulletManager.cpp">
       <Filter>Tank\BulletManager</Filter>
+    </ClCompile>
+    <ClCompile Include="WoodParticle.cpp">
+      <Filter>Particle\WoodParticle</Filter>
+    </ClCompile>
+    <ClCompile Include="ParticleManager.cpp">
+      <Filter>Particle\ParticleManager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
