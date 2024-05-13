@@ -18,7 +18,10 @@ BulletManager::BulletManager(vector<unique_ptr<DirectX::Model>>&& bulletModelHan
 
 BulletManager::~BulletManager()
 {
-    
+    for (int i = initializeNum; m_bulletModelHandle.size(); i++)
+    {
+        m_bulletModelHandle.at(i).reset();
+    }
 }
 
 void BulletManager::Update(DirectX::SimpleMath::Matrix world, TankManager* tankManager, BlockManager* blockManager)

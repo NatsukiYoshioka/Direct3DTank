@@ -41,6 +41,21 @@
     <Filter Include="Particle\ParticleManager">
       <UniqueIdentifier>{8ada2fce-0ba2-4302-96dc-cdbfacd6b424}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Scene">
+      <UniqueIdentifier>{6146b03e-24b5-4b25-998e-ed0cb52970ed}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scene\SceneManager">
+      <UniqueIdentifier>{80a17011-38e9-4475-bb9d-fee2ceb6163f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scene\TitleScene">
+      <UniqueIdentifier>{4bbd7a7b-af21-4f1a-b7fb-aa9657507b1f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scene\MainGameScene">
+      <UniqueIdentifier>{d71ed442-39f0-4cd2-90e7-c87f62d7df58}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scene\ResultScene">
+      <UniqueIdentifier>{15c32dba-959a-48ff-8ba0-9c76ea0ad7cf}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
@@ -82,6 +97,21 @@
     <ClInclude Include="ParticleManager.h">
       <Filter>Particle\ParticleManager</Filter>
     </ClInclude>
+    <ClInclude Include="BaseScene.h">
+      <Filter>Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneManager.h">
+      <Filter>Scene\SceneManager</Filter>
+    </ClInclude>
+    <ClInclude Include="TitleScene.h">
+      <Filter>Scene\TitleScene</Filter>
+    </ClInclude>
+    <ClInclude Include="MainGameScene.h">
+      <Filter>Scene\MainGameScene</Filter>
+    </ClInclude>
+    <ClInclude Include="ResultScene.h">
+      <Filter>Scene\ResultScene</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
@@ -116,6 +146,18 @@
     </ClCompile>
     <ClCompile Include="ParticleManager.cpp">
       <Filter>Particle\ParticleManager</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneManager.cpp">
+      <Filter>Scene\SceneManager</Filter>
+    </ClCompile>
+    <ClCompile Include="TitleScene.cpp">
+      <Filter>Scene\TitleScene</Filter>
+    </ClCompile>
+    <ClCompile Include="MainGameScene.cpp">
+      <Filter>Scene\MainGameScene</Filter>
+    </ClCompile>
+    <ClCompile Include="ResultScene.cpp">
+      <Filter>Scene\ResultScene</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

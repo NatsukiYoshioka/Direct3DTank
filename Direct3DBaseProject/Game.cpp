@@ -7,6 +7,7 @@
 #include"BlockManager.h"
 #include"TankManager.h"
 #include"BulletManager.h"
+#include"SceneManager.h"
 #include "Game.h"
 
 extern void ExitGame() noexcept;
@@ -22,7 +23,8 @@ Game::Game() noexcept(false):
     m_load(nullptr),
     m_blockManager(nullptr),
     m_tankManager(nullptr),
-    m_bulletManager(nullptr)
+    m_bulletManager(nullptr),
+    m_sceneManager(nullptr)
 {
     m_deviceResources = std::make_unique<DX::DeviceResources>();
     // TODO: Provide parameters for swapchain format, depth/stencil format, and backbuffer count.
@@ -194,6 +196,9 @@ void Game::CreateDeviceDependentResources()
     m_load->ReadFile();
     m_load->LoadData(device);
 
+    SceneManager::CreateInstance();
+    m_sceneManager = SceneManager::GetInstance();
+
     m_blockManager = new BlockManager(move(m_load->GetBlockModelHandle()), move(m_load->GetGroundBlockUnderWoodsModelHandle()), m_load->GetMap());
 
     m_tankManager = new TankManager(move(m_load->GetTankModelHandle()), m_load->GetTankPos());
@@ -218,7 +223,11 @@ void Game::CreateWindowSizeDependentResources()
 void Game::OnDeviceLost()
 {
     // TODO: Add Direct3D resource cleanup here.
-    //Load::DestroyInstance();
+    Load::DestroyInstance();
+    SceneManager::DestroyInstance();
+    delete(m_blockManager);
+    delete(m_tankManager);
+    delete(m_bulletManager);
 }
 
 void Game::OnDeviceRestored()
