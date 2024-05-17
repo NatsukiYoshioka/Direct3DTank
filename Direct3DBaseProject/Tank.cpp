@@ -2,6 +2,7 @@
 #include "pch.h"
 #include"Game.h"
 #include"Bullet.h"
+#include"SceneManager.h"
 #include"common.h"
 #include "Tank.h"
 
@@ -21,19 +22,21 @@ Tank::Tank(unique_ptr<DirectX::Model>&& tankModelHandle, Vector3 pos, float angl
     m_hp(m_maxHp),
     m_tankModelHandle(move(tankModelHandle)),
     m_direction(),
-    m_pos(pos),
+    m_initMainGamePos(pos),
+    m_pos(),
     m_world(),
     m_local(),
     m_hitLocal(),
-    m_angle(angle),
+    m_initMainGameAngle(angle),
+    m_angle(),
     m_fireRecast(static_cast<float>(initializeNum)),
     m_isMove(false),
     m_isMoveLeft(false),
     m_isMoveRight(false),
     m_isFire(false),
-    m_isHitBlock(false),
+    m_isHitBlockOrTank(false),
     m_isHitBullet(false),
-    m_turretRotation(angle),
+    m_turretRotation(),
     m_leftBackWheelBone(ModelBone::c_Invalid),
     m_rightBackWheelBone(ModelBone::c_Invalid),
     m_leftFrontWheelBone(ModelBone::c_Invalid),
@@ -79,10 +82,27 @@ Tank::~Tank()
     m_tankModelHandle.reset();
 }
 
-//タンクの更新処理
-void Tank::Update(DirectX::SimpleMath::Matrix world, DirectX::GamePad::State padState)
+void Tank::InitTitle(Vector3 pos, float angle)
 {
-    UpdateInput(padState);
+    m_pos = pos;
+    m_angle = angle;
+    m_turretRotation = angle;
+}
+
+void Tank::InitMainGame()
+{
+    m_pos = m_initMainGamePos;
+    m_angle = m_initMainGameAngle;
+    m_turretRotation = m_initMainGameAngle;
+}
+
+//タンクの更新処理
+void Tank::Update(DirectX::SimpleMath::Matrix world, DirectX::GamePad::State padState, SceneManager::SCENE sceneState)
+{
+    if (sceneState == SceneManager::SCENE::MAINGAME)
+    {
+        UpdateInput(padState);
+    }
     UpdateAnimation();
     UpdateBullets(world);
     //座標処理
@@ -198,10 +218,10 @@ void Tank::UpdateBullets(DirectX::SimpleMath::Matrix world)
 }
 
 //ブロックとの当たり判定
-void Tank::CheckHitBlock(BoundingBox blockBox, Vector3 blockPos)
+void Tank::CheckHitBlockTank(BoundingBox blockBox, Vector3 blockPos)
 {
-    m_isHitBlock = m_tankModelHandle->meshes.at(initializeNum)->boundingBox.Intersects(blockBox);
-    if (m_isHitBlock)
+    m_isHitBlockOrTank = m_tankModelHandle->meshes.at(initializeNum)->boundingBox.Intersects(blockBox);
+    if (m_isHitBlockOrTank)
     {
         Vector2 distance;
         distance.x = m_pos.x - blockPos.x;
@@ -239,6 +259,28 @@ void Tank::CheckHitBlock(BoundingBox blockBox, Vector3 blockPos)
         m_tankModelHandle->meshes.at(initializeNum)->boundingBox.Center.z = m_pos.z;
     }
 }
+
+//void Tank::CheckHitTank(BoundingBox tankBox, Vector3 tankPos)
+//{
+//    m_isHitTank = m_tankModelHandle->meshes.at(initializeNum)->boundingBox.Intersects(tankBox);
+//    if (m_isHitTank)
+//    {
+//        Vector2 distance;
+//        distance.x = m_pos.x - tankPos.x;
+//        distance.y = m_pos.z - tankPos.z;
+//        if (distance.x < initializeNum)distance.x = -distance.x;
+//        if (distance.y < initializeNum)distance.y = -distance.y;
+//
+//        if (distance.x > distance.y)
+//        {
+//
+//        }
+//        else if (distance.x < distance.y)
+//        {
+//
+//        }
+//    }
+//}
 
 bool Tank::CheckHitBullet(BoundingBox bulletBox, Vector3 bulletPos)
 {

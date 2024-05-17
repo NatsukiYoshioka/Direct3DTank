@@ -1,4 +1,5 @@
 #pragma once
+#include"SceneManager.h"
 #include"Model.h"
 
 using namespace DirectX;
@@ -23,10 +24,20 @@ public:
     ~Tank();
 
     /// <summary>
+    /// タイトルシーンでの初期化
+    /// </summary>
+    void InitTitle(Vector3 pos, float angle);
+
+    /// <summary>
+    /// メインゲームシーンでの初期化
+    /// </summary>
+    void InitMainGame();
+
+    /// <summary>
     /// タンク更新処理
     /// </summary>
     /// <param name="world">単位行列</param>
-    void Update(DirectX::SimpleMath::Matrix world, DirectX::GamePad::State padState);
+    void Update(DirectX::SimpleMath::Matrix world, DirectX::GamePad::State padState, SceneManager::SCENE sceneState);
 
     /// <summary>
     /// タンク描画
@@ -59,10 +70,17 @@ public:
     void UpdateBullets(DirectX::SimpleMath::Matrix world);
 
     /// <summary>
-    /// ブロックとの当たり判定
+    /// ブロック、敵戦車との当たり判定
     /// </summary>
     /// <param name="blockBox"></param>
-    void CheckHitBlock(BoundingBox blockBox, Vector3 blockPos);
+    void CheckHitBlockTank(BoundingBox blockBox, Vector3 blockPos);
+
+    /// <summary>
+    /// 敵戦車との当たり判定
+    /// </summary>
+    /// <param name="blockBox"></param>
+    /// <param name="blockPos"></param>
+    //void CheckHitTank(BoundingBox tankBox, Vector3 tankPos);
 
     /// <summary>
     /// 弾との当たり判定
@@ -70,6 +88,12 @@ public:
     /// <param name="bulletBox"></param>
     /// <param name="bulletPos"></param>
     bool CheckHitBullet(BoundingBox bulletBox, Vector3 bulletPos);
+
+    /// <summary>
+    /// モデルのメッシュ取得
+    /// </summary>
+    /// <returns></returns>
+    ModelMesh::Collection GetModelMesh() { return m_tankModelHandle->meshes; }
 
     /// <summary>
     /// 座標の取得
@@ -119,10 +143,12 @@ private:
     uint32_t m_hatchBone;
 
     Vector2 m_direction;    //タンクの向きベクトル
+    const Vector3 m_initMainGamePos;
     Vector3 m_pos;          //タンクのベクトル座標
     XMMATRIX m_world;        
     XMMATRIX m_local;       //タンクの行列座標
     XMMATRIX m_hitLocal;    //ブロックに当たった時の行列
+    const float m_initMainGameAngle;
     float m_angle;          //タンクの向き
     static constexpr float m_speed = 0.02f;    //タンクのスピード
 
@@ -130,7 +156,7 @@ private:
     bool m_isMoveLeft;        //タレットが左に動いたか
     bool m_isMoveRight;       //タレットが右に動いたか
     bool m_isFire;            //弾を発射したかどうか
-    bool m_isHitBlock;        //ブロックと当たったかどうか
+    bool m_isHitBlockOrTank;  //ブロックと当たったかどうか
     bool m_isHitBullet;       //弾と当たったかどうか
     static constexpr float m_wheelRotationSpeed = 5.f;  //タンクのホイールの回転スピード
     float m_turretRotation;                             //タレットの回転値

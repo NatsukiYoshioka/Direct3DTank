@@ -19,9 +19,9 @@ public:
     enum class BlockType
     {
         YELLOW,
-        WOOD,
         RED,
-        BLUE
+        BLUE,
+        WOOD
     };
 
     /// <summary>

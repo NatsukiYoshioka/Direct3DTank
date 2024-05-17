@@ -65,6 +65,8 @@ private:
     BulletManager* m_bulletManager;
     SceneManager* m_sceneManager;
 
+    unique_ptr<DirectX::GamePad> m_gamePad;
+
     void Update(DX::StepTimer const& timer);
     void Render();
 

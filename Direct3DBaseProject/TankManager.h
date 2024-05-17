@@ -1,5 +1,6 @@
 #pragma once
 #include<vector>
+#include"SceneManager.h"
 #include"common.h"
 #include"Model.h"
 
@@ -19,7 +20,7 @@ public:
     /// </summary>
     /// <param name="tankModelHandle">タンクのモデルハンドル</param>
     /// <param name="pos">タンクの初期座標</param>
-    TankManager(vector<unique_ptr<DirectX::Model>>&& tankModelHandle, vector<Vector3> pos);
+    TankManager(vector<unique_ptr<DirectX::Model>>&& tankModelHandle, vector<Vector3> pos, DirectX::GamePad* gamePad);
 
     /// <summary>
     /// インスタンス破棄
@@ -27,10 +28,20 @@ public:
     ~TankManager();
 
     /// <summary>
+    /// タイトル時の初期化
+    /// </summary>
+    void InitTitle();
+
+    /// <summary>
+    /// メインゲームシーン時の初期化
+    /// </summary>
+    void InitMainGame();
+
+    /// <summary>
     /// 全タンクの更新処理
     /// </summary>
     /// <param name="world">単位行列</param>
-    void Update(DirectX::SimpleMath::Matrix world, BlockManager* blockManager, BulletManager* bulletManager);
+    void Update(DirectX::SimpleMath::Matrix world, BlockManager* blockManager, BulletManager* bulletManager, SceneManager::SCENE sceneState);
 
     /// <summary>
     /// 全タンクの描画
@@ -58,7 +69,9 @@ public:
     vector<Tank*> GetTanks() { return m_tank; }
 private:
     vector<Tank*> m_tank;                  //各タンクのインスタンス
-    unique_ptr<DirectX::GamePad> m_gamePad;   //コントローラーの状態を管理するポインタ
+    DirectX::GamePad* m_gamePad;   //コントローラーの状態を管理するポインタ
+
+    static const Vector3 m_initTitleTankPos[playerNum];
 
     static constexpr int m_maxBulletNum = 3;            //自分がステージ上に撃てる弾の最大数
 };

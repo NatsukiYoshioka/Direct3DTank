@@ -72,7 +72,7 @@ void Game::Update(DX::StepTimer const& timer)
 
     // TODO: Add your game logic here.
     m_blockManager->Update(m_world);
-    m_tankManager->Update(m_world, m_blockManager,m_bulletManager);
+    m_tankManager->Update(m_world, m_blockManager, m_bulletManager, m_sceneManager->GetNowSceneState());
     m_bulletManager->Update(m_world, m_tankManager, m_blockManager);
     elapsedTime;
 }
@@ -196,12 +196,15 @@ void Game::CreateDeviceDependentResources()
     m_load->ReadFile();
     m_load->LoadData(device);
 
-    SceneManager::CreateInstance();
+    m_gamePad = make_unique<GamePad>();
+
+    SceneManager::CreateInstance(m_gamePad.get());
+
     m_sceneManager = SceneManager::GetInstance();
 
     m_blockManager = new BlockManager(move(m_load->GetBlockModelHandle()), move(m_load->GetGroundBlockUnderWoodsModelHandle()), m_load->GetMap());
 
-    m_tankManager = new TankManager(move(m_load->GetTankModelHandle()), m_load->GetTankPos());
+    m_tankManager = new TankManager(move(m_load->GetTankModelHandle()), m_load->GetTankPos(), m_gamePad.get());
 
     m_bulletManager = new BulletManager(move(m_load->GetBulletModelHandle()));
 
@@ -214,10 +217,24 @@ void Game::CreateWindowSizeDependentResources()
 {
     // TODO: Initialize windows-size dependent objects here.
     auto size = m_deviceResources->GetOutputSize();
-    m_view = Matrix::CreateLookAt(Vector3(7.5f, 25.f, 7.5f),
-        Vector3(7.5f, 0.f, 7.5f), Vector3::UnitX);
-    m_proj = Matrix::CreatePerspectiveFieldOfView(XM_PI / 4.f,
-        float(size.right) / float(size.bottom), 0.1f, 500.f);
+    switch (m_sceneManager->GetNowSceneState())
+    {
+    case SceneManager::SCENE::TITLE:
+        m_view = Matrix::CreateLookAt(Vector3(0.f, 2.f, 15.0f),
+            Vector3(7.5f, 0.f, 7.5f), Vector3::UnitY);
+        m_proj = Matrix::CreatePerspectiveFieldOfView(XM_PI / 4.f,
+            float(size.right) / float(size.bottom), 0.1f, 500.f);
+        break;
+        break;
+    case SceneManager::SCENE::MAINGAME:
+        m_view = Matrix::CreateLookAt(Vector3(7.5f, 25.f, 7.5f),
+            Vector3(7.5f, 0.f, 7.5f), Vector3::UnitX);
+        m_proj = Matrix::CreatePerspectiveFieldOfView(XM_PI / 4.f,
+            float(size.right) / float(size.bottom), 0.1f, 500.f);
+        break;
+    case SceneManager::SCENE::RESULT:
+        break;
+    }
 }
 
 void Game::OnDeviceLost()

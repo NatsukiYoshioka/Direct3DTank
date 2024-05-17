@@ -2,7 +2,8 @@
 #include "BaseScene.h"
 #include "ResultScene.h"
 
-ResultScene::ResultScene()
+ResultScene::ResultScene():
+    isFinish(false)
 {
 
 }
@@ -12,7 +13,7 @@ ResultScene::~ResultScene()
 
 }
 
-void ResultScene::Update()
+void ResultScene::Update(DirectX::GamePad::State padState)
 {
 
 }

@@ -4,12 +4,15 @@
 #include"BulletManager.h"
 #include"Block.h"
 #include"BlockManager.h"
+#include"SceneManager.h"
 #include"common.h"
 #include "TankManager.h"
 
+const Vector3 TankManager::m_initTitleTankPos[] = { Vector3(2.5f,0.5f,11.5f),Vector3(6.5f,0.5f,12.f) };
+
 //全タンクの初期化
-TankManager::TankManager(vector<unique_ptr<DirectX::Model>>&& tankModelHandle, vector<Vector3> pos) :
-    m_gamePad(make_unique<GamePad>())
+TankManager::TankManager(vector<unique_ptr<DirectX::Model>>&& tankModelHandle, vector<Vector3> pos, DirectX::GamePad* gamePad) :
+    m_gamePad(gamePad)
 {
     float playerAngle[playerNum];
     playerAngle[player1] = atan2f(pos.at(player1).z - pos.at(player2).z, pos.at(player1).x - pos.at(player2).x);
@@ -18,6 +21,7 @@ TankManager::TankManager(vector<unique_ptr<DirectX::Model>>&& tankModelHandle, v
     {
         m_tank.push_back(new Tank(move(tankModelHandle.at(i)), pos.at(i), playerAngle[i]));
     }
+    InitTitle();
 }
 
 //インスタンス破棄
@@ -29,13 +33,35 @@ TankManager::~TankManager()
     }
 }
 
-//全タンクの更新
-void TankManager::Update(DirectX::SimpleMath::Matrix world, BlockManager* blockManager, BulletManager* bulletManager)
+void TankManager::InitTitle()
+{
+    float playerAngle[playerNum];
+    playerAngle[player2] = atan2f(m_initTitleTankPos[player1].x - m_initTitleTankPos[player2].x, m_initTitleTankPos[player1].z - m_initTitleTankPos[player2].z);
+    playerAngle[player1] = atan2f(m_initTitleTankPos[player2].x - m_initTitleTankPos[player1].x, m_initTitleTankPos[player2].z - m_initTitleTankPos[player1].z);
+    for (int i = initializeNum; i < playerNum; i++)
+    {
+        m_tank[i]->InitTitle(m_initTitleTankPos[i], playerAngle[i]);
+    }
+}
+
+void TankManager::InitMainGame()
 {
     for (int i = initializeNum; i < playerNum; i++)
     {
-        m_tank[i]->Update(world, m_gamePad->GetState(i));
+        m_tank[i]->InitMainGame();
     }
+}
+
+//全タンクの更新
+void TankManager::Update(DirectX::SimpleMath::Matrix world, BlockManager* blockManager, BulletManager* bulletManager, SceneManager::SCENE sceneState)
+{
+    for (int i = initializeNum; i < playerNum; i++)
+    {
+        m_tank[i]->Update(world, m_gamePad->GetState(i), sceneState);
+    }
+
+    m_tank[player1]->CheckHitBlockTank(m_tank[player2]->GetModelMesh().at(initializeNum)->boundingBox, m_tank[player2]->GetPos());
+    m_tank[player2]->CheckHitBlockTank(m_tank[player1]->GetModelMesh().at(initializeNum)->boundingBox, m_tank[player1]->GetPos());
     
     for (int i = initializeNum; i < playerNum; i++)
     {
@@ -44,7 +70,7 @@ void TankManager::Update(DirectX::SimpleMath::Matrix world, BlockManager* blockM
             //タンク関連とブロックとの当たり判定
             if (blockManager->GetBlocks().at(j)->GetBlockType() != BlockManager::BlockType::YELLOW)
             {
-                m_tank[i]->CheckHitBlock(blockManager->GetBlocks().at(j)->GetModelMesh().at(initializeNum)->boundingBox, blockManager->GetBlocks().at(j)->GetPos());
+                m_tank[i]->CheckHitBlockTank(blockManager->GetBlocks().at(j)->GetModelMesh().at(initializeNum)->boundingBox, blockManager->GetBlocks().at(j)->GetPos());
             }
         }
     }

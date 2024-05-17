@@ -3,13 +3,17 @@
 #include"TitleScene.h"
 #include"MainGameScene.h"
 #include"ResultScene.h"
+#include"common.h"
 #include "SceneManager.h"
 
 SceneManager* SceneManager::m_sceneManager = nullptr;
 
-SceneManager::SceneManager()
+SceneManager::SceneManager(DirectX::GamePad* gamePad):
+	m_sceneState(SCENE::TITLE),
+	isChange(false)
 {
-
+	m_gamePad = gamePad;
+	m_nowScene = new TitleScene();
 }
 
 SceneManager::~SceneManager()
@@ -17,11 +21,11 @@ SceneManager::~SceneManager()
 
 }
 
-void SceneManager::CreateInstance()
+void SceneManager::CreateInstance(DirectX::GamePad* gamePad)
 {
 	if (!m_sceneManager)
 	{
-		m_sceneManager = new SceneManager();
+		m_sceneManager = new SceneManager(gamePad);
 	}
 }
 
@@ -58,7 +62,27 @@ void SceneManager::ChangeScene(SCENE sceneState)
 
 void SceneManager::Update()
 {
-	m_nowScene->Update();
+	m_nowScene->Update(m_gamePad->GetState(player1));
+	if (m_nowScene->GetIsFinish())
+	{
+		isChange = true;
+		switch (m_sceneState)
+		{
+		case SCENE::TITLE:
+			ChangeScene(SCENE::MAINGAME);
+			break;
+		case SCENE::MAINGAME:
+			ChangeScene(SCENE::RESULT);
+			break;
+		case SCENE::RESULT:
+			ChangeScene(SCENE::TITLE);
+			break;
+		}
+	}
+	else
+	{
+		isChange = false;
+	}
 }
 
 void SceneManager::Draw()

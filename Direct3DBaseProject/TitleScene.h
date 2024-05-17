@@ -8,7 +8,11 @@ public:
 	TitleScene();
 	~TitleScene();
 
-	void Update();
+	void Update(DirectX::GamePad::State);
 	void Draw();
+
+	bool GetIsFinish() { return isFinish; }
+private:
+	bool isFinish;
 };
 

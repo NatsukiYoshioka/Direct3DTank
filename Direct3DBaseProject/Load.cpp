@@ -116,7 +116,7 @@ void Load::LoadData(ID3D11Device* deviceResources)
 	}
 
 	//木ブロックの下の地面ブロックの数分ロード
-	str = m_json["Blocks"].at(static_cast<int>(BlockManager::BlockType::WOOD));
+	str = m_json["Blocks"].at(static_cast<int>(BlockManager::BlockType::YELLOW));
 	for (int i = initializeNum; i < m_blockUnderWoods; i++)
 	{
 		m_groundBlockModelHandle.push_back(Model::CreateFromCMO(device, Widen(str).c_str(), *m_fxFactory));

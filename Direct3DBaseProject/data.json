@@ -1,12 +1,12 @@
 {
     "TankAPath": "tank.sdkmesh",
     "TankAPosX": 13,
-    "TankAPosY": 1,
+    "TankAPosY": 0.5,
     "TankAPosZ": 2,
 
     "TankBPath": "tank.sdkmesh",
     "TankBPosX": 2,
-    "TankBPosY": 1,
+    "TankBPosY": 0.5,
     "TankBPosZ": 13,
 
     "Bullet": "bullet.cmo",
