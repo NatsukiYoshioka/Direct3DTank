@@ -1,6 +1,7 @@
 #pragma once
 
 class BaseScene;
+class TankManager;
 
 class SceneManager
 {
@@ -21,7 +22,7 @@ public:
 	SCENE GetNowSceneState()const { return m_sceneState; }
 	bool GetIsChange() { return isChange; }
 	void ChangeScene(SCENE sceneState);
-	void Update();
+	void Update(TankManager* tankManager);
 	void Draw();
 
 private:

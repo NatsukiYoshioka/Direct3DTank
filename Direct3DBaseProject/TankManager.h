@@ -38,6 +38,11 @@ public:
     void InitMainGame();
 
     /// <summary>
+    /// リザルトシーンでの初期化
+    /// </summary>
+    void InitResult();
+
+    /// <summary>
     /// 全タンクの更新処理
     /// </summary>
     /// <param name="world">単位行列</param>
@@ -53,16 +58,6 @@ public:
     void Draw(ID3D11DeviceContext1* context, unique_ptr<DirectX::CommonStates>&& states, DirectX::SimpleMath::Matrix view, DirectX::SimpleMath::Matrix projection)const;
 
     /// <summary>
-    /// コントローラーの中断処理
-    /// </summary>
-    void SuspendGamePad();
-
-    /// <summary>
-    /// コントローラーの再開処理
-    /// </summary>
-    void ResumeGamePad();
-
-    /// <summary>
     /// タンクの取得
     /// </summary>
     /// <returns></returns>
@@ -72,6 +67,7 @@ private:
     DirectX::GamePad* m_gamePad;   //コントローラーの状態を管理するポインタ
 
     static const Vector3 m_initTitleTankPos[playerNum];
+    static const Vector3 m_initResultTankPos[playerNum];
 
     static constexpr int m_maxBulletNum = 3;            //自分がステージ上に撃てる弾の最大数
 };

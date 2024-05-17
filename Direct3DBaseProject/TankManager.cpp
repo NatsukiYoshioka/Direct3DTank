@@ -9,6 +9,7 @@
 #include "TankManager.h"
 
 const Vector3 TankManager::m_initTitleTankPos[] = { Vector3(2.5f,0.5f,11.5f),Vector3(6.5f,0.5f,12.f) };
+const Vector3 TankManager::m_initResultTankPos[] = { Vector3(3.f,0.5f,11.5f),Vector3(6.f,0.5f,11.f) };
 
 //全タンクの初期化
 TankManager::TankManager(vector<unique_ptr<DirectX::Model>>&& tankModelHandle, vector<Vector3> pos, DirectX::GamePad* gamePad) :
@@ -49,6 +50,21 @@ void TankManager::InitMainGame()
     for (int i = initializeNum; i < playerNum; i++)
     {
         m_tank[i]->InitMainGame();
+    }
+}
+
+void TankManager::InitResult()
+{
+    for (int i = initializeNum; i < playerNum; i++)
+    {
+        if (m_tank[i]->GetIsBreak())
+        {
+            m_tank[i]->InitResult(m_initResultTankPos[0]);
+        }
+        else
+        {
+            m_tank[i]->InitResult(m_initResultTankPos[1]);
+        }
     }
 }
 
@@ -96,16 +112,4 @@ void TankManager::Draw(ID3D11DeviceContext1* context, unique_ptr<DirectX::Common
     {
         m_tank[i]->Draw(context, move(states), view, projection);
     }
-}
-
-//コントローラーの中断処理
-void TankManager::SuspendGamePad()
-{
-    m_gamePad->Suspend();
-}
-
-//コントローラーの再開処理
-void TankManager::ResumeGamePad()
-{
-    m_gamePad->Resume();
 }

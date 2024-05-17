@@ -23,6 +23,10 @@ void TitleScene::Update(DirectX::GamePad::State padState)
         {
             ExitGame();
         }
+        if (padState.IsAPressed())
+        {
+            isFinish = true;
+        }
     }
 }
 

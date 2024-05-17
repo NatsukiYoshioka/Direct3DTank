@@ -3,6 +3,8 @@
 #include"TitleScene.h"
 #include"MainGameScene.h"
 #include"ResultScene.h"
+#include"Tank.h"
+#include"TankManager.h"
 #include"common.h"
 #include "SceneManager.h"
 
@@ -60,10 +62,10 @@ void SceneManager::ChangeScene(SCENE sceneState)
 	}
 }
 
-void SceneManager::Update()
+void SceneManager::Update(TankManager* tankManager)
 {
 	m_nowScene->Update(m_gamePad->GetState(player1));
-	if (m_nowScene->GetIsFinish())
+	if (m_nowScene->GetIsFinish() || (m_sceneState == SCENE::MAINGAME && (tankManager->GetTanks().at(player1)->GetIsBreak() || tankManager->GetTanks().at(player2)->GetIsBreak())))
 	{
 		isChange = true;
 		switch (m_sceneState)

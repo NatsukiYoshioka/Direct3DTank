@@ -34,6 +34,11 @@ public:
     void InitMainGame();
 
     /// <summary>
+    /// リザルトシーンでの初期化
+    /// </summary>
+    void InitResult(Vector3 pos);
+
+    /// <summary>
     /// タンク更新処理
     /// </summary>
     /// <param name="world">単位行列</param>
@@ -62,7 +67,7 @@ public:
     /// <summary>
     /// アニメーション更新
     /// </summary>
-    void UpdateAnimation();
+    void UpdateAnimation(SceneManager::SCENE sceneState);
 
     /// <summary>
     /// 弾の発射更新処理
@@ -74,13 +79,6 @@ public:
     /// </summary>
     /// <param name="blockBox"></param>
     void CheckHitBlockTank(BoundingBox blockBox, Vector3 blockPos);
-
-    /// <summary>
-    /// 敵戦車との当たり判定
-    /// </summary>
-    /// <param name="blockBox"></param>
-    /// <param name="blockPos"></param>
-    //void CheckHitTank(BoundingBox tankBox, Vector3 tankPos);
 
     /// <summary>
     /// 弾との当たり判定
@@ -119,11 +117,21 @@ public:
     /// <returns></returns>
     bool GetIsFire() { return m_isFire; }
 
+    /// <summary>
+    /// 残機取得
+    /// </summary>
+    /// <returns></returns>
     int GetHP() { return m_hp; }
+
+    /// <summary>
+    /// 破壊されたか取得
+    /// </summary>
+    /// <returns></returns>
+    bool GetIsBreak() { return m_isBreak; }
 
 private:
     int m_hp;
-    static constexpr int m_maxHp = 5;
+    static constexpr int m_maxHp = 1;
 
     float m_fireRecast;                                 //弾を再度打てるようになるまでの時間
     static constexpr float m_maxFireRecast = 2.5f;       //リキャスト時間
@@ -158,9 +166,12 @@ private:
     bool m_isFire;            //弾を発射したかどうか
     bool m_isHitBlockOrTank;  //ブロックと当たったかどうか
     bool m_isHitBullet;       //弾と当たったかどうか
+    bool m_isBreak;           //破壊されたかどうか
     static constexpr float m_wheelRotationSpeed = 5.f;  //タンクのホイールの回転スピード
     float m_turretRotation;                             //タレットの回転値
     static constexpr float m_turretRotationSpeed = 0.05f; //タンクのタレットの回転スピード
+
+    static constexpr float m_canonRotation = 170.f;
 
     //タンクのボーン名
     static const string m_tankBonesName;

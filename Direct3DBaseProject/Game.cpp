@@ -74,6 +74,23 @@ void Game::Update(DX::StepTimer const& timer)
     m_blockManager->Update(m_world);
     m_tankManager->Update(m_world, m_blockManager, m_bulletManager, m_sceneManager->GetNowSceneState());
     m_bulletManager->Update(m_world, m_tankManager, m_blockManager);
+    m_sceneManager->Update(m_tankManager);
+    if (m_sceneManager->GetIsChange())
+    {
+        CreateWindowSizeDependentResources();
+        switch (m_sceneManager->GetNowSceneState())
+        {
+        case SceneManager::SCENE::TITLE:
+            m_tankManager->InitTitle();
+            break;
+        case SceneManager::SCENE::MAINGAME:
+            m_tankManager->InitMainGame();
+            break;
+        case SceneManager::SCENE::RESULT:
+            m_tankManager->InitResult();
+            break;
+        }
+    }
     elapsedTime;
 }
 #pragma endregion
@@ -142,7 +159,7 @@ void Game::OnDeactivated()
 void Game::OnSuspending()
 {
     // TODO: Game is being power-suspended (or minimized).
-    m_tankManager->SuspendGamePad();
+    m_gamePad->Suspend();
 }
 
 void Game::OnResuming()
@@ -150,7 +167,7 @@ void Game::OnResuming()
     m_timer.ResetElapsedTime();
 
     // TODO: Game is being power-resumed (or returning from minimize).
-    m_tankManager->ResumeGamePad();
+    m_gamePad->Resume();
 }
 
 void Game::OnWindowMoved()
@@ -225,7 +242,6 @@ void Game::CreateWindowSizeDependentResources()
         m_proj = Matrix::CreatePerspectiveFieldOfView(XM_PI / 4.f,
             float(size.right) / float(size.bottom), 0.1f, 500.f);
         break;
-        break;
     case SceneManager::SCENE::MAINGAME:
         m_view = Matrix::CreateLookAt(Vector3(7.5f, 25.f, 7.5f),
             Vector3(7.5f, 0.f, 7.5f), Vector3::UnitX);
@@ -233,6 +249,10 @@ void Game::CreateWindowSizeDependentResources()
             float(size.right) / float(size.bottom), 0.1f, 500.f);
         break;
     case SceneManager::SCENE::RESULT:
+        m_view = Matrix::CreateLookAt(Vector3(1.f, 1.5f, 14.0f),
+            Vector3(7.5f, 0.f, 7.5f), Vector3::UnitY);
+        m_proj = Matrix::CreatePerspectiveFieldOfView(XM_PI / 4.f,
+            float(size.right) / float(size.bottom), 0.1f, 500.f);
         break;
     }
 }

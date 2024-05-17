@@ -36,6 +36,7 @@ Tank::Tank(unique_ptr<DirectX::Model>&& tankModelHandle, Vector3 pos, float angl
     m_isFire(false),
     m_isHitBlockOrTank(false),
     m_isHitBullet(false),
+    m_isBreak(false),
     m_turretRotation(),
     m_leftBackWheelBone(ModelBone::c_Invalid),
     m_rightBackWheelBone(ModelBone::c_Invalid),
@@ -87,6 +88,9 @@ void Tank::InitTitle(Vector3 pos, float angle)
     m_pos = pos;
     m_angle = angle;
     m_turretRotation = angle;
+
+    m_hp = m_maxHp;
+    m_isBreak = false;
 }
 
 void Tank::InitMainGame()
@@ -94,6 +98,20 @@ void Tank::InitMainGame()
     m_pos = m_initMainGamePos;
     m_angle = m_initMainGameAngle;
     m_turretRotation = m_initMainGameAngle;
+
+    m_fireRecast = static_cast<float>(initializeNum);
+}
+
+void Tank::InitResult(Vector3 pos)
+{
+    m_isMove = false;
+    m_isMoveLeft = false;
+    m_isMoveRight = false;
+    m_isFire = false;
+
+    m_pos = pos;
+    m_angle = atan2f(1.f - m_pos.x, 12.f - m_pos.z);
+    m_turretRotation = atan2f(1.f - m_pos.x, 14.f - m_pos.z);
 }
 
 //タンクの更新処理
@@ -103,7 +121,7 @@ void Tank::Update(DirectX::SimpleMath::Matrix world, DirectX::GamePad::State pad
     {
         UpdateInput(padState);
     }
-    UpdateAnimation();
+    UpdateAnimation(sceneState);
     UpdateBullets(world);
     //座標処理
     m_world = world;
@@ -177,11 +195,11 @@ void Tank::UpdateInput(DirectX::GamePad::State padState)
 }
 
 //アニメーション更新
-void Tank::UpdateAnimation()
+void Tank::UpdateAnimation(SceneManager::SCENE sceneState)
 {
     float wheelRotation = Game::GetTime() * m_wheelRotationSpeed;
     XMMATRIX mat;
-    if (m_isMove)
+    if (m_isMove || sceneState == SceneManager::SCENE::TITLE)
     {
         //ホイールのアニメーション
         mat = XMMatrixRotationX(wheelRotation);
@@ -201,6 +219,23 @@ void Tank::UpdateAnimation()
     }
     mat = XMMatrixMultiply(XMMatrixRotationY(m_turretRotation), Matrix::CreateRotationY(-m_angle));
     m_animBones[m_turretBone] = XMMatrixMultiply(mat, m_tankModelHandle->boneMatrices[m_turretBone]);
+
+    if (sceneState == SceneManager::SCENE::RESULT)
+    {
+        if (m_hp)
+        {
+            mat = XMMatrixRotationX(m_canonRotation);
+        }
+        else
+        {
+            mat = XMMatrixRotationX(-m_canonRotation);
+        }
+    }
+    else
+    {
+        mat = XMMatrixRotationX(static_cast<float>(initializeNum));
+    }
+    m_animBones[m_canonBone] = XMMatrixMultiply(mat, m_tankModelHandle->boneMatrices[m_canonBone]);
 }
 
 //弾の更新
@@ -260,34 +295,16 @@ void Tank::CheckHitBlockTank(BoundingBox blockBox, Vector3 blockPos)
     }
 }
 
-//void Tank::CheckHitTank(BoundingBox tankBox, Vector3 tankPos)
-//{
-//    m_isHitTank = m_tankModelHandle->meshes.at(initializeNum)->boundingBox.Intersects(tankBox);
-//    if (m_isHitTank)
-//    {
-//        Vector2 distance;
-//        distance.x = m_pos.x - tankPos.x;
-//        distance.y = m_pos.z - tankPos.z;
-//        if (distance.x < initializeNum)distance.x = -distance.x;
-//        if (distance.y < initializeNum)distance.y = -distance.y;
-//
-//        if (distance.x > distance.y)
-//        {
-//
-//        }
-//        else if (distance.x < distance.y)
-//        {
-//
-//        }
-//    }
-//}
-
 bool Tank::CheckHitBullet(BoundingBox bulletBox, Vector3 bulletPos)
 {
     m_isHitBullet = m_tankModelHandle->meshes.at(initializeNum)->boundingBox.Intersects(bulletBox);
     if (m_isHitBullet)
     {
         m_hp--;
+        if (m_hp <= initializeNum)
+        {
+            m_isBreak = true;
+        }
     }
     return m_isHitBullet;
 }
