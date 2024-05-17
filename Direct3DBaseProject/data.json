@@ -4,7 +4,7 @@
   "TankAPosY": 0.5,
   "TankAPosZ": 2,
 
-  "TankBPath": "tank2.sdkmesh",
+  "TankBPath": "tank.sdkmesh",
   "TankBTexturePath1": "turret_alt_diff_tex2.dds",
   "TankBTexturePath2": "engine_diff_tex2.dds",
   "TankBPosX": 2,
