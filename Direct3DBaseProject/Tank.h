@@ -53,6 +53,8 @@ public:
     /// <param name="projection"></param>
     void Draw(ID3D11DeviceContext1* deviceContext, unique_ptr<DirectX::CommonStates>&& states, DirectX::SimpleMath::Matrix view, DirectX::SimpleMath::Matrix projection);
 
+    void DrawFromTexture(ID3D11DeviceContext1* deviceContext, unique_ptr<DirectX::CommonStates>&& states, DirectX::SimpleMath::Matrix view, DirectX::SimpleMath::Matrix projection);
+
     /// <summary>
     /// ƒ^ƒ“ƒN‚ÌÀ•Wæ“¾
     /// </summary>

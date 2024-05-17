@@ -14,6 +14,9 @@ using json = nlohmann::json;
 Load* Load::m_load = nullptr;
 const string Load::m_fileName = "data.json";
 
+ID3D11ShaderResourceView* Load::m_tankTexture;
+ID3D11ShaderResourceView* Load::m_engineTexture;
+
 //コンストラクタ
 Load::Load():
 	m_blockUnderWoods(initializeNum)
@@ -63,12 +66,17 @@ void Load::LoadData(ID3D11Device* deviceResources)
 	m_states = make_unique<DirectX::CommonStates>(device);
 
 	m_fxFactory = make_unique<DirectX::EffectFactory>(device);
+	
 
 	//プレイヤーモデルの情報をロード
 	string str = m_json["TankAPath"];
 	m_tankModelHandle.push_back(Model::CreateFromSDKMESH(device, Widen(str).c_str(), *m_fxFactory, ModelLoader_CounterClockwise | ModelLoader_IncludeBones));
 	m_tankPos.push_back({ m_json["TankAPosX"],m_json["TankAPosY"],m_json["TankAPosZ"] });
 
+	str = m_json["TankBTexturePath1"];
+	m_fxFactory->CreateTexture(Widen(str).c_str(), nullptr, &m_tankTexture);
+	str = m_json["TankBTexturePath2"];
+	m_fxFactory->CreateTexture(Widen(str).c_str(), nullptr, &m_engineTexture);
 	str = m_json["TankBPath"];
 	m_tankModelHandle.push_back(Model::CreateFromSDKMESH(device, Widen(str).c_str(), *m_fxFactory, ModelLoader_CounterClockwise | ModelLoader_IncludeBones));
 	m_tankPos.push_back({ m_json["TankBPosX"],m_json["TankBPosY"],m_json["TankBPosZ"] });

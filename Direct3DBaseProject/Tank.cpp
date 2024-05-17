@@ -4,6 +4,7 @@
 #include"Bullet.h"
 #include"SceneManager.h"
 #include"common.h"
+#include"Load.h"
 #include "Tank.h"
 
 const string Tank::m_tankBonesName = "tank_geo";
@@ -145,6 +146,21 @@ void Tank::Draw(ID3D11DeviceContext1* deviceContext, unique_ptr<DirectX::CommonS
     m_tankModelHandle->CopyAbsoluteBoneTransforms(nbones, m_animBones.get(), m_drawBones.get());
 
     m_tankModelHandle->Draw(context, *states, nbones, m_drawBones.get(), m_local, view, projection);
+}
+
+void Tank::DrawFromTexture(ID3D11DeviceContext1* deviceContext, unique_ptr<DirectX::CommonStates>&& states, DirectX::SimpleMath::Matrix view, DirectX::SimpleMath::Matrix projection)
+{
+    auto context = deviceContext;
+
+    size_t nbones = m_tankModelHandle->bones.size();
+
+    m_tankModelHandle->CopyAbsoluteBoneTransforms(nbones, m_animBones.get(), m_drawBones.get());
+
+    m_tankModelHandle->Draw(context, *states, nbones, m_drawBones.get(), m_local, view, projection, false, [&]
+        {
+            context->PSSetShaderResources(0, 1, Load::GetTankTexture());
+            context->PSSetShaderResources(0, 1, Load::GetEngineTexture());
+        });
 }
 
 void Tank::UpdateInput(DirectX::GamePad::State padState)

@@ -108,8 +108,6 @@ void TankManager::Update(DirectX::SimpleMath::Matrix world, BlockManager* blockM
 //‘Sƒ^ƒ“ƒN‚Ì•`‰æ
 void TankManager::Draw(ID3D11DeviceContext1* context, unique_ptr<DirectX::CommonStates>&& states, DirectX::SimpleMath::Matrix view, DirectX::SimpleMath::Matrix projection) const
 {
-    for (int i = initializeNum; i < playerNum; i++)
-    {
-        m_tank[i]->Draw(context, move(states), view, projection);
-    }
+    m_tank[player1]->Draw(context, move(states), view, projection);
+    m_tank[player2]->DrawFromTexture(context, move(states), view, projection);
 }

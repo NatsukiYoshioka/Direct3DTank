@@ -104,6 +104,10 @@ public:
 
 	unique_ptr<DirectX::CommonStates>&& GetStates() { return move(m_states); }
 
+	static ID3D11ShaderResourceView* const* GetTankTexture() { return &m_tankTexture; }
+
+	static ID3D11ShaderResourceView* const* GetEngineTexture() { return &m_engineTexture; }
+
 private:
 	static Load* m_load;				//ロードクラスのインスタンス
 
@@ -115,6 +119,8 @@ private:
 
 	vector<unique_ptr<DirectX::Model>> m_tankModelHandle;	//戦車のモデルハンドル配列
 	vector<Vector3> m_tankPos;								//戦車の座標配列
+	static ID3D11ShaderResourceView* m_tankTexture;
+	static ID3D11ShaderResourceView* m_engineTexture;
 
 	vector<unique_ptr<DirectX::Model>> m_bulletModelHandle;			//弾のモデルハンドル
 
