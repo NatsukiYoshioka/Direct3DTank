@@ -34,7 +34,7 @@ public:
     /// <param name="states"></param>
     /// <param name="view"></param>
     /// <param name="projection"></param>
-    void Draw(ID3D11DeviceContext1* deviceContext, unique_ptr<DirectX::CommonStates>&& states, DirectX::SimpleMath::Matrix view, DirectX::SimpleMath::Matrix projection);
+    void Draw(ID3D11DeviceContext1* deviceContext, DirectX::CommonStates* states, DirectX::SimpleMath::Matrix view, DirectX::SimpleMath::Matrix projection);
 
     /// <summary>
     /// 弾のモデルハンドル取得
@@ -71,6 +71,7 @@ private:
     Vector3 m_direction;                            //弾の方向ベクトル
     static constexpr float m_speed = 0.04f;         //弾の動くスピード         
 
+    //弾の当たり判定範囲
     static constexpr float m_boundingboxExtentsX = 0.2f;
     static constexpr float m_boundingboxExtentsY = 0.1f;
     static constexpr float m_boundingboxExtentsZ = 0.2f;
@@ -80,6 +81,6 @@ private:
     int m_boundBlockCount;                          //ブロックに跳ね返った回数
     static constexpr int m_maxBoundCount = 3;       //ブロックに跳ね返る最大回数
 
-    static constexpr float m_fireFrontWidth = 1.f;
+    static constexpr float m_fireFrontWidth = 1.f;  //弾の発射幅
 };
 

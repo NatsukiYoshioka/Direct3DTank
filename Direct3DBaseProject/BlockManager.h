@@ -32,6 +32,9 @@ public:
     BlockManager(vector<unique_ptr<DirectX::Model>>&& blockModelHandle, vector<unique_ptr<DirectX::Model>>&& groundBlockUnderWoodsModelHandle, vector<vector<int>> map);
     ~BlockManager();
 
+    /// <summary>
+    /// ステージの初期化
+    /// </summary>
     void Init();
 
     /// <summary>
@@ -47,7 +50,7 @@ public:
     /// <param name="states">m_states</param>
     /// <param name="view">m_view</param>
     /// <param name="projection">m_proj</param>
-    void Draw(ID3D11DeviceContext1* context, unique_ptr<DirectX::CommonStates>&& states, DirectX::SimpleMath::Matrix view, DirectX::SimpleMath::Matrix projection);
+    void Draw(ID3D11DeviceContext1* context, DirectX::CommonStates* states, DirectX::SimpleMath::Matrix view, DirectX::SimpleMath::Matrix projection);
 
     /// <summary>
     /// ブロックの取得

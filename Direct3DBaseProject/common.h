@@ -13,6 +13,11 @@ static constexpr int player1 = 0;					//プレイヤー1のindex
 static constexpr int player2 = 1;					//プレイヤー2のindex
 static constexpr int playerNum = 2;				//プレイヤー数
 
+/// <summary>
+/// jsonの値をwchar_t方に変換
+/// </summary>
+/// <param name="str"></param>
+/// <returns></returns>
 inline wstring Widen(const string& str)
 {
 	wostringstream wstm;

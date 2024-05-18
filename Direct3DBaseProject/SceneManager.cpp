@@ -10,6 +10,7 @@
 
 SceneManager* SceneManager::m_sceneManager = nullptr;
 
+//コンストラクタ
 SceneManager::SceneManager(DirectX::GamePad* gamePad):
 	m_sceneState(SCENE::TITLE),
 	isChange(false)
@@ -18,11 +19,13 @@ SceneManager::SceneManager(DirectX::GamePad* gamePad):
 	m_nowScene = new TitleScene();
 }
 
+//デストラクタ
 SceneManager::~SceneManager()
 {
 
 }
 
+//インスタンス生成
 void SceneManager::CreateInstance(DirectX::GamePad* gamePad)
 {
 	if (!m_sceneManager)
@@ -31,6 +34,7 @@ void SceneManager::CreateInstance(DirectX::GamePad* gamePad)
 	}
 }
 
+//インスタンス破棄
 void SceneManager::DestroyInstance()
 {
 	if (m_sceneManager)
@@ -39,6 +43,7 @@ void SceneManager::DestroyInstance()
 	}
 }
 
+//シーン遷移処理
 void SceneManager::ChangeScene(SCENE sceneState)
 {
 	if (m_nowScene != NULL)
@@ -62,6 +67,7 @@ void SceneManager::ChangeScene(SCENE sceneState)
 	}
 }
 
+//シーンの更新
 void SceneManager::Update(TankManager* tankManager)
 {
 	m_nowScene->Update(m_gamePad->GetState(player1));
@@ -87,6 +93,7 @@ void SceneManager::Update(TankManager* tankManager)
 	}
 }
 
+//シーンの描画
 void SceneManager::Draw()
 {
 	m_nowScene->Draw();

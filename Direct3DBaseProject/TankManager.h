@@ -40,7 +40,7 @@ public:
     /// <summary>
     /// リザルトシーンでの初期化
     /// </summary>
-    void InitResult();
+    void InitResult(Vector3 cameraEye);
 
     /// <summary>
     /// 全タンクの更新処理
@@ -55,7 +55,7 @@ public:
     /// <param name="states"></param>
     /// <param name="view"></param>
     /// <param name="projection"></param>
-    void Draw(ID3D11DeviceContext1* context, unique_ptr<DirectX::CommonStates>&& states, DirectX::SimpleMath::Matrix view, DirectX::SimpleMath::Matrix projection)const;
+    void Draw(ID3D11DeviceContext1* context, DirectX::CommonStates* states, DirectX::SimpleMath::Matrix view, DirectX::SimpleMath::Matrix projection, ID3D11ShaderResourceView* tankTexture, ID3D11ShaderResourceView* engineTexture);
 
     /// <summary>
     /// タンクの取得
@@ -66,8 +66,8 @@ private:
     vector<Tank*> m_tank;                  //各タンクのインスタンス
     DirectX::GamePad* m_gamePad;   //コントローラーの状態を管理するポインタ
 
-    static const Vector3 m_initTitleTankPos[playerNum];
-    static const Vector3 m_initResultTankPos[playerNum];
+    static const Vector3 m_initTitleTankPos[playerNum];     //タイトル時の各タンクの座標
+    static const Vector3 m_initResultTankPos[playerNum];    //リザルト時の各タンクの座標
 
     static constexpr int m_maxBulletNum = 3;            //自分がステージ上に撃てる弾の最大数
 };

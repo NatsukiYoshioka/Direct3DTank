@@ -7,6 +7,7 @@
 #include"common.h"
 #include "BulletManager.h"
 
+//インスタンス生成
 BulletManager::BulletManager(vector<unique_ptr<DirectX::Model>>&& bulletModelHandle):
     m_bullets()
 {
@@ -16,6 +17,7 @@ BulletManager::BulletManager(vector<unique_ptr<DirectX::Model>>&& bulletModelHan
     }
 }
 
+//インスタンス破棄
 BulletManager::~BulletManager()
 {
     for (int i = initializeNum; m_bulletModelHandle.size(); i++)
@@ -24,6 +26,7 @@ BulletManager::~BulletManager()
     }
 }
 
+//弾全体の更新
 void BulletManager::Update(DirectX::SimpleMath::Matrix world, TankManager* tankManager, BlockManager* blockManager)
 {
     
@@ -66,13 +69,14 @@ void BulletManager::Update(DirectX::SimpleMath::Matrix world, TankManager* tankM
     }
 }
 
-void BulletManager::Draw(ID3D11DeviceContext1* context, unique_ptr<DirectX::CommonStates>&& states, DirectX::SimpleMath::Matrix view, DirectX::SimpleMath::Matrix projection)
+//弾全体の描画
+void BulletManager::Draw(ID3D11DeviceContext1* context, DirectX::CommonStates* states, DirectX::SimpleMath::Matrix view, DirectX::SimpleMath::Matrix projection)
 {
     for (int i = initializeNum; i < playerNum; i++)
     {
         for (int j = initializeNum; j < m_bullets[i].size(); j++)
         {
-            m_bullets[i].at(j)->Draw(context, move(states), view, projection);
+            m_bullets[i].at(j)->Draw(context, states, view, projection);
         }
     }
 }

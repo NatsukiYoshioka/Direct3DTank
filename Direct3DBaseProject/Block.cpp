@@ -2,6 +2,7 @@
 #include"common.h"
 #include "Block.h"
 
+//ブロックの生成
 Block::Block(unique_ptr<DirectX::Model>&& blockModelHandle, Vector3 pos, BlockManager::BlockType blockType):
     m_blockType(blockType),
     m_blockModelHandle(move(blockModelHandle)),
@@ -9,16 +10,16 @@ Block::Block(unique_ptr<DirectX::Model>&& blockModelHandle, Vector3 pos, BlockMa
     m_pos(pos),
     m_destroy(false)
 {
-    /*m_blockModelHandle->meshes.at(initializeNum)->boundingBox.Extents.x = m_extents;
-    m_blockModelHandle->meshes.at(initializeNum)->boundingBox.Extents.y = m_extents;
-    m_blockModelHandle->meshes.at(initializeNum)->boundingBox.Extents.z = m_extents;*/
+    
 }
 
+//データ解放
 Block::~Block()
 {
     m_blockModelHandle.reset();
 }
 
+//ブロックの更新
 void Block::Update(DirectX::SimpleMath::Matrix world)
 {
     m_local = XMMatrixTranslation(m_pos.x, m_pos.y, m_pos.z);
@@ -29,7 +30,8 @@ void Block::Update(DirectX::SimpleMath::Matrix world)
     m_blockModelHandle->meshes.at(initializeNum)->boundingBox.Center.z = m_pos.z;
 }
 
-void Block::Draw(ID3D11DeviceContext1* context, unique_ptr<DirectX::CommonStates>&& states, DirectX::SimpleMath::Matrix view, DirectX::SimpleMath::Matrix projection)
+//ブロックの描画
+void Block::Draw(ID3D11DeviceContext1* context, DirectX::CommonStates* states, DirectX::SimpleMath::Matrix view, DirectX::SimpleMath::Matrix projection)
 {
     m_blockModelHandle->Draw(context, *states, m_local, view, projection);
 }

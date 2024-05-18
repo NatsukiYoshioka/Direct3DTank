@@ -2,6 +2,9 @@
 
 using namespace DirectX;
 
+/// <summary>
+/// シーンの基底クラス
+/// </summary>
 class BaseScene
 {
 public:

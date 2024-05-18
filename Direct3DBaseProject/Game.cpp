@@ -18,6 +18,7 @@ using namespace DirectX::SimpleMath;
 using Microsoft::WRL::ComPtr;
 
 float Game::m_time = static_cast<float>(initializeNum);
+const Vector3 Game::m_resultCameraEye = Vector3(1.f, 1.5f, 14.0f);
 
 Game::Game() noexcept(false):
     m_load(nullptr),
@@ -87,7 +88,7 @@ void Game::Update(DX::StepTimer const& timer)
             m_tankManager->InitMainGame();
             break;
         case SceneManager::SCENE::RESULT:
-            m_tankManager->InitResult();
+            m_tankManager->InitResult(m_resultCameraEye);
             break;
         }
     }
@@ -112,7 +113,7 @@ void Game::Render()
 
     // TODO: Add your rendering code here.
     m_blockManager->Draw(context, m_load->GetStates(), m_view, m_proj);
-    m_tankManager->Draw(context, m_load->GetStates(), m_view, m_proj);
+    m_tankManager->Draw(context, m_load->GetStates(), m_view, m_proj, m_load->GetTankTexture(), m_load->GetEngineTexture());
     m_bulletManager->Draw(context, m_load->GetStates(), m_view, m_proj);
     context;
 
@@ -249,7 +250,7 @@ void Game::CreateWindowSizeDependentResources()
             float(size.right) / float(size.bottom), 0.1f, 500.f);
         break;
     case SceneManager::SCENE::RESULT:
-        m_view = Matrix::CreateLookAt(Vector3(1.f, 1.5f, 14.0f),
+        m_view = Matrix::CreateLookAt(m_resultCameraEye,
             Vector3(7.5f, 0.f, 7.5f), Vector3::UnitY);
         m_proj = Matrix::CreatePerspectiveFieldOfView(XM_PI / 4.f,
             float(size.right) / float(size.bottom), 0.1f, 500.f);

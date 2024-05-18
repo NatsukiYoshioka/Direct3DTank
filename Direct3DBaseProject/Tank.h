@@ -36,7 +36,7 @@ public:
     /// <summary>
     /// リザルトシーンでの初期化
     /// </summary>
-    void InitResult(Vector3 pos);
+    void InitResult(Vector3 pos, Vector3 cameraEye);
 
     /// <summary>
     /// タンク更新処理
@@ -51,9 +51,18 @@ public:
     /// <param name="states"></param>
     /// <param name="view"></param>
     /// <param name="projection"></param>
-    void Draw(ID3D11DeviceContext1* deviceContext, unique_ptr<DirectX::CommonStates>&& states, DirectX::SimpleMath::Matrix view, DirectX::SimpleMath::Matrix projection);
+    void Draw(ID3D11DeviceContext1* deviceContext, DirectX::CommonStates* states, DirectX::SimpleMath::Matrix view, DirectX::SimpleMath::Matrix projection);
 
-    void DrawFromTexture(ID3D11DeviceContext1* deviceContext, unique_ptr<DirectX::CommonStates>&& states, DirectX::SimpleMath::Matrix view, DirectX::SimpleMath::Matrix projection);
+    /// <summary>
+    /// タンクを別のテクスチャで描画
+    /// </summary>
+    /// <param name="deviceContext"></param>
+    /// <param name="states"></param>
+    /// <param name="view"></param>
+    /// <param name="projection"></param>
+    /// <param name="tankTexture"></param>
+    /// <param name="engineTexture"></param>
+    void DrawFromTexture(ID3D11DeviceContext1* deviceContext, DirectX::CommonStates* states, DirectX::SimpleMath::Matrix view, DirectX::SimpleMath::Matrix projection, ID3D11ShaderResourceView* tankTexture, ID3D11ShaderResourceView* engineTexture);
 
     /// <summary>
     /// タンクの座標取得
@@ -132,8 +141,8 @@ public:
     bool GetIsBreak() { return m_isBreak; }
 
 private:
-    int m_hp;
-    static constexpr int m_maxHp = 1;
+    int m_hp;                                           //プレイヤーの残機
+    static constexpr int m_maxHp = 1;                   //プレイヤーの最大残機
 
     float m_fireRecast;                                 //弾を再度打てるようになるまでの時間
     static constexpr float m_maxFireRecast = 2.5f;       //リキャスト時間
@@ -185,7 +194,10 @@ private:
     static const string m_canonName;
     static const string m_hatchName;
 
-    static constexpr float m_scale = 0.2f;
-    static constexpr float m_boundingboxExtents = 0.5f;
+    static constexpr float m_scale = 0.2f;              //戦車のスケール
+    static constexpr float m_boundingboxExtents = 0.5f; //戦車の当たり判定範囲
+
+    static const Vector2 m_resultLookAt;
+    static constexpr int m_shaderNumVeiw = 1;
 };
 

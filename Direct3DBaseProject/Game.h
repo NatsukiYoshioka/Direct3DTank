@@ -15,6 +15,8 @@ class TankManager;
 class BulletManager;
 class SceneManager;
 
+using namespace DirectX::SimpleMath;
+
 // A basic game implementation that creates a D3D11 device and
 // provides a game loop.
 class Game final : public DX::IDeviceNotify
@@ -66,6 +68,8 @@ private:
     SceneManager* m_sceneManager;
 
     unique_ptr<DirectX::GamePad> m_gamePad;
+
+    static const Vector3 m_resultCameraEye;
 
     void Update(DX::StepTimer const& timer);
     void Render();

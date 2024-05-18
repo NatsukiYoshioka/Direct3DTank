@@ -44,6 +44,7 @@ BlockManager::~BlockManager()
     }
 }
 
+//ステージの初期化
 void BlockManager::Init()
 {
 
@@ -59,10 +60,10 @@ void BlockManager::Update(DirectX::SimpleMath::Matrix world)
 }
 
 //全ブロックの描画
-void BlockManager::Draw(ID3D11DeviceContext1* context, unique_ptr<DirectX::CommonStates>&& states, DirectX::SimpleMath::Matrix view, DirectX::SimpleMath::Matrix projection)
+void BlockManager::Draw(ID3D11DeviceContext1* context, DirectX::CommonStates* states, DirectX::SimpleMath::Matrix view, DirectX::SimpleMath::Matrix projection)
 {
     for (int i = initializeNum; i < m_blocks.size(); i++)
     {
-        m_blocks.at(i)->Draw(context, move(states), view, projection);
+        m_blocks.at(i)->Draw(context, states, view, projection);
     }
 }

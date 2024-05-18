@@ -14,12 +14,11 @@ using json = nlohmann::json;
 Load* Load::m_load = nullptr;
 const string Load::m_fileName = "data.json";
 
-ID3D11ShaderResourceView* Load::m_tankTexture;
-ID3D11ShaderResourceView* Load::m_engineTexture;
-
 //コンストラクタ
 Load::Load():
-	m_blockUnderWoods(initializeNum)
+	m_blockUnderWoods(initializeNum),
+	m_tankTexture(nullptr),
+	m_engineTexture(nullptr)
 {
 	
 }
@@ -27,7 +26,7 @@ Load::Load():
 //データの解放
 Load::~Load()
 {
-
+	m_states.reset();
 }
 
 //インスタンス生成

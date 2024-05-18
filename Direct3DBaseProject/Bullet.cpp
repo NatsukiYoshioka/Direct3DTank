@@ -64,11 +64,12 @@ void Bullet::Update(DirectX::SimpleMath::Matrix world)
 }
 
 //’e‚Ì•`‰æ
-void Bullet::Draw(ID3D11DeviceContext1* deviceContext, unique_ptr<DirectX::CommonStates>&& states, DirectX::SimpleMath::Matrix view, DirectX::SimpleMath::Matrix projection)
+void Bullet::Draw(ID3D11DeviceContext1* deviceContext, DirectX::CommonStates* states, DirectX::SimpleMath::Matrix view, DirectX::SimpleMath::Matrix projection)
 {
     m_bulletModelHandle->Draw(deviceContext, *states, m_local, view, projection);
 }
 
+//’e‚ÆƒXƒe[ƒW‚Æ‚Ì“–‚½‚è”»’è
 bool Bullet::CheckHitBlock(BoundingBox blockBox, Vector3 blockPos)
 {
     m_isHitBlock = m_bulletModelHandle->meshes.at(initializeNum)->boundingBox.Intersects(blockBox);

@@ -34,6 +34,7 @@ TankManager::~TankManager()
     }
 }
 
+//タイトル時の初期化
 void TankManager::InitTitle()
 {
     float playerAngle[playerNum];
@@ -45,6 +46,7 @@ void TankManager::InitTitle()
     }
 }
 
+//メインゲーム時の初期化
 void TankManager::InitMainGame()
 {
     for (int i = initializeNum; i < playerNum; i++)
@@ -53,17 +55,18 @@ void TankManager::InitMainGame()
     }
 }
 
-void TankManager::InitResult()
+//リザルト時の初期化
+void TankManager::InitResult(Vector3 cameraEye)
 {
     for (int i = initializeNum; i < playerNum; i++)
     {
         if (m_tank[i]->GetIsBreak())
         {
-            m_tank[i]->InitResult(m_initResultTankPos[0]);
+            m_tank[i]->InitResult(m_initResultTankPos[1], cameraEye);
         }
         else
         {
-            m_tank[i]->InitResult(m_initResultTankPos[1]);
+            m_tank[i]->InitResult(m_initResultTankPos[0], cameraEye);
         }
     }
 }
@@ -106,8 +109,8 @@ void TankManager::Update(DirectX::SimpleMath::Matrix world, BlockManager* blockM
 }
 
 //全タンクの描画
-void TankManager::Draw(ID3D11DeviceContext1* context, unique_ptr<DirectX::CommonStates>&& states, DirectX::SimpleMath::Matrix view, DirectX::SimpleMath::Matrix projection) const
+void TankManager::Draw(ID3D11DeviceContext1* context, DirectX::CommonStates* states, DirectX::SimpleMath::Matrix view, DirectX::SimpleMath::Matrix projection, ID3D11ShaderResourceView* tankTexture, ID3D11ShaderResourceView* engineTexture)
 {
-    m_tank[player1]->Draw(context, move(states), view, projection);
-    m_tank[player2]->DrawFromTexture(context, move(states), view, projection);
+    m_tank[player1]->Draw(context, states, view, projection);
+    m_tank[player2]->DrawFromTexture(context, states, view, projection, tankTexture, engineTexture);
 }

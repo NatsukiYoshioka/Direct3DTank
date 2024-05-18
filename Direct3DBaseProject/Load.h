@@ -102,11 +102,23 @@ public:
 	/// <returns></returns>
 	vector<unique_ptr<DirectX::Model>>&& GetWoodParticleModelHandle() { return move(m_woodParticleModelHandle); }
 
-	unique_ptr<DirectX::CommonStates>&& GetStates() { return move(m_states); }
+	/// <summary>
+	/// D3DStateオブジェクトの取得
+	/// </summary>
+	/// <returns></returns>
+	DirectX::CommonStates* GetStates() { return m_states.get(); }
 
-	static ID3D11ShaderResourceView* const* GetTankTexture() { return &m_tankTexture; }
+	/// <summary>
+	/// 戦車の別のテクスチャを取得
+	/// </summary>
+	/// <returns></returns>
+	ID3D11ShaderResourceView* GetTankTexture() { return m_tankTexture; }
 
-	static ID3D11ShaderResourceView* const* GetEngineTexture() { return &m_engineTexture; }
+	/// <summary>
+	/// 戦車のエンジンの別のテクスチャを取得
+	/// </summary>
+	/// <returns></returns>
+	ID3D11ShaderResourceView* GetEngineTexture() { return m_engineTexture; }
 
 private:
 	static Load* m_load;				//ロードクラスのインスタンス
@@ -114,13 +126,13 @@ private:
 	static const string m_fileName;		//jsonファイル名
 	json m_json;						//jsonファイルの情報を格納
 
-	unique_ptr<DirectX::CommonStates> m_states;
-	unique_ptr<DirectX::IEffectFactory> m_fxFactory;
+	unique_ptr<DirectX::CommonStates> m_states;		//D3DStateオブジェクト
+	unique_ptr<DirectX::IEffectFactory> m_fxFactory;//モデルロード用ヘルパーオブジェクト
 
 	vector<unique_ptr<DirectX::Model>> m_tankModelHandle;	//戦車のモデルハンドル配列
 	vector<Vector3> m_tankPos;								//戦車の座標配列
-	static ID3D11ShaderResourceView* m_tankTexture;
-	static ID3D11ShaderResourceView* m_engineTexture;
+	ID3D11ShaderResourceView* m_tankTexture;				//戦車の別のテクスチャ
+	ID3D11ShaderResourceView* m_engineTexture;				//戦車の別のエンジンテクスチャ
 
 	vector<unique_ptr<DirectX::Model>> m_bulletModelHandle;			//弾のモデルハンドル
 
@@ -130,9 +142,9 @@ private:
 	vector<unique_ptr<DirectX::Model>> m_groundBlockModelHandle;	//ブロックモデルハンドル配列
 	int m_blockUnderWoods;							//木ブロックの下にあるブロックの数
 
-	vector<unique_ptr<DirectX::Model>> m_woodParticleModelHandle;
-	static constexpr int m_maxWoodParticleNum = 60;
+	vector<unique_ptr<DirectX::Model>> m_woodParticleModelHandle;	//木ブロックの破壊エフェクト用パーティクルモデル
+	static constexpr int m_maxWoodParticleNum = 60;					//パーティクルの最大数
 
-	static constexpr int m_maxBulletNum = 6;
+	static constexpr int m_maxBulletNum = 6;						//弾の最大数
 };
 

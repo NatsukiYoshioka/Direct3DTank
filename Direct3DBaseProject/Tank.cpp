@@ -1,3 +1,4 @@
+#define NOMINMAX
 #include<string>
 #include "pch.h"
 #include"Game.h"
@@ -15,6 +16,8 @@ const string Tank::m_rightFrontWheelName = "r_front_wheel_geo";
 const string Tank::m_turretName = "turret_geo";
 const string Tank::m_canonName = "canon_geo";
 const string Tank::m_hatchName = "hatch_geo";
+
+const Vector2 Tank::m_resultLookAt(1.f, 12.f);
 
 extern void ExitGame() noexcept;
 
@@ -84,6 +87,7 @@ Tank::~Tank()
     m_tankModelHandle.reset();
 }
 
+//タイトル時の初期化
 void Tank::InitTitle(Vector3 pos, float angle)
 {
     m_pos = pos;
@@ -94,6 +98,7 @@ void Tank::InitTitle(Vector3 pos, float angle)
     m_isBreak = false;
 }
 
+//メインゲーム時の初期化
 void Tank::InitMainGame()
 {
     m_pos = m_initMainGamePos;
@@ -103,7 +108,8 @@ void Tank::InitMainGame()
     m_fireRecast = static_cast<float>(initializeNum);
 }
 
-void Tank::InitResult(Vector3 pos)
+//リザルト時の初期化
+void Tank::InitResult(Vector3 pos, Vector3 cameraEye)
 {
     m_isMove = false;
     m_isMoveLeft = false;
@@ -111,8 +117,8 @@ void Tank::InitResult(Vector3 pos)
     m_isFire = false;
 
     m_pos = pos;
-    m_angle = atan2f(1.f - m_pos.x, 12.f - m_pos.z);
-    m_turretRotation = atan2f(1.f - m_pos.x, 14.f - m_pos.z);
+    m_angle = atan2f(m_resultLookAt.x - m_pos.x, m_resultLookAt.y - m_pos.z);
+    m_turretRotation = atan2f(cameraEye.x - m_pos.x, cameraEye.z - m_pos.z);
 }
 
 //タンクの更新処理
@@ -137,7 +143,7 @@ void Tank::Update(DirectX::SimpleMath::Matrix world, DirectX::GamePad::State pad
 }
 
 //タンクの描画処理
-void Tank::Draw(ID3D11DeviceContext1* deviceContext, unique_ptr<DirectX::CommonStates>&& states, DirectX::SimpleMath::Matrix view, DirectX::SimpleMath::Matrix projection)
+void Tank::Draw(ID3D11DeviceContext1* deviceContext, DirectX::CommonStates* states, DirectX::SimpleMath::Matrix view, DirectX::SimpleMath::Matrix projection)
 {
     auto context = deviceContext;
 
@@ -148,7 +154,8 @@ void Tank::Draw(ID3D11DeviceContext1* deviceContext, unique_ptr<DirectX::CommonS
     m_tankModelHandle->Draw(context, *states, nbones, m_drawBones.get(), m_local, view, projection);
 }
 
-void Tank::DrawFromTexture(ID3D11DeviceContext1* deviceContext, unique_ptr<DirectX::CommonStates>&& states, DirectX::SimpleMath::Matrix view, DirectX::SimpleMath::Matrix projection)
+//タンクを別のテクスチャで描画
+void Tank::DrawFromTexture(ID3D11DeviceContext1* deviceContext, DirectX::CommonStates* states, DirectX::SimpleMath::Matrix view, DirectX::SimpleMath::Matrix projection, ID3D11ShaderResourceView* tankTexture, ID3D11ShaderResourceView* engineTexture)
 {
     auto context = deviceContext;
 
@@ -158,11 +165,12 @@ void Tank::DrawFromTexture(ID3D11DeviceContext1* deviceContext, unique_ptr<Direc
 
     m_tankModelHandle->Draw(context, *states, nbones, m_drawBones.get(), m_local, view, projection, false, [&]
         {
-            context->PSSetShaderResources(0, 1, Load::GetTankTexture());
-            context->PSSetShaderResources(0, 1, Load::GetEngineTexture());
+            context->PSSetShaderResources(initializeNum, m_shaderNumVeiw, &tankTexture);
+            context->PSSetShaderResources(initializeNum, m_shaderNumVeiw, &engineTexture);
         });
 }
 
+//入力処理更新
 void Tank::UpdateInput(DirectX::GamePad::State padState)
 {
     if (padState.IsConnected())
@@ -214,6 +222,7 @@ void Tank::UpdateInput(DirectX::GamePad::State padState)
 void Tank::UpdateAnimation(SceneManager::SCENE sceneState)
 {
     float wheelRotation = Game::GetTime() * m_wheelRotationSpeed;
+    //float hatchRotation = min(0.f, max(sinf(Game::GetTime() * 4.f) * 2.f, -1.f));
     XMMATRIX mat;
     if (m_isMove || sceneState == SceneManager::SCENE::TITLE)
     {
@@ -238,13 +247,14 @@ void Tank::UpdateAnimation(SceneManager::SCENE sceneState)
 
     if (sceneState == SceneManager::SCENE::RESULT)
     {
-        if (m_hp)
+        if (!m_hp)
         {
             mat = XMMatrixRotationX(m_canonRotation);
         }
         else
         {
             mat = XMMatrixRotationX(-m_canonRotation);
+            //m_animBones[m_hatchBone] = XMMatrixMultiply(XMMatrixRotationX(hatchRotation), m_tankModelHandle->boneMatrices[m_hatchBone]);
         }
     }
     else
@@ -311,6 +321,7 @@ void Tank::CheckHitBlockTank(BoundingBox blockBox, Vector3 blockPos)
     }
 }
 
+//弾と戦車との当たり判定
 bool Tank::CheckHitBullet(BoundingBox bulletBox, Vector3 bulletPos)
 {
     m_isHitBullet = m_tankModelHandle->meshes.at(initializeNum)->boundingBox.Intersects(bulletBox);

@@ -4,17 +4,20 @@
 
 extern void ExitGame() noexcept;
 
+//リザルトシーン生成
 ResultScene::ResultScene():
     isFinish(false)
 {
 
 }
 
+//リザルトシーン破棄
 ResultScene::~ResultScene()
 {
 
 }
 
+//リザルトシーン更新
 void ResultScene::Update(DirectX::GamePad::State padState)
 {
     if (padState.IsConnected())
@@ -30,6 +33,7 @@ void ResultScene::Update(DirectX::GamePad::State padState)
     }
 }
 
+//リザルトシーン描画
 void ResultScene::Draw()
 {
 
