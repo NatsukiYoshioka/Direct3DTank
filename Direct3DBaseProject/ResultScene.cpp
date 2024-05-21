@@ -34,7 +34,7 @@ void ResultScene::Update(DirectX::GamePad::State padState)
 }
 
 //リザルトシーン描画
-void ResultScene::Draw()
+void ResultScene::Draw(DirectX::SpriteFont* defaultfont, DirectX::SpriteBatch* spriteBatch)
 {
 
 }

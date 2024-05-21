@@ -1,5 +1,9 @@
 #pragma once
 
+using namespace std;
+using namespace DirectX;
+using namespace DirectX::SimpleMath;
+
 class BaseScene;
 
 class TitleScene:public BaseScene
@@ -8,7 +12,7 @@ public:
 	/// <summary>
 	/// タイトルシーンの生成
 	/// </summary>
-	TitleScene();
+	TitleScene(vector<Microsoft::WRL::ComPtr<ID3D11ShaderResourceView>> titleUI, vector<Vector2> titleUIPos);
 
 	/// <summary>
 	/// タイトルシーンの破棄
@@ -24,7 +28,7 @@ public:
 	/// <summary>
 	/// タイトルシーンの描画
 	/// </summary>
-	void Draw();
+	void Draw(DirectX::SpriteFont* defaultfont, DirectX::SpriteBatch* spriteBatch);
 
 	/// <summary>
 	/// シーンが終了したかどうか
@@ -32,6 +36,13 @@ public:
 	/// <returns></returns>
 	bool GetIsFinish() { return isFinish; }
 private:
+	static const Vector2 m_titlePos;	//タイトルの座標
+	static const Vector2 m_titleScale;	//タイトルのスケール
+	static constexpr const wchar_t* m_title = L"vs TANK!";	//タイトル名
+
+	vector<Microsoft::WRL::ComPtr<ID3D11ShaderResourceView>> m_titleUI;//タイトルUI
+	vector<Vector2> m_titleUIPos;									   //タイトルUI座標
+
 	bool isFinish;			//シーンが終了したかどうか
 };
 

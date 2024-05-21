@@ -71,6 +71,8 @@ private:
 
     static const Vector3 m_resultCameraEye;
 
+    std::unique_ptr<DirectX::SpriteBatch> m_spriteBatch;
+
     void Update(DX::StepTimer const& timer);
     void Render();
 

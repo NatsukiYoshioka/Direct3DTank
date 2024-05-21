@@ -120,6 +120,24 @@ public:
 	/// <returns></returns>
 	ID3D11ShaderResourceView* GetEngineTexture() { return m_engineTexture; }
 
+	/// <summary>
+	/// デフォルトフォント取得
+	/// </summary>
+	/// <returns></returns>
+	unique_ptr<DirectX::SpriteFont>&& GetDefaultFont() { return move(m_defaultFontHandle); }
+
+	/// <summary>
+	/// タイトルUIの取得
+	/// </summary>
+	/// <returns></returns>
+	vector<Microsoft::WRL::ComPtr<ID3D11ShaderResourceView>> GetTitleUI() { return m_titleUI; }
+
+	/// <summary>
+	/// タイトルUIの座標取得
+	/// </summary>
+	/// <returns></returns>
+	vector<Vector2> GetTitleUIPos() { return m_titleUIPos; }
+
 private:
 	static Load* m_load;				//ロードクラスのインスタンス
 
@@ -128,6 +146,13 @@ private:
 
 	unique_ptr<DirectX::CommonStates> m_states;		//D3DStateオブジェクト
 	unique_ptr<DirectX::IEffectFactory> m_fxFactory;//モデルロード用ヘルパーオブジェクト
+
+	unique_ptr<DirectX::SpriteFont> m_defaultFontHandle;			//ゲーム内のデフォルトフォント
+
+	vector<Microsoft::WRL::ComPtr<ID3D11ShaderResourceView>> m_titleUI;//タイトルUI
+	vector<Vector2> m_titleUIPos;									   //タイトルUI座標
+	static constexpr int m_xIndex = 0;
+	static constexpr int m_yIndex = 1;
 
 	vector<unique_ptr<DirectX::Model>> m_tankModelHandle;	//戦車のモデルハンドル配列
 	vector<Vector3> m_tankPos;								//戦車の座標配列

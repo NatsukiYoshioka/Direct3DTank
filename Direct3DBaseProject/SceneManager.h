@@ -1,5 +1,9 @@
 #pragma once
 
+using namespace std;
+using namespace DirectX;
+using namespace DirectX::SimpleMath;
+
 class BaseScene;
 class TankManager;
 
@@ -10,7 +14,7 @@ private:
 	/// コンストラクタ
 	/// </summary>
 	/// <param name="gamePad">DirectX::GamePad</param>
-	SceneManager(DirectX::GamePad* gamePad);
+	SceneManager(DirectX::GamePad* gamePad, unique_ptr<DirectX::SpriteFont>&& defaultFontHandle, vector<Microsoft::WRL::ComPtr<ID3D11ShaderResourceView>> titleUI, vector<Vector2> titleUIPos);
 
 	/// <summary>
 	/// デストラクタ
@@ -31,7 +35,7 @@ public:
 	/// インスタンス生成
 	/// </summary>
 	/// <param name="gamePad">DIrectX::GamePad</param>
-	static void CreateInstance(DirectX::GamePad* gamePad);
+	static void CreateInstance(DirectX::GamePad* gamePad, unique_ptr<DirectX::SpriteFont>&& defaultFontHandle, vector<Microsoft::WRL::ComPtr<ID3D11ShaderResourceView>> titleUI, vector<Vector2> titleUIPos);
 
 	/// <summary>
 	/// インスタンス破棄
@@ -71,15 +75,20 @@ public:
 	/// <summary>
 	/// シーンの描画
 	/// </summary>
-	void Draw();
+	void Draw(DirectX::SpriteBatch* spriteBatch);
 
 private:
-	static SceneManager* m_sceneManager;			//シングルトンのインスタンス
-	BaseScene* m_nowScene;							//シーンのインスタンス
-	SCENE m_sceneState;								//シーンの状態
+	static SceneManager* m_sceneManager;				//シングルトンのインスタンス
+	BaseScene* m_nowScene;								//シーンのインスタンス
+	SCENE m_sceneState;									//シーンの状態
 
-	DirectX::GamePad* m_gamePad;					//ゲームパッドヘルパーオブジェクト
+	DirectX::GamePad* m_gamePad;						//ゲームパッドヘルパーオブジェクト
 
-	bool isChange;									//シーンが変わったかどうか
+	unique_ptr<DirectX::SpriteFont> m_defaultFontHandle;//デフォルトフォントハンドル
+
+	vector<Microsoft::WRL::ComPtr<ID3D11ShaderResourceView>> m_titleUI;//タイトルUI
+	vector<Vector2> m_titleUIPos;									   //タイトルUI座標
+
+	bool isChange;										//シーンが変わったかどうか
 };
 

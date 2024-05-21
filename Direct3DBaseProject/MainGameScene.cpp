@@ -22,7 +22,7 @@ void MainGameScene::Update(DirectX::GamePad::State padState)
 }
 
 //ƒƒCƒ“ƒV[ƒ“•`‰æ
-void MainGameScene::Draw()
+void MainGameScene::Draw(DirectX::SpriteFont* defaultfont, DirectX::SpriteBatch* spriteBatch)
 {
 
 }

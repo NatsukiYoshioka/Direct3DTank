@@ -1,5 +1,8 @@
 #pragma once
 
+using namespace DirectX;
+using namespace DirectX::SimpleMath;
+
 class BaseScene;
 
 class MainGameScene:public BaseScene
@@ -24,7 +27,7 @@ public:
 	/// <summary>
 	/// メインゲームシーン描画
 	/// </summary>
-	void Draw();
+	void Draw(DirectX::SpriteFont* defaultfont, DirectX::SpriteBatch* spriteBatch);
 
 	/// <summary>
 	/// シーンが終了したかどうか取得

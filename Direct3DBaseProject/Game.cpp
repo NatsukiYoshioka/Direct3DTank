@@ -115,6 +115,7 @@ void Game::Render()
     m_blockManager->Draw(context, m_load->GetStates(), m_view, m_proj);
     m_tankManager->Draw(context, m_load->GetStates(), m_view, m_proj, m_load->GetTankTexture(), m_load->GetEngineTexture());
     m_bulletManager->Draw(context, m_load->GetStates(), m_view, m_proj);
+    m_sceneManager->Draw(m_spriteBatch.get());
     context;
 
     m_deviceResources->PIXEndEvent();
@@ -206,9 +207,12 @@ void Game::GetDefaultSize(int& width, int& height) const noexcept
 void Game::CreateDeviceDependentResources()
 {
     auto device = m_deviceResources->GetD3DDevice();
+    auto context = m_deviceResources->GetD3DDeviceContext();
 
     // TODO: Initialize device dependent objects here (independent of window size).
     //オブジェクトのロード
+    m_spriteBatch = std::make_unique<SpriteBatch>(context);
+
     Load::CreateInstance();
     m_load = Load::GetInstance();
     m_load->ReadFile();
@@ -216,7 +220,7 @@ void Game::CreateDeviceDependentResources()
 
     m_gamePad = make_unique<GamePad>();
 
-    SceneManager::CreateInstance(m_gamePad.get());
+    SceneManager::CreateInstance(m_gamePad.get(), m_load->GetDefaultFont(), m_load->GetTitleUI(), m_load->GetTitleUIPos());
 
     m_sceneManager = SceneManager::GetInstance();
 

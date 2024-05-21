@@ -11,7 +11,9 @@ static constexpr float blockSize = 1.f;				//ブロックの幅
 
 static constexpr int player1 = 0;					//プレイヤー1のindex
 static constexpr int player2 = 1;					//プレイヤー2のindex
-static constexpr int playerNum = 2;				//プレイヤー数
+static constexpr int playerNum = 2;					//プレイヤー数
+
+static constexpr float hemipartition = 2.f;			//半分割用
 
 /// <summary>
 /// jsonの値をwchar_t方に変換

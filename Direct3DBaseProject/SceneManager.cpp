@@ -11,26 +11,33 @@
 SceneManager* SceneManager::m_sceneManager = nullptr;
 
 //コンストラクタ
-SceneManager::SceneManager(DirectX::GamePad* gamePad):
+SceneManager::SceneManager(DirectX::GamePad* gamePad, unique_ptr<DirectX::SpriteFont>&& defaultFontHandle, vector<Microsoft::WRL::ComPtr<ID3D11ShaderResourceView>> titleUI, vector<Vector2> titleUIPos):
 	m_sceneState(SCENE::TITLE),
+	m_defaultFontHandle(move(defaultFontHandle)),
+	m_titleUI(titleUI),
+	m_titleUIPos(titleUIPos),
 	isChange(false)
 {
 	m_gamePad = gamePad;
-	m_nowScene = new TitleScene();
+	m_nowScene = new TitleScene(m_titleUI, m_titleUIPos);
 }
 
 //デストラクタ
 SceneManager::~SceneManager()
 {
-
+	m_defaultFontHandle.reset();
+	for (int i = initializeNum; i < m_titleUI.size(); i++)
+	{
+		m_titleUI.at(i).Reset();
+	}
 }
 
 //インスタンス生成
-void SceneManager::CreateInstance(DirectX::GamePad* gamePad)
+void SceneManager::CreateInstance(DirectX::GamePad* gamePad, unique_ptr<DirectX::SpriteFont>&& defaultFontHandle, vector<Microsoft::WRL::ComPtr<ID3D11ShaderResourceView>> titleUI, vector<Vector2> titleUIPos)
 {
 	if (!m_sceneManager)
 	{
-		m_sceneManager = new SceneManager(gamePad);
+		m_sceneManager = new SceneManager(gamePad, move(defaultFontHandle), titleUI, titleUIPos);
 	}
 }
 
@@ -56,7 +63,7 @@ void SceneManager::ChangeScene(SCENE sceneState)
 	switch (m_sceneState)
 	{
 	case SCENE::TITLE:
-		m_nowScene = new TitleScene();
+		m_nowScene = new TitleScene(m_titleUI, m_titleUIPos);
 		break;
 	case SCENE::MAINGAME:
 		m_nowScene = new MainGameScene();
@@ -94,7 +101,7 @@ void SceneManager::Update(TankManager* tankManager)
 }
 
 //シーンの描画
-void SceneManager::Draw()
+void SceneManager::Draw(DirectX::SpriteBatch* spriteBatch)
 {
-	m_nowScene->Draw();
+	m_nowScene->Draw(m_defaultFontHandle.get(), spriteBatch);
 }
