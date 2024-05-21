@@ -40,11 +40,13 @@ void TitleScene::Draw(DirectX::SpriteFont* defaultfont, DirectX::SpriteBatch* sp
 {
     auto defaultFont = defaultfont;
     auto spriteBatch = spritebatch;
-    spriteBatch->Begin();
 
-    Vector2 origin = defaultFont->MeasureString(m_title) / hemipartition;
+    Vector2 origin;
     
-
+    for (int i = initializeNum; i < m_titleUI.size(); i++)
+    {
+        spriteBatch->Draw(m_titleUI.at(i).Get(), m_titleUIPos.at(i), nullptr, Colors::White, static_cast<float>(initializeNum), Vector2::Zero, 2.0f);
+    }
+    origin = defaultFont->MeasureString(m_title) / hemipartition;
     defaultFont->DrawString(spriteBatch, m_title, m_titlePos, Colors::BurlyWood, static_cast<float>(initializeNum), origin, m_titleScale);
-    spriteBatch->End();
 }

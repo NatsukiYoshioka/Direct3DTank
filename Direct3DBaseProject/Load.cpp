@@ -142,13 +142,15 @@ void Load::LoadData(ID3D11Device* deviceResources)
 
 	//タイトルUIのロード
 	m_titleUI.assign(m_json["TitleUI"].size(), nullptr);
-	Microsoft::WRL::ComPtr<ID3D11Resource> resource;
 	Microsoft::WRL::ComPtr<ID3D11Texture2D> texture;
 	for (int i = initializeNum; i < m_json["TitleUI"].size(); i++)
 	{
 		str = m_json["TitleUI"].at(i);
-		DX::ThrowIfFailed(CreateWICTextureFromFile(device, Widen(str).c_str(), resource.GetAddressOf(), m_titleUI.at(i).ReleaseAndGetAddressOf()));
-		
+		//Microsoft::WRL::ComPtr<ID3D11Resource> resource;
+		DX::ThrowIfFailed(CreateWICTextureFromFile(device, Widen(str).c_str(), nullptr, m_titleUI.at(i).ReleaseAndGetAddressOf()));
+		//DX::ThrowIfFailed(resource.As(&texture));
+		//CD3D11_TEXTURE2D_DESC textureDesc;
+		//texture->GetDesc(&textureDesc);
 		m_titleUIPos.push_back(Vector2(m_json["TitleUIPos"][i].at(m_xIndex), m_json["TitleUIPos"][i].at(m_yIndex)));
 	}
 }
