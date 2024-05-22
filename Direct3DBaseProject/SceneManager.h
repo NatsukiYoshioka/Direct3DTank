@@ -14,7 +14,7 @@ private:
 	/// コンストラクタ
 	/// </summary>
 	/// <param name="gamePad">DirectX::GamePad</param>
-	SceneManager(DirectX::GamePad* gamePad, unique_ptr<DirectX::SpriteFont>&& defaultFontHandle, vector<Microsoft::WRL::ComPtr<ID3D11ShaderResourceView>> titleUI, vector<Vector2> titleUIPos);
+	SceneManager(DirectX::GamePad* gamePad, unique_ptr<DirectX::SpriteFont>&& defaultFontHandle, vector<Microsoft::WRL::ComPtr<ID3D11ShaderResourceView>> titleUI, vector<Vector2> titleUIPos, vector<float> titleUIScale);
 
 	/// <summary>
 	/// デストラクタ
@@ -35,7 +35,7 @@ public:
 	/// インスタンス生成
 	/// </summary>
 	/// <param name="gamePad">DIrectX::GamePad</param>
-	static void CreateInstance(DirectX::GamePad* gamePad, unique_ptr<DirectX::SpriteFont>&& defaultFontHandle, vector<Microsoft::WRL::ComPtr<ID3D11ShaderResourceView>> titleUI, vector<Vector2> titleUIPos);
+	static void CreateInstance(DirectX::GamePad* gamePad, unique_ptr<DirectX::SpriteFont>&& defaultFontHandle, vector<Microsoft::WRL::ComPtr<ID3D11ShaderResourceView>> titleUI, vector<Vector2> titleUIPos, vector<float> titleUIScale);
 
 	/// <summary>
 	/// インスタンス破棄
@@ -88,6 +88,7 @@ private:
 
 	vector<Microsoft::WRL::ComPtr<ID3D11ShaderResourceView>> m_titleUI;//タイトルUI
 	vector<Vector2> m_titleUIPos;									   //タイトルUI座標
+	vector<float> m_titleUIScale;									   //タイトルUIスケール
 
 	bool isChange;										//シーンが変わったかどうか
 };

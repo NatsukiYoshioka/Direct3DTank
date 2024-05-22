@@ -2,11 +2,30 @@
     "DefaultFont": "buddy.spritefont",
 
     "TitleUI": [
-        "TITLE.png"
+        "TITLE.png",
+        "BTN_Big2.png",
+        "BTN_Big2.png",
+        "BTN_Big.png",
+        "BTN_Big.png",
+        "board.png"
     ],
 
     "TitleUIPos": [
-        [590,90]
+        [ 590, 90 ],
+        [ 550, 780 ],
+        [ 1050, 780 ],
+        [ 550, 780 ],
+        [ 1050, 780 ],
+        [ 850, 500 ]
+    ],
+
+    "TitleUIScale": [
+        2,
+        1,
+        1,
+        1,
+        1,
+        1
     ],
 
     "TankAPath": "tank.sdkmesh",

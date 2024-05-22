@@ -138,6 +138,12 @@ public:
 	/// <returns></returns>
 	vector<Vector2> GetTitleUIPos() { return m_titleUIPos; }
 
+	/// <summary>
+	/// タイトルUIのスケール取得
+	/// </summary>
+	/// <returns></returns>
+	vector<float> GetTitleUIScale() { return m_titleUIScale; }
+
 private:
 	static Load* m_load;				//ロードクラスのインスタンス
 
@@ -151,6 +157,7 @@ private:
 
 	vector<Microsoft::WRL::ComPtr<ID3D11ShaderResourceView>> m_titleUI;//タイトルUI
 	vector<Vector2> m_titleUIPos;									   //タイトルUI座標
+	vector<float> m_titleUIScale;									   //タイトルUIスケール
 	static constexpr int m_xIndex = 0;
 	static constexpr int m_yIndex = 1;
 

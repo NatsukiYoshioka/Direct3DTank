@@ -50,7 +50,6 @@ void Game::Initialize(HWND window, int width, int height)
     
     m_timer.SetFixedTimeStep(true);
     m_timer.SetTargetElapsedSeconds(1.0 / 60);
-    
 }
 
 #pragma region Frame Update
@@ -222,7 +221,7 @@ void Game::CreateDeviceDependentResources()
 
     m_gamePad = make_unique<GamePad>();
 
-    SceneManager::CreateInstance(m_gamePad.get(), m_load->GetDefaultFont(), m_load->GetTitleUI(), m_load->GetTitleUIPos());
+    SceneManager::CreateInstance(m_gamePad.get(), m_load->GetDefaultFont(), m_load->GetTitleUI(), m_load->GetTitleUIPos(), m_load->GetTitleUIScale());
 
     m_sceneManager = SceneManager::GetInstance();
 
