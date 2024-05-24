@@ -2,6 +2,7 @@
 
 using namespace DirectX;
 using namespace DirectX::SimpleMath;
+using namespace std;
 
 class BaseScene;
 
@@ -11,7 +12,7 @@ public:
 	/// <summary>
 	/// メインゲームシーン生成
 	/// </summary>
-	MainGameScene();
+	MainGameScene(vector<Microsoft::WRL::ComPtr<ID3D11ShaderResourceView>> mainGameUI, vector<Vector2> mainGameUIPos, vector<float> mainGameUIScale);
 
 	/// <summary>
 	/// メインゲームシーン破棄
@@ -35,6 +36,12 @@ public:
 	/// <returns></returns>
 	bool GetIsFinish() { return isFinish; }
 private:
+	vector<Microsoft::WRL::ComPtr<ID3D11ShaderResourceView>> m_mainGameUI; //タイトルUI
+	vector<Vector2> m_mainGameUIPos;									   //タイトルUI座標
+	vector<float> m_mainGameUIScale;									   //タイトルUIスケール
+
+	static constexpr float m_UIDepth = 0.1f;
+
 	bool isFinish;		//シーンが終了したかどうか
 };
 

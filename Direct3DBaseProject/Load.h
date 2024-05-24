@@ -58,7 +58,7 @@ public:
 	/// データのロード
 	/// </summary>
 	/// <param name="deviceResources">ゲームデバイス</param>
-	void LoadData(ID3D11Device* deviceResources);
+	void LoadData(ID3D11Device* deviceResources, ID3D11DeviceContext* context);
 
 	/// <summary>
 	/// タンクモデルハンドル配列を取得
@@ -144,6 +144,24 @@ public:
 	/// <returns></returns>
 	vector<float> GetTitleUIScale() { return m_titleUIScale; }
 
+	/// <summary>
+	/// メインゲームUIの取得
+	/// </summary>
+	/// <returns></returns>
+	vector<Microsoft::WRL::ComPtr<ID3D11ShaderResourceView>> GetMainGameUI() { return m_mainGameUI; }
+
+	/// <summary>
+	/// メインゲームUIの座標取得
+	/// </summary>
+	/// <returns></returns>
+	vector<Vector2> GetMainGameUIPos() { return m_mainGameUIPos; }
+
+	/// <summary>
+	/// メインゲームUIのスケール取得
+	/// </summary>
+	/// <returns></returns>
+	vector<float> GetMainGameUIScale() { return m_mainGameUIScale; }
+
 private:
 	static Load* m_load;				//ロードクラスのインスタンス
 
@@ -158,6 +176,11 @@ private:
 	vector<Microsoft::WRL::ComPtr<ID3D11ShaderResourceView>> m_titleUI;//タイトルUI
 	vector<Vector2> m_titleUIPos;									   //タイトルUI座標
 	vector<float> m_titleUIScale;									   //タイトルUIスケール
+
+	vector<Microsoft::WRL::ComPtr<ID3D11ShaderResourceView>> m_mainGameUI;	//メインゲームUI
+	vector<Vector2> m_mainGameUIPos;										//メインゲームUI座標
+	vector<float> m_mainGameUIScale;										//メインゲームUIスケール
+
 	static constexpr int m_xIndex = 0;
 	static constexpr int m_yIndex = 1;
 

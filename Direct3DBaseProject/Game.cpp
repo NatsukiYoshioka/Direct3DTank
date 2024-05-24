@@ -217,11 +217,11 @@ void Game::CreateDeviceDependentResources()
     Load::CreateInstance();
     m_load = Load::GetInstance();
     m_load->ReadFile();
-    m_load->LoadData(device);
+    m_load->LoadData(device, context);
 
     m_gamePad = make_unique<GamePad>();
 
-    SceneManager::CreateInstance(m_gamePad.get(), m_load->GetDefaultFont(), m_load->GetTitleUI(), m_load->GetTitleUIPos(), m_load->GetTitleUIScale());
+    SceneManager::CreateInstance(m_gamePad.get(), m_load->GetDefaultFont(), m_load->GetTitleUI(), m_load->GetTitleUIPos(), m_load->GetTitleUIScale(),m_load->GetMainGameUI(),m_load->GetMainGameUIPos(),m_load->GetMainGameUIScale());
 
     m_sceneManager = SceneManager::GetInstance();
 

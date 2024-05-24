@@ -11,12 +11,15 @@
 SceneManager* SceneManager::m_sceneManager = nullptr;
 
 //コンストラクタ
-SceneManager::SceneManager(DirectX::GamePad* gamePad, unique_ptr<DirectX::SpriteFont>&& defaultFontHandle, vector<Microsoft::WRL::ComPtr<ID3D11ShaderResourceView>> titleUI, vector<Vector2> titleUIPos, vector<float> titleUIScale):
+SceneManager::SceneManager(DirectX::GamePad* gamePad, unique_ptr<DirectX::SpriteFont>&& defaultFontHandle, vector<Microsoft::WRL::ComPtr<ID3D11ShaderResourceView>> titleUI, vector<Vector2> titleUIPos, vector<float> titleUIScale, vector<Microsoft::WRL::ComPtr<ID3D11ShaderResourceView>> mainGameUI, vector<Vector2> mainGameUIPos, vector<float> mainGameUIScale):
 	m_sceneState(SCENE::TITLE),
 	m_defaultFontHandle(move(defaultFontHandle)),
 	m_titleUI(titleUI),
 	m_titleUIPos(titleUIPos),
 	m_titleUIScale(titleUIScale),
+	m_mainGameUI(mainGameUI),
+	m_mainGameUIPos(mainGameUIPos),
+	m_mainGameUIScale(mainGameUIScale),
 	isChange(false)
 {
 	m_gamePad = gamePad;
@@ -34,11 +37,11 @@ SceneManager::~SceneManager()
 }
 
 //インスタンス生成
-void SceneManager::CreateInstance(DirectX::GamePad* gamePad, unique_ptr<DirectX::SpriteFont>&& defaultFontHandle, vector<Microsoft::WRL::ComPtr<ID3D11ShaderResourceView>> titleUI, vector<Vector2> titleUIPos, vector<float> titleUIScale)
+void SceneManager::CreateInstance(DirectX::GamePad* gamePad, unique_ptr<DirectX::SpriteFont>&& defaultFontHandle, vector<Microsoft::WRL::ComPtr<ID3D11ShaderResourceView>> titleUI, vector<Vector2> titleUIPos, vector<float> titleUIScale, vector<Microsoft::WRL::ComPtr<ID3D11ShaderResourceView>> mainGameUI, vector<Vector2> mainGameUIPos, vector<float> mainGameUIScale)
 {
 	if (!m_sceneManager)
 	{
-		m_sceneManager = new SceneManager(gamePad, move(defaultFontHandle), titleUI, titleUIPos, titleUIScale);
+		m_sceneManager = new SceneManager(gamePad, move(defaultFontHandle), titleUI, titleUIPos, titleUIScale, mainGameUI, mainGameUIPos, mainGameUIScale);
 	}
 }
 
@@ -67,7 +70,7 @@ void SceneManager::ChangeScene(SCENE sceneState)
 		m_nowScene = new TitleScene(m_titleUI, m_titleUIPos, m_titleUIScale);
 		break;
 	case SCENE::MAINGAME:
-		m_nowScene = new MainGameScene();
+		m_nowScene = new MainGameScene(m_mainGameUI, m_mainGameUIPos, m_mainGameUIScale);
 		break;
 	case SCENE::RESULT:
 		m_nowScene = new ResultScene();

@@ -236,11 +236,11 @@ void Tank::UpdateAnimation(SceneManager::SCENE sceneState)
     //タレットのアニメーション
     if (m_isMoveRight)
     {
-        m_turretRotation += m_turretRotationSpeed;
+        m_turretRotation -= m_turretRotationSpeed;
     }
     if (m_isMoveLeft)
     {
-        m_turretRotation -= m_turretRotationSpeed;
+        m_turretRotation += m_turretRotationSpeed;
     }
     mat = XMMatrixMultiply(XMMatrixRotationY(m_turretRotation), Matrix::CreateRotationY(-m_angle));
     m_animBones[m_turretBone] = XMMatrixMultiply(mat, m_tankModelHandle->boneMatrices[m_turretBone]);

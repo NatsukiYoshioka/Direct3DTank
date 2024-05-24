@@ -58,7 +58,7 @@ void Load::ReadFile()
 }
 
 //データのロード
-void Load::LoadData(ID3D11Device* deviceResources)
+void Load::LoadData(ID3D11Device* deviceResources, ID3D11DeviceContext* context)
 {
 	auto device = deviceResources;
 
@@ -73,9 +73,9 @@ void Load::LoadData(ID3D11Device* deviceResources)
 	m_tankPos.push_back({ m_json["TankAPosX"],m_json["TankAPosY"],m_json["TankAPosZ"] });
 
 	str = m_json["TankBTexturePath1"];
-	m_fxFactory->CreateTexture(Widen(str).c_str(), nullptr, &m_tankTexture);
+	m_fxFactory->CreateTexture(Widen(str).c_str(), context, &m_tankTexture);
 	str = m_json["TankBTexturePath2"];
-	m_fxFactory->CreateTexture(Widen(str).c_str(), nullptr, &m_engineTexture);
+	m_fxFactory->CreateTexture(Widen(str).c_str(), context, &m_engineTexture);
 	str = m_json["TankBPath"];
 	m_tankModelHandle.push_back(Model::CreateFromSDKMESH(device, Widen(str).c_str(), *m_fxFactory, ModelLoader_CounterClockwise | ModelLoader_IncludeBones));
 	m_tankPos.push_back({ m_json["TankBPosX"],m_json["TankBPosY"],m_json["TankBPosZ"] });
@@ -142,12 +142,21 @@ void Load::LoadData(ID3D11Device* deviceResources)
 
 	//タイトルUIのロード
 	m_titleUI.assign(m_json["TitleUI"].size(), nullptr);
-	Microsoft::WRL::ComPtr<ID3D11Texture2D> texture;
-	for (int i = initializeNum; i < m_json["TitleUI"].size(); i++)
+	for (int i = initializeNum; i < m_titleUI.size(); i++)
 	{
 		str = m_json["TitleUI"].at(i);
 		DX::ThrowIfFailed(CreateWICTextureFromFile(device, Widen(str).c_str(), nullptr, m_titleUI.at(i).ReleaseAndGetAddressOf()));
 		m_titleUIPos.push_back(Vector2(m_json["TitleUIPos"][i].at(m_xIndex), m_json["TitleUIPos"][i].at(m_yIndex)));
 		m_titleUIScale.push_back(m_json["TitleUIScale"][i]);
+	}
+
+	//メインゲームUIのロード
+	m_mainGameUI.assign(m_json["MainGameUI"].size(), nullptr);
+	for (int i = initializeNum; i < m_mainGameUI.size(); i++)
+	{
+		str = m_json["MainGameUI"].at(i);
+		DX::ThrowIfFailed(CreateWICTextureFromFile(device, Widen(str).c_str(), nullptr, m_mainGameUI.at(i).ReleaseAndGetAddressOf()));
+		m_mainGameUIPos.push_back(Vector2(m_json["MainGameUIPos"][i].at(m_xIndex), m_json["MainGameUIPos"][i].at(m_yIndex)));
+		m_mainGameUIScale.push_back(m_json["MainGameUIScale"][i]);
 	}
 }
