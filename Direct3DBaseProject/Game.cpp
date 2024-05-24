@@ -111,7 +111,7 @@ void Game::Render()
     auto context = m_deviceResources->GetD3DDeviceContext();
 
     // TODO: Add your rendering code here.
-    m_spriteBatch->Begin(SpriteSortMode_Deferred, m_load->GetStates()->NonPremultiplied());
+    m_spriteBatch->Begin(SpriteSortMode_FrontToBack, m_load->GetStates()->NonPremultiplied());
     m_blockManager->Draw(context, m_load->GetStates(), m_view, m_proj);
     m_tankManager->Draw(context, m_load->GetStates(), m_view, m_proj, m_load->GetTankTexture(), m_load->GetEngineTexture());
     m_bulletManager->Draw(context, m_load->GetStates(), m_view, m_proj);
