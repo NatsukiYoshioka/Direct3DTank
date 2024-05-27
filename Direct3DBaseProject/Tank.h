@@ -145,7 +145,7 @@ private:
     static constexpr int m_maxHp = 1;                   //プレイヤーの最大残機
 
     float m_fireRecast;                                 //弾を再度打てるようになるまでの時間
-    static constexpr float m_maxFireRecast = 2.5f;       //リキャスト時間
+    static constexpr float m_maxFireRecast = 1.f;       //リキャスト時間
     static constexpr float m_recastSpeed = 0.01f;        //リキャストクールタイムスピード
 
     unique_ptr<DirectX::Model> m_tankModelHandle;       //タンクモデルハンドル

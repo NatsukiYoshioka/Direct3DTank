@@ -51,5 +51,7 @@ private:
 
     static constexpr int m_maxBulletNum = 3;            //自分がステージ上に撃てる弾の最大数
     static constexpr float m_maxFireRecast = 5.f;       //リキャスト時間
+
+    bool m_isUsedBullet[m_maxBulletNum * playerNum];
 };
 

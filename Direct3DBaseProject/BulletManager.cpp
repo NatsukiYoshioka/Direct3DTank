@@ -15,6 +15,10 @@ BulletManager::BulletManager(vector<unique_ptr<DirectX::Model>>&& bulletModelHan
     {
         m_bulletModelHandle.push_back(move(bulletModelHandle.at(i)));
     }
+    for (int i = initializeNum; i < m_maxBulletNum * playerNum; i++)
+    {
+        m_isUsedBullet[i] = false;
+    }
 }
 
 //インスタンス破棄
@@ -34,7 +38,15 @@ void BulletManager::Update(DirectX::SimpleMath::Matrix world, TankManager* tankM
     {
         if (tankManager->GetTanks().at(i)->GetIsFire() && tankManager->GetTanks().at(i)->GetFireRecast() >= static_cast<float>(initializeNum) && m_bullets[i].size() < m_maxBulletNum)
         {
-            m_bullets[i].push_back(new Bullet(m_bulletModelHandle.at(i * m_maxBulletNum + m_bullets[i].size()).get(), tankManager->GetTanks().at(i)->GetPos(), tankManager->GetTanks().at(i)->GetTurretAngle()));
+            for (int j = initializeNum; j < m_maxBulletNum; j++)
+            {
+                if (!m_isUsedBullet[i * m_maxBulletNum + j])
+                {
+                    m_bullets[i].push_back(new Bullet(m_bulletModelHandle.at(i * m_maxBulletNum + j).get(), tankManager->GetTanks().at(i)->GetPos(), tankManager->GetTanks().at(i)->GetTurretAngle()));
+                    m_isUsedBullet[i * m_maxBulletNum + j] = true;
+                    break;
+                }
+            }
         }
     }
     for (int i = initializeNum; i < playerNum; i++)
@@ -64,7 +76,11 @@ void BulletManager::Update(DirectX::SimpleMath::Matrix world, TankManager* tankM
     {
         for (int j = initializeNum; j < m_bullets[i].size(); j++)
         {
-            if (m_bullets[i][j]->GetIsBreak())m_bullets[i].erase(m_bullets[i].begin() + j);
+            if (m_bullets[i][j]->GetIsBreak())
+            {
+                m_bullets[i].erase(m_bullets[i].begin() + j);
+                m_isUsedBullet[i * m_maxBulletNum + j] = false;
+            }
         }
     }
 }
