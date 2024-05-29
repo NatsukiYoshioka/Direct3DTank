@@ -14,7 +14,7 @@ public:
     /// <param name="bulletModelHandle"></param>
     /// <param name="pos"></param>
     /// <param name="angle"></param>
-    Bullet(DirectX::Model* bulletModelHandle, DirectX::SimpleMath::Vector3 pos, float angle);
+    Bullet(DirectX::Model* bulletModelHandle, DirectX::SimpleMath::Vector3 pos, float angle, int bulletIndex);
 
     /// <summary>
     /// デストラクタ
@@ -61,8 +61,15 @@ public:
     /// <returns></returns>
     bool GetIsBreak() { return m_isBreak; }
 
+    /// <summary>
+    /// 弾のモデル配列の番号を取得
+    /// </summary>
+    /// <returns></returns>
+    const int GetBulletIndex() { return m_bulletIndex; }
+
 private:
     DirectX::Model* m_bulletModelHandle;            //弾モデルハンドル
+    const int m_bulletIndex;
     Vector3 m_pos;                                  //弾の座標
     XMMATRIX m_local;                               //弾の情報を格納した行列
     XMMATRIX m_world;

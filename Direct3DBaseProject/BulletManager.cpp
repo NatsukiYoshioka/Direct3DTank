@@ -42,7 +42,7 @@ void BulletManager::Update(DirectX::SimpleMath::Matrix world, TankManager* tankM
             {
                 if (!m_isUsedBullet[i * m_maxBulletNum + j])
                 {
-                    m_bullets[i].push_back(new Bullet(m_bulletModelHandle.at(i * m_maxBulletNum + j).get(), tankManager->GetTanks().at(i)->GetPos(), tankManager->GetTanks().at(i)->GetTurretAngle()));
+                    m_bullets[i].push_back(new Bullet(m_bulletModelHandle.at(i * m_maxBulletNum + j).get(), tankManager->GetTanks().at(i)->GetPos(), tankManager->GetTanks().at(i)->GetTurretAngle(), i * m_maxBulletNum + j));
                     m_isUsedBullet[i * m_maxBulletNum + j] = true;
                     break;
                 }
@@ -78,8 +78,8 @@ void BulletManager::Update(DirectX::SimpleMath::Matrix world, TankManager* tankM
         {
             if (m_bullets[i][j]->GetIsBreak())
             {
+                m_isUsedBullet[m_bullets[i][j]->GetBulletIndex()] = false;
                 m_bullets[i].erase(m_bullets[i].begin() + j);
-                m_isUsedBullet[i * m_maxBulletNum + j] = false;
             }
         }
     }

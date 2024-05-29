@@ -3,8 +3,9 @@
 #include "Bullet.h"
 
 //íeÇÃèâä˙âª
-Bullet::Bullet(DirectX::Model* bulletModelHandle, DirectX::SimpleMath::Vector3 pos, float angle):
+Bullet::Bullet(DirectX::Model* bulletModelHandle, DirectX::SimpleMath::Vector3 pos, float angle, int bulletIndex):
     m_bulletModelHandle(bulletModelHandle),
+    m_bulletIndex(bulletIndex),
     m_pos(pos),
     m_local(),
     m_world(),
