@@ -159,4 +159,13 @@ void Load::LoadData(ID3D11Device* deviceResources, ID3D11DeviceContext* context)
 		m_mainGameUIPos.push_back(Vector2(m_json["MainGameUIPos"][i].at(m_xIndex), m_json["MainGameUIPos"][i].at(m_yIndex)));
 		m_mainGameUIScale.push_back(m_json["MainGameUIScale"][i]);
 	}
+
+	m_resultUI.assign(m_json["ResultUI"].size(), nullptr);
+	for (int i = initializeNum; i < m_resultUI.size(); i++)
+	{
+		str = m_json["ResultUI"].at(i);
+		DX::ThrowIfFailed(CreateWICTextureFromFile(device, Widen(str).c_str(), nullptr, m_resultUI.at(i).ReleaseAndGetAddressOf()));
+		m_resultUIPos.push_back(Vector2(m_json["ResultUIPos"][i].at(m_xIndex), m_json["ResultUIPos"][i].at(m_yIndex)));
+		m_resultUIScale.push_back(m_json["ResultUIScale"][i]);
+	}
 }

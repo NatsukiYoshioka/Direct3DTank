@@ -25,6 +25,11 @@ public:
     ~Block();
 
     /// <summary>
+    /// ブロック初期化
+    /// </summary>
+    void Init();
+
+    /// <summary>
     /// ブロックの座標設定
     /// </summary>
     /// <param name="world"></param>
@@ -57,13 +62,21 @@ public:
     /// <returns></returns>
     Vector3 GetPos()const { return m_pos; }
 
+    /// <summary>
+    /// 耐久値減少処理
+    /// </summary>
+    void DecreaseEndurance();
+
 private:
     unique_ptr<DirectX::Model> m_blockModelHandle;      //ブロックのモデルハンドル
     BlockManager::BlockType m_blockType;                //ブロックの種類
     XMMATRIX m_local;                                   //モデルの行列情報
     Vector3 m_pos;                                      //モデルの座標   
-    bool m_destroy;                                     //壊れたかどうか
+    bool m_isDestroy;                                     //壊れたかどうか
 
-    static constexpr float m_extents = 1.f;             //当たり判定の範囲
+    int m_endurance;                                    //ブロックの耐久値
+    static constexpr int m_maxEndurance = 3;
+
+    static constexpr float m_extents = 0.5f;             //当たり判定の範囲
 };
 

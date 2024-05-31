@@ -115,6 +115,21 @@
         3
     ],
 
+    "ResultUI": [
+        "victory.png",
+        "defeat.png"
+    ],
+
+    "ResultUIPos": [
+        [ 650, 50 ],
+        [ 1150, 75 ]
+    ],
+
+    "ResultUIScale": [
+        0.25,
+        0.2
+    ],
+
     "TankAPath": "tank.sdkmesh",
     "TankAPosX": 13,
     "TankAPosY": 0.5,

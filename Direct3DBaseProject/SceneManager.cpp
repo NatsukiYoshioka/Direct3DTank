@@ -11,7 +11,7 @@
 SceneManager* SceneManager::m_sceneManager = nullptr;
 
 //コンストラクタ
-SceneManager::SceneManager(DirectX::GamePad* gamePad, unique_ptr<DirectX::SpriteFont>&& defaultFontHandle, vector<Microsoft::WRL::ComPtr<ID3D11ShaderResourceView>> titleUI, vector<Vector2> titleUIPos, vector<float> titleUIScale, vector<Microsoft::WRL::ComPtr<ID3D11ShaderResourceView>> mainGameUI, vector<Vector2> mainGameUIPos, vector<float> mainGameUIScale):
+SceneManager::SceneManager(DirectX::GamePad* gamePad, unique_ptr<DirectX::SpriteFont>&& defaultFontHandle, vector<Microsoft::WRL::ComPtr<ID3D11ShaderResourceView>> titleUI, vector<Vector2> titleUIPos, vector<float> titleUIScale, vector<Microsoft::WRL::ComPtr<ID3D11ShaderResourceView>> mainGameUI, vector<Vector2> mainGameUIPos, vector<float> mainGameUIScale, vector<Microsoft::WRL::ComPtr<ID3D11ShaderResourceView>> resultUI, vector<Vector2> resultUIPos, vector<float> resultUIScale):
 	m_sceneState(SCENE::TITLE),
 	m_defaultFontHandle(move(defaultFontHandle)),
 	m_titleUI(titleUI),
@@ -20,6 +20,9 @@ SceneManager::SceneManager(DirectX::GamePad* gamePad, unique_ptr<DirectX::Sprite
 	m_mainGameUI(mainGameUI),
 	m_mainGameUIPos(mainGameUIPos),
 	m_mainGameUIScale(mainGameUIScale),
+	m_resultUI(resultUI),
+	m_resultUIPos(resultUIPos),
+	m_resultUIScale(resultUIScale),
 	isChange(false)
 {
 	m_gamePad = gamePad;
@@ -37,11 +40,11 @@ SceneManager::~SceneManager()
 }
 
 //インスタンス生成
-void SceneManager::CreateInstance(DirectX::GamePad* gamePad, unique_ptr<DirectX::SpriteFont>&& defaultFontHandle, vector<Microsoft::WRL::ComPtr<ID3D11ShaderResourceView>> titleUI, vector<Vector2> titleUIPos, vector<float> titleUIScale, vector<Microsoft::WRL::ComPtr<ID3D11ShaderResourceView>> mainGameUI, vector<Vector2> mainGameUIPos, vector<float> mainGameUIScale)
+void SceneManager::CreateInstance(DirectX::GamePad* gamePad, unique_ptr<DirectX::SpriteFont>&& defaultFontHandle, vector<Microsoft::WRL::ComPtr<ID3D11ShaderResourceView>> titleUI, vector<Vector2> titleUIPos, vector<float> titleUIScale, vector<Microsoft::WRL::ComPtr<ID3D11ShaderResourceView>> mainGameUI, vector<Vector2> mainGameUIPos, vector<float> mainGameUIScale, vector<Microsoft::WRL::ComPtr<ID3D11ShaderResourceView>> resultUI, vector<Vector2> resultUIPos, vector<float> resultUIScale)
 {
 	if (!m_sceneManager)
 	{
-		m_sceneManager = new SceneManager(gamePad, move(defaultFontHandle), titleUI, titleUIPos, titleUIScale, mainGameUI, mainGameUIPos, mainGameUIScale);
+		m_sceneManager = new SceneManager(gamePad, move(defaultFontHandle), titleUI, titleUIPos, titleUIScale, mainGameUI, mainGameUIPos, mainGameUIScale, resultUI, resultUIPos, resultUIScale);
 	}
 }
 
@@ -73,7 +76,7 @@ void SceneManager::ChangeScene(SCENE sceneState)
 		m_nowScene = new MainGameScene(m_mainGameUI, m_mainGameUIPos, m_mainGameUIScale);
 		break;
 	case SCENE::RESULT:
-		m_nowScene = new ResultScene();
+		m_nowScene = new ResultScene(m_resultUI, m_resultUIPos, m_resultUIScale);
 		break;
 	}
 }

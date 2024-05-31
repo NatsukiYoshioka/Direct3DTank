@@ -81,6 +81,7 @@ void Game::Update(DX::StepTimer const& timer)
         switch (m_sceneManager->GetNowSceneState())
         {
         case SceneManager::SCENE::TITLE:
+            m_blockManager->Init();
             m_tankManager->InitTitle();
             break;
         case SceneManager::SCENE::MAINGAME:
@@ -221,7 +222,7 @@ void Game::CreateDeviceDependentResources()
 
     m_gamePad = make_unique<GamePad>();
 
-    SceneManager::CreateInstance(m_gamePad.get(), m_load->GetDefaultFont(), m_load->GetTitleUI(), m_load->GetTitleUIPos(), m_load->GetTitleUIScale(),m_load->GetMainGameUI(),m_load->GetMainGameUIPos(),m_load->GetMainGameUIScale());
+    SceneManager::CreateInstance(m_gamePad.get(), m_load->GetDefaultFont(), m_load->GetTitleUI(), m_load->GetTitleUIPos(), m_load->GetTitleUIScale(), m_load->GetMainGameUI(), m_load->GetMainGameUIPos(), m_load->GetMainGameUIScale(), m_load->GetResultUI(), m_load->GetResultUIPos(), m_load->GetResultUIScale());
 
     m_sceneManager = SceneManager::GetInstance();
 

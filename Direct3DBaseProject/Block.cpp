@@ -8,7 +8,8 @@ Block::Block(unique_ptr<DirectX::Model>&& blockModelHandle, Vector3 pos, BlockMa
     m_blockModelHandle(move(blockModelHandle)),
     m_local(),
     m_pos(pos),
-    m_destroy(false)
+    m_endurance(m_maxEndurance),
+    m_isDestroy(false)
 {
     
 }
@@ -17,6 +18,15 @@ Block::Block(unique_ptr<DirectX::Model>&& blockModelHandle, Vector3 pos, BlockMa
 Block::~Block()
 {
     m_blockModelHandle.reset();
+}
+
+void Block::Init()
+{
+    m_isDestroy = false;
+    m_endurance = m_maxEndurance;
+    m_blockModelHandle->meshes.at(initializeNum)->boundingBox.Extents.x = m_extents;
+    m_blockModelHandle->meshes.at(initializeNum)->boundingBox.Extents.y = m_extents;
+    m_blockModelHandle->meshes.at(initializeNum)->boundingBox.Extents.z = m_extents;
 }
 
 //ブロックの更新
@@ -33,5 +43,21 @@ void Block::Update(DirectX::SimpleMath::Matrix world)
 //ブロックの描画
 void Block::Draw(ID3D11DeviceContext1* context, DirectX::CommonStates* states, DirectX::SimpleMath::Matrix view, DirectX::SimpleMath::Matrix projection)
 {
-    m_blockModelHandle->Draw(context, *states, m_local, view, projection);
+    if (!m_isDestroy)
+    {
+        m_blockModelHandle->Draw(context, *states, m_local, view, projection);
+    }
+    
+}
+
+void Block::DecreaseEndurance()
+{
+    m_endurance--;
+    if (m_endurance <= initializeNum)
+    {
+        m_blockModelHandle->meshes.at(initializeNum)->boundingBox.Extents.x = static_cast<float>(initializeNum);
+        m_blockModelHandle->meshes.at(initializeNum)->boundingBox.Extents.y = static_cast<float>(initializeNum);
+        m_blockModelHandle->meshes.at(initializeNum)->boundingBox.Extents.z = static_cast<float>(initializeNum);
+        m_isDestroy = true;
+    }
 }

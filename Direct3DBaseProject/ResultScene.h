@@ -11,7 +11,7 @@ public:
 	/// <summary>
 	/// リザルトシーン生成
 	/// </summary>
-	ResultScene();
+	ResultScene(vector<Microsoft::WRL::ComPtr<ID3D11ShaderResourceView>> resultUI, vector<Vector2> resultUIPos, vector<float> resultUIScale);
 
 	/// <summary>
 	/// リザルトシーン破棄
@@ -35,6 +35,12 @@ public:
 	/// <returns></returns>
 	bool GetIsFinish() { return isFinish; }
 private:
+	vector<Microsoft::WRL::ComPtr<ID3D11ShaderResourceView>> m_resultUI;	//リザルトUI
+	vector<Vector2> m_resultUIPos;											//リザルトUI座標
+	vector<float> m_resultUIScale;											//リザルトUIスケール
+
+	static constexpr float m_UIDepth = 0.f;
+
 	bool isFinish;			//シーンが終了したかどうか
 };
 

@@ -7,7 +7,10 @@
 extern void ExitGame() noexcept;
 
 //リザルトシーン生成
-ResultScene::ResultScene():
+ResultScene::ResultScene(vector<Microsoft::WRL::ComPtr<ID3D11ShaderResourceView>> resultUI, vector<Vector2> resultUIPos, vector<float> resultUIScale):
+    m_resultUI(resultUI),
+    m_resultUIPos(resultUIPos),
+    m_resultUIScale(resultUIScale),
     isFinish(false)
 {
 
@@ -36,7 +39,11 @@ void ResultScene::Update(DirectX::GamePad::State padState, TankManager* tankMana
 }
 
 //リザルトシーン描画
-void ResultScene::Draw(DirectX::SpriteFont* defaultfont, DirectX::SpriteBatch* spriteBatch)
+void ResultScene::Draw(DirectX::SpriteFont* defaultfont, DirectX::SpriteBatch* spritebatch)
 {
-
+    auto spriteBatch = spritebatch;
+    for (int i = initializeNum; i < m_resultUI.size(); i++)
+    {
+        spriteBatch->Draw(m_resultUI.at(i).Get(), m_resultUIPos.at(i), nullptr, Colors::White, static_cast<float>(initializeNum), Vector2::Zero, m_resultUIScale.at(i), SpriteEffects_None, m_UIDepth);
+    }
 }

@@ -162,6 +162,24 @@ public:
 	/// <returns></returns>
 	vector<float> GetMainGameUIScale() { return m_mainGameUIScale; }
 
+	/// <summary>
+	/// リザルトUI取得
+	/// </summary>
+	/// <returns></returns>
+	vector<Microsoft::WRL::ComPtr<ID3D11ShaderResourceView>> GetResultUI() { return m_resultUI; }
+
+	/// <summary>
+	/// リザルトUI座標取得
+	/// </summary>
+	/// <returns></returns>
+	vector<Vector2> GetResultUIPos() { return m_resultUIPos; }
+
+	/// <summary>
+	/// リザルトUIスケール取得
+	/// </summary>
+	/// <returns></returns>
+	vector<float> GetResultUIScale() { return m_resultUIScale; }
+
 private:
 	static Load* m_load;				//ロードクラスのインスタンス
 
@@ -180,6 +198,10 @@ private:
 	vector<Microsoft::WRL::ComPtr<ID3D11ShaderResourceView>> m_mainGameUI;	//メインゲームUI
 	vector<Vector2> m_mainGameUIPos;										//メインゲームUI座標
 	vector<float> m_mainGameUIScale;										//メインゲームUIスケール
+
+	vector<Microsoft::WRL::ComPtr<ID3D11ShaderResourceView>> m_resultUI;	//リザルトUI
+	vector<Vector2> m_resultUIPos;											//リザルトUI座標
+	vector<float> m_resultUIScale;											//リザルトUIスケール
 
 	static constexpr int m_xIndex = 0;
 	static constexpr int m_yIndex = 1;

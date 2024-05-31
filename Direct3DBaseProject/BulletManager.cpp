@@ -66,6 +66,10 @@ void BulletManager::Update(DirectX::SimpleMath::Matrix world, TankManager* tankM
                 {
                     if (m_bullets[i][j]->CheckHitBlock(blockManager->GetBlocks().at(l)->GetModelMesh().at(initializeNum)->boundingBox, blockManager->GetBlocks().at(l)->GetPos()))
                     {
+                        if (blockManager->GetBlocks().at(l)->GetBlockType() == BlockManager::BlockType::WOOD)
+                        {
+                            blockManager->GetBlocks().at(l)->DecreaseEndurance();
+                        }
                         break;
                     }
                 }

@@ -47,7 +47,10 @@ BlockManager::~BlockManager()
 //ステージの初期化
 void BlockManager::Init()
 {
-
+    for (int i = initializeNum; i < m_blocks.size(); i++)
+    {
+        m_blocks.at(i)->Init();
+    }
 }
 
 //全ブロックの更新処理

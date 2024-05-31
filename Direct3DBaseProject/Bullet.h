@@ -91,7 +91,7 @@ private:
     bool m_isHitBlock;                              //ブロックと当たったかどうか
     bool m_isBreak;                                 //弾が壊れたかどうか
     int m_boundBlockCount;                          //ブロックに跳ね返った回数
-    static constexpr int m_maxBoundCount = 3;       //ブロックに跳ね返る最大回数
+    static constexpr int m_maxBoundCount = 5;       //ブロックに跳ね返る最大回数
 
     static constexpr float m_fireFrontWidth = 1.f;  //弾の発射幅
 };
