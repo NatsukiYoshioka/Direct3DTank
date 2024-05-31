@@ -81,7 +81,7 @@ void SceneManager::ChangeScene(SCENE sceneState)
 //シーンの更新
 void SceneManager::Update(TankManager* tankManager)
 {
-	m_nowScene->Update(m_gamePad->GetState(player1));
+	m_nowScene->Update(m_gamePad->GetState(player1), tankManager);
 	if (m_nowScene->GetIsFinish() || (m_sceneState == SCENE::MAINGAME && (tankManager->GetTanks().at(player1)->GetIsBreak() || tankManager->GetTanks().at(player2)->GetIsBreak())))
 	{
 		isChange = true;

@@ -1,5 +1,7 @@
 #include "pch.h"
 #include"common.h"
+#include"TankManager.h"
+#include"Tank.h"
 #include"BaseScene.h"
 #include"Game.h"
 #include "TitleScene.h"
@@ -39,7 +41,7 @@ TitleScene::~TitleScene()
 }
 
 //タイトルシーン更新
-void TitleScene::Update(DirectX::GamePad::State padState)
+void TitleScene::Update(DirectX::GamePad::State padState, TankManager* tankManager)
 {
     if (padState.IsConnected())
     {

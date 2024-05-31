@@ -101,7 +101,7 @@ void TankManager::Update(DirectX::SimpleMath::Matrix world, BlockManager* blockM
             {
                 if (m_tank[i]->CheckHitBullet(bulletManager->GetBullets()[j].at(l)->GetBulletModelHandle()->meshes.at(initializeNum)->boundingBox, bulletManager->GetBullets()[j].at(l)->GetPos()))
                 {
-                    bulletManager->GetBullets()[j].erase(bulletManager->GetBullets()[j].begin() + l);
+                    bulletManager->GetBullets()[j].at(l)->HitTank();
                 }
             }
         }

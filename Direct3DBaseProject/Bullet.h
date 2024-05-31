@@ -67,6 +67,11 @@ public:
     /// <returns></returns>
     const int GetBulletIndex() { return m_bulletIndex; }
 
+    /// <summary>
+    /// タンクに当たった時に呼び出し
+    /// </summary>
+    void HitTank() { m_isBreak = true; }
+
 private:
     DirectX::Model* m_bulletModelHandle;            //弾モデルハンドル
     const int m_bulletIndex;

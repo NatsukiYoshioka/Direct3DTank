@@ -23,7 +23,7 @@ extern void ExitGame() noexcept;
 
 //É^ÉìÉNÇÃèâä˙âª
 Tank::Tank(unique_ptr<DirectX::Model>&& tankModelHandle, Vector3 pos, float angle) :
-    m_hp(m_maxHp),
+    m_hp(maxHp),
     m_tankModelHandle(move(tankModelHandle)),
     m_direction(),
     m_initMainGamePos(pos),
@@ -94,7 +94,7 @@ void Tank::InitTitle(Vector3 pos, float angle)
     m_angle = angle;
     m_turretRotation = angle;
 
-    m_hp = m_maxHp;
+    m_hp = maxHp;
     m_isBreak = false;
 }
 

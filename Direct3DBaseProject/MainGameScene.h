@@ -1,4 +1,5 @@
 #pragma once
+#include"common.h"
 
 using namespace DirectX;
 using namespace DirectX::SimpleMath;
@@ -23,7 +24,7 @@ public:
 	/// メインゲームシーン更新
 	/// </summary>
 	/// <param name=""></param>
-	void Update(DirectX::GamePad::State);
+	void Update(DirectX::GamePad::State, TankManager* tankManager);
 
 	/// <summary>
 	/// メインゲームシーン描画
@@ -39,6 +40,8 @@ private:
 	vector<Microsoft::WRL::ComPtr<ID3D11ShaderResourceView>> m_mainGameUI; //タイトルUI
 	vector<Vector2> m_mainGameUIPos;									   //タイトルUI座標
 	vector<float> m_mainGameUIScale;									   //タイトルUIスケール
+
+	bool m_isEnableHeartUI[playerNum * maxHp];			//ハートUIが描画有効かどうか
 
 	static constexpr float m_UIDepth = 0.1f;
 

@@ -142,7 +142,6 @@ public:
 
 private:
     int m_hp;                                           //プレイヤーの残機
-    static constexpr int m_maxHp = 1;                   //プレイヤーの最大残機
 
     float m_fireRecast;                                 //弾を再度打てるようになるまでの時間
     static constexpr float m_maxFireRecast = 1.f;       //リキャスト時間

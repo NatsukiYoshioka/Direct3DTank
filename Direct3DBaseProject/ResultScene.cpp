@@ -1,4 +1,6 @@
 #include "pch.h"
+#include"TankManager.h"
+#include"Tank.h"
 #include "BaseScene.h"
 #include "ResultScene.h"
 
@@ -18,7 +20,7 @@ ResultScene::~ResultScene()
 }
 
 //リザルトシーン更新
-void ResultScene::Update(DirectX::GamePad::State padState)
+void ResultScene::Update(DirectX::GamePad::State padState, TankManager* tankManager)
 {
     if (padState.IsConnected())
     {

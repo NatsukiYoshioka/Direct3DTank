@@ -22,7 +22,7 @@ public:
 	/// リザルトシーン更新
 	/// </summary>
 	/// <param name="">pad state</param>
-	void Update(DirectX::GamePad::State);
+	void Update(DirectX::GamePad::State, TankManager* tankManager);
 
 	/// <summary>
 	/// リザルトシーン描画
