@@ -67,6 +67,12 @@ public:
     /// </summary>
     void DecreaseEndurance();
 
+    /// <summary>
+    /// 壊れたかどうか取得
+    /// </summary>
+    /// <returns></returns>
+    bool GetIsDestroy() { return m_isDestroy; }
+
 private:
     unique_ptr<DirectX::Model> m_blockModelHandle;      //ブロックのモデルハンドル
     BlockManager::BlockType m_blockType;                //ブロックの種類

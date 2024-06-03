@@ -4,7 +4,8 @@
 #include "BlockManager.h"
 
 //ブロックインスタンスの生成
-BlockManager::BlockManager(vector<unique_ptr<DirectX::Model>>&& blockModelHandle, vector<unique_ptr<DirectX::Model>>&& groundBlockUnderWoodsModelHandle, vector<vector<int>> map)
+BlockManager::BlockManager(vector<unique_ptr<DirectX::Model>>&& blockModelHandle, vector<unique_ptr<DirectX::Model>>&& groundBlockUnderWoodsModelHandle, vector<vector<int>> map):
+    m_woodBlockNum(initializeNum)
 {
     int groundBlockUnderWoodsNum = 0;
     for (int i = initializeNum; i < mapSize; i++)
@@ -30,6 +31,7 @@ BlockManager::BlockManager(vector<unique_ptr<DirectX::Model>>&& blockModelHandle
             }
         }
     }
+    m_woodBlockNum = groundBlockUnderWoodsNum;
 }
 
 //全ブロックの破棄

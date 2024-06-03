@@ -131,7 +131,7 @@ void Load::LoadData(ID3D11Device* deviceResources, ID3D11DeviceContext* context)
 
 	//木片パーティクルモデルのロード
 	str = m_json["WoodParticle"];
-	for (int i = initializeNum; i < m_maxWoodParticleNum; i++)
+	for (int i = initializeNum; i < m_blockUnderWoods * m_maxWoodParticleNum; i++)
 	{
 		m_woodParticleModelHandle.push_back(Model::CreateFromCMO(device, Widen(str).c_str(), *m_fxFactory));
 	}

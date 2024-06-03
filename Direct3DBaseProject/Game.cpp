@@ -7,6 +7,7 @@
 #include"BlockManager.h"
 #include"TankManager.h"
 #include"BulletManager.h"
+#include"ParticleManager.h"
 #include"SceneManager.h"
 #include "Game.h"
 
@@ -74,6 +75,7 @@ void Game::Update(DX::StepTimer const& timer)
     m_blockManager->Update(m_world);
     m_tankManager->Update(m_world, m_blockManager, m_bulletManager, m_sceneManager->GetNowSceneState());
     m_bulletManager->Update(m_world, m_tankManager, m_blockManager);
+    m_particleManager->Update(m_world, m_blockManager);
     m_sceneManager->Update(m_tankManager);
     if (m_sceneManager->GetIsChange())
     {
@@ -116,6 +118,7 @@ void Game::Render()
     m_blockManager->Draw(context, m_load->GetStates(), m_view, m_proj);
     m_tankManager->Draw(context, m_load->GetStates(), m_view, m_proj, m_load->GetTankTexture(), m_load->GetEngineTexture());
     m_bulletManager->Draw(context, m_load->GetStates(), m_view, m_proj);
+    m_particleManager->Draw(context, m_load->GetStates(), m_view, m_proj);
     m_sceneManager->Draw(m_spriteBatch.get());
     m_spriteBatch->End();
     context;
@@ -225,6 +228,8 @@ void Game::CreateDeviceDependentResources()
     SceneManager::CreateInstance(m_gamePad.get(), m_load->GetDefaultFont(), m_load->GetTitleUI(), m_load->GetTitleUIPos(), m_load->GetTitleUIScale(), m_load->GetMainGameUI(), m_load->GetMainGameUIPos(), m_load->GetMainGameUIScale(), m_load->GetResultUI(), m_load->GetResultUIPos(), m_load->GetResultUIScale());
 
     m_sceneManager = SceneManager::GetInstance();
+
+    m_particleManager = new ParticleManager(m_load->GetWoodParticleModelHandle());
 
     m_blockManager = new BlockManager(move(m_load->GetBlockModelHandle()), move(m_load->GetGroundBlockUnderWoodsModelHandle()), m_load->GetMap());
 

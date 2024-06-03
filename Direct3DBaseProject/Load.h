@@ -220,7 +220,7 @@ private:
 	int m_blockUnderWoods;							//木ブロックの下にあるブロックの数
 
 	vector<unique_ptr<DirectX::Model>> m_woodParticleModelHandle;	//木ブロックの破壊エフェクト用パーティクルモデル
-	static constexpr int m_maxWoodParticleNum = 60;					//パーティクルの最大数
+	static constexpr int m_maxWoodParticleNum = 10;					//パーティクルの最大数
 
 	static constexpr int m_maxBulletNum = 6;						//弾の最大数
 };

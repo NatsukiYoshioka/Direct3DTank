@@ -13,6 +13,7 @@ class Load;
 class BlockManager;
 class TankManager;
 class BulletManager;
+class ParticleManager;
 class SceneManager;
 
 using namespace DirectX::SimpleMath;
@@ -65,6 +66,7 @@ private:
     BlockManager* m_blockManager;
     TankManager* m_tankManager;
     BulletManager* m_bulletManager;
+    ParticleManager* m_particleManager;
     SceneManager* m_sceneManager;
 
     unique_ptr<DirectX::GamePad> m_gamePad;

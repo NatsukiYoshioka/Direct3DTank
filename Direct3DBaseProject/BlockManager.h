@@ -57,7 +57,14 @@ public:
     /// </summary>
     /// <returns></returns>
     vector<Block*> GetBlocks() { return m_blocks; }
+
+    /// <summary>
+    /// 木ブロックの数取得
+    /// </summary>
+    /// <returns></returns>
+    int GetWoodBlockNum()const { return m_woodBlockNum; }
 private:
     vector<Block*> m_blocks;                //各ブロックのインスタンス
+    int m_woodBlockNum;
 };
 
