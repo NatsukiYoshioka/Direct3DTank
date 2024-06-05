@@ -55,9 +55,6 @@ void Block::DecreaseEndurance()
     m_endurance--;
     if (m_endurance <= initializeNum)
     {
-        m_blockModelHandle->meshes.at(initializeNum)->boundingBox.Extents.x = static_cast<float>(initializeNum);
-        m_blockModelHandle->meshes.at(initializeNum)->boundingBox.Extents.y = static_cast<float>(initializeNum);
-        m_blockModelHandle->meshes.at(initializeNum)->boundingBox.Extents.z = static_cast<float>(initializeNum);
         m_isDestroy = true;
     }
 }

@@ -5,14 +5,13 @@
 #include"common.h"
 #include "ParticleManager.h"
 
-ParticleManager::ParticleManager(vector<unique_ptr<DirectX::Model>>&& woodModelHandle):
-    m_woodParticles()
+ParticleManager::ParticleManager(vector<unique_ptr<DirectX::Model>>&& woodModelHandle)
 {
     for (int i = initializeNum; i < woodModelHandle.size(); i++)
     {
         m_woodParticleModelHandle.push_back(move(woodModelHandle.at(i)));
     }
-    m_isUseWoodParticle.assign(m_woodParticleModelHandle.size(), false);
+    Init();
 }
 
 ParticleManager::~ParticleManager()
@@ -23,24 +22,35 @@ ParticleManager::~ParticleManager()
     }
 }
 
+void ParticleManager::Init()
+{
+    m_woodParticles.clear();
+    m_woodIndex = initializeNum;
+    m_isUseWoodParticle.assign(m_woodParticleModelHandle.size(), false);
+    m_isSponeWoodParticle.assign(mapSize * mapSize, false);
+}
+
 void ParticleManager::Update(DirectX::SimpleMath::Matrix world, BlockManager* blockmanager)
 {
     auto blockManager = blockmanager;
     auto blockNum = blockManager->GetWoodBlockNum();
-    int woodIndex = initializeNum;
     for (int i = initializeNum; i < blockManager->GetBlocks().size(); i++)
     {
-        if (blockManager->GetBlocks().at(i)->GetBlockType() == BlockManager::BlockType::WOOD&& blockManager->GetBlocks().at(i)->GetIsDestroy())
+        if (blockManager->GetBlocks().at(i)->GetBlockType() == BlockManager::BlockType::WOOD && blockManager->GetBlocks().at(i)->GetIsDestroy())
         {
-            for (int j = initializeNum; j < m_woodParticleModelHandle.size() / blockNum; j++)
+            if (!m_isSponeWoodParticle.at(i))
             {
-                if (!m_isUseWoodParticle.at(woodIndex * (m_woodParticleModelHandle.size() / blockNum) + j))
+                m_isSponeWoodParticle.at(i) = true;
+                for (int j = initializeNum; j < m_woodParticleModelHandle.size() / blockNum; j++)
                 {
-                    m_woodParticles.push_back(new WoodParticle(m_woodParticleModelHandle.at(woodIndex * (m_woodParticleModelHandle.size() / blockNum) + j).get(), blockManager->GetBlocks().at(i)->GetPos()));
-                    m_isUseWoodParticle.at(woodIndex * (m_woodParticleModelHandle.size() / blockNum) + j) = true;
+                    if (!m_isUseWoodParticle.at(m_woodIndex * (m_woodParticleModelHandle.size() / blockNum) + j))
+                    {
+                        m_woodParticles.push_back(new WoodParticle(m_woodParticleModelHandle.at(m_woodIndex * (m_woodParticleModelHandle.size() / blockNum) + j).get(), blockManager->GetBlocks().at(i)->GetPos()));
+                        m_isUseWoodParticle.at(m_woodIndex * (m_woodParticleModelHandle.size() / blockNum) + j) = true;
+                    }
                 }
+                m_woodIndex++;
             }
-            woodIndex++;
         }
     }
 

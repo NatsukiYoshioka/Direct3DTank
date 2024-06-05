@@ -62,7 +62,7 @@ void BulletManager::Update(DirectX::SimpleMath::Matrix world, TankManager* tankM
         {
             for (int l = initializeNum; l < blockManager->GetBlocks().size(); l++)
             {
-                if (blockManager->GetBlocks().at(l)->GetBlockType() != BlockManager::BlockType::YELLOW)
+                if (blockManager->GetBlocks().at(l)->GetBlockType() != BlockManager::BlockType::YELLOW && !blockManager->GetBlocks().at(l)->GetIsDestroy())
                 {
                     if (m_bullets[i][j]->CheckHitBlock(blockManager->GetBlocks().at(l)->GetModelMesh().at(initializeNum)->boundingBox, blockManager->GetBlocks().at(l)->GetPos()))
                     {

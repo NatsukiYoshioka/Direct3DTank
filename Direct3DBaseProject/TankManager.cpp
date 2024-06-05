@@ -87,7 +87,7 @@ void TankManager::Update(DirectX::SimpleMath::Matrix world, BlockManager* blockM
         for (int j = initializeNum; j < blockManager->GetBlocks().size(); j++)
         {
             //タンク関連とブロックとの当たり判定
-            if (blockManager->GetBlocks().at(j)->GetBlockType() != BlockManager::BlockType::YELLOW)
+            if (blockManager->GetBlocks().at(j)->GetBlockType() != BlockManager::BlockType::YELLOW && !blockManager->GetBlocks().at(j)->GetIsDestroy())
             {
                 m_tank[i]->CheckHitBlockTank(blockManager->GetBlocks().at(j)->GetModelMesh().at(initializeNum)->boundingBox, blockManager->GetBlocks().at(j)->GetPos());
             }

@@ -26,6 +26,7 @@ Game::Game() noexcept(false):
     m_blockManager(nullptr),
     m_tankManager(nullptr),
     m_bulletManager(nullptr),
+    m_particleManager(nullptr),
     m_sceneManager(nullptr)
 {
     m_deviceResources = std::make_unique<DX::DeviceResources>();
@@ -84,6 +85,7 @@ void Game::Update(DX::StepTimer const& timer)
         {
         case SceneManager::SCENE::TITLE:
             m_blockManager->Init();
+            m_particleManager->Init();
             m_tankManager->InitTitle();
             break;
         case SceneManager::SCENE::MAINGAME:
