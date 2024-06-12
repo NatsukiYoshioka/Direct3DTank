@@ -231,7 +231,7 @@ void Game::CreateDeviceDependentResources()
 
     m_sceneManager = SceneManager::GetInstance();
 
-    m_particleManager = new ParticleManager(m_load->GetWoodParticleModelHandle());
+    m_particleManager = new ParticleManager(m_load->GetWoodParticleModelHandle(), m_load->GetFireParticle());
 
     m_blockManager = new BlockManager(move(m_load->GetBlockModelHandle()), move(m_load->GetGroundBlockUnderWoodsModelHandle()), m_load->GetMap());
 

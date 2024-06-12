@@ -4,24 +4,22 @@ using namespace DirectX;
 using namespace DirectX::SimpleMath;
 using namespace std;
 
+class WoodParticle;
 class BlockManager;
-class WoodParticleManager;
-class FireParticleManager;
 
-class ParticleManager
+class WoodParticleManager
 {
 public:
     /// <summary>
-    /// データ取得
+    /// 初期化とデータの取得
     /// </summary>
     /// <param name="woodModelHandle"></param>
-    /// <param name="fireParticle"></param>
-    ParticleManager(vector<unique_ptr<DirectX::Model>>&& woodModelHandle, vector<Microsoft::WRL::ComPtr<ID3D11ShaderResourceView>> fireParticle);
+    WoodParticleManager(vector<unique_ptr<DirectX::Model>>&& woodModelHandle);
 
     /// <summary>
-    /// データ破棄
+    /// データ解放
     /// </summary>
-    ~ParticleManager();
+    ~WoodParticleManager();
 
     /// <summary>
     /// 初期化
@@ -43,9 +41,11 @@ public:
     /// <param name="view"></param>
     /// <param name="projection"></param>
     void Draw(ID3D11DeviceContext1* context, DirectX::CommonStates* states, DirectX::SimpleMath::Matrix view, DirectX::SimpleMath::Matrix projection);
-
 private:
-    WoodParticleManager* m_woodParticleManager;     //木片パーティクルマネージャー
-    FireParticleManager* m_fireParticleManager;     //炎パーティクルマネージャー
+    vector<unique_ptr<DirectX::Model>> m_woodParticleModelHandle;       //パーティクルのモデルハンドル
+    vector<WoodParticle*> m_woodParticles;                              //各パーティクルのインスタンス
+    vector<bool> m_isUseWoodParticle;                                   //パーティクルを使ったかどうか
+    vector<bool> m_isSponeWoodParticle;                                 //パーティクルが出現したかどうか
+    int m_woodIndex;                                                    //木ブロックの番号
 };
 

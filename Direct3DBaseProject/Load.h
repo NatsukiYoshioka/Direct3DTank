@@ -180,6 +180,12 @@ public:
 	/// <returns></returns>
 	vector<float> GetResultUIScale() { return m_resultUIScale; }
 
+	/// <summary>
+	/// 炎パーティクルの取得
+	/// </summary>
+	/// <returns></returns>
+	vector<Microsoft::WRL::ComPtr<ID3D11ShaderResourceView>> GetFireParticle() { return m_fireParticle; }
+
 private:
 	static Load* m_load;				//ロードクラスのインスタンス
 
@@ -221,6 +227,9 @@ private:
 
 	vector<unique_ptr<DirectX::Model>> m_woodParticleModelHandle;	//木ブロックの破壊エフェクト用パーティクルモデル
 	static constexpr int m_maxWoodParticleNum = 10;					//パーティクルの最大数
+
+	vector<Microsoft::WRL::ComPtr<ID3D11ShaderResourceView>> m_fireParticle;	//炎パーティクルの配列
+	static constexpr int m_fireParticleSize = 5;								//各炎パーティクルの数
 
 	static constexpr int m_maxBulletNum = 6;						//弾の最大数
 };

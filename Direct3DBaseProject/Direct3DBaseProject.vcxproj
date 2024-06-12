@@ -188,6 +188,8 @@
     <ClInclude Include="BulletManager.h" />
     <ClInclude Include="common.h" />
     <ClInclude Include="DeviceResources.h" />
+    <ClInclude Include="FireParticle.h" />
+    <ClInclude Include="FireParticleManager.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="json.hpp" />
     <ClInclude Include="Load.h" />
@@ -201,6 +203,7 @@
     <ClInclude Include="TankManager.h" />
     <ClInclude Include="TitleScene.h" />
     <ClInclude Include="WoodParticle.h" />
+    <ClInclude Include="WoodParticleManager.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Block.cpp" />
@@ -208,6 +211,8 @@
     <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="BulletManager.cpp" />
     <ClCompile Include="DeviceResources.cpp" />
+    <ClCompile Include="FireParticle.cpp" />
+    <ClCompile Include="FireParticleManager.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="Load.cpp" />
     <ClCompile Include="Main.cpp" />
@@ -225,6 +230,7 @@
     <ClCompile Include="TankManager.cpp" />
     <ClCompile Include="TitleScene.cpp" />
     <ClCompile Include="WoodParticle.cpp" />
+    <ClCompile Include="WoodParticleManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="resource.rc" />

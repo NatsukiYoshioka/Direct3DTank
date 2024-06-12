@@ -56,6 +56,15 @@
     <Filter Include="Scene\ResultScene">
       <UniqueIdentifier>{15c32dba-959a-48ff-8ba0-9c76ea0ad7cf}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Particle\FireParticle">
+      <UniqueIdentifier>{5ebb992e-9bcd-42aa-8435-fcc7432c921e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Particle\WoodParticleManager">
+      <UniqueIdentifier>{fb93fb57-3a9c-4f7e-8e35-608cd0193123}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Particle\FireParticleManager">
+      <UniqueIdentifier>{f057638d-b4a8-4fdb-a5c3-84e15dbb16ed}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
@@ -112,6 +121,15 @@
     <ClInclude Include="ResultScene.h">
       <Filter>Scene\ResultScene</Filter>
     </ClInclude>
+    <ClInclude Include="FireParticle.h">
+      <Filter>Particle\FireParticle</Filter>
+    </ClInclude>
+    <ClInclude Include="WoodParticleManager.h">
+      <Filter>Particle\WoodParticleManager</Filter>
+    </ClInclude>
+    <ClInclude Include="FireParticleManager.h">
+      <Filter>Particle\FireParticleManager</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
@@ -158,6 +176,15 @@
     </ClCompile>
     <ClCompile Include="ResultScene.cpp">
       <Filter>Scene\ResultScene</Filter>
+    </ClCompile>
+    <ClCompile Include="FireParticle.cpp">
+      <Filter>Particle\FireParticle</Filter>
+    </ClCompile>
+    <ClCompile Include="WoodParticleManager.cpp">
+      <Filter>Particle\WoodParticleManager</Filter>
+    </ClCompile>
+    <ClCompile Include="FireParticleManager.cpp">
+      <Filter>Particle\FireParticleManager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

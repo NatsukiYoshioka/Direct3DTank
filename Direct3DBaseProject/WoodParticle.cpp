@@ -5,6 +5,7 @@
 #include<math.h>
 #include "WoodParticle.h"
 
+//パーティクルのランダム設定
 WoodParticle::WoodParticle(DirectX::Model* woodParticleModelHandle, Vector3 pos):
     m_woodParticleModelHandle(woodParticleModelHandle),
     m_pos(pos),
@@ -31,11 +32,13 @@ WoodParticle::WoodParticle(DirectX::Model* woodParticleModelHandle, Vector3 pos)
     m_upPower = distribution(generator);
 }
 
+//デストラクタ
 WoodParticle::~WoodParticle()
 {
 
 }
 
+//パーティクル更新
 void WoodParticle::Update(DirectX::SimpleMath::Matrix world)
 {
     float woodRotation = Game::GetTime() * m_rotationSpeed;
@@ -52,7 +55,7 @@ void WoodParticle::Update(DirectX::SimpleMath::Matrix world)
 
     m_world = world;
     m_world = XMMatrixMultiply(world, Matrix::CreateScale(m_scale));
-    //m_world = XMMatrixMultiply(m_world, XMMatrixRotationX(woodRotation));
+    if (m_pos.y > m_minY)m_world = XMMatrixMultiply(m_world, XMMatrixRotationX(woodRotation));
     m_world = XMMatrixMultiply(m_world, Matrix::CreateRotationY(m_degree));
     if (m_pos.y > m_minY)m_world = XMMatrixMultiply(m_world, XMMatrixRotationZ(woodRotation));
     m_local = XMMatrixTranslation(m_pos.x, m_pos.y, m_pos.z);
@@ -61,6 +64,7 @@ void WoodParticle::Update(DirectX::SimpleMath::Matrix world)
     m_upPower -= m_decreaseY;
 }
 
+//パーティクル描画
 void WoodParticle::Draw(ID3D11DeviceContext1* context, DirectX::CommonStates* states, DirectX::SimpleMath::Matrix view, DirectX::SimpleMath::Matrix projection)
 {
     m_woodParticleModelHandle->Draw(context, *states, m_local, view, projection);

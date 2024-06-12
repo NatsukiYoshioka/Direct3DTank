@@ -160,6 +160,7 @@ void Load::LoadData(ID3D11Device* deviceResources, ID3D11DeviceContext* context)
 		m_mainGameUIScale.push_back(m_json["MainGameUIScale"][i]);
 	}
 
+	//リザルトUIのロード
 	m_resultUI.assign(m_json["ResultUI"].size(), nullptr);
 	for (int i = initializeNum; i < m_resultUI.size(); i++)
 	{
@@ -167,5 +168,16 @@ void Load::LoadData(ID3D11Device* deviceResources, ID3D11DeviceContext* context)
 		DX::ThrowIfFailed(CreateWICTextureFromFile(device, Widen(str).c_str(), nullptr, m_resultUI.at(i).ReleaseAndGetAddressOf()));
 		m_resultUIPos.push_back(Vector2(m_json["ResultUIPos"][i].at(m_xIndex), m_json["ResultUIPos"][i].at(m_yIndex)));
 		m_resultUIScale.push_back(m_json["ResultUIScale"][i]);
+	}
+
+	//炎パーティクルのロード
+	m_fireParticle.assign(m_json["FireParticle"].size() * m_fireParticleSize, nullptr);
+	for (int i = initializeNum; i < m_json["FireParticle"].size(); i++)
+	{
+		str = m_json["FireParticle"].at(i);
+		for (int j = initializeNum; j < m_fireParticleSize; j++)
+		{
+			DX::ThrowIfFailed(CreateWICTextureFromFile(device, Widen(str).c_str(), nullptr, m_fireParticle.at(i * m_fireParticleSize + j).ReleaseAndGetAddressOf()));
+		}
 	}
 }

@@ -153,6 +153,15 @@
 
     "WoodParticle": "plank.cmo",
 
+    "FireParticle": [
+        "fire1.png",
+        "fire2.png",
+        "fire3.png",
+        "fire4.png",
+        "fire5.png",
+        "fire6.png"
+    ],
+
     "Mapchip": [
         [ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2 ],
         [ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2 ],
