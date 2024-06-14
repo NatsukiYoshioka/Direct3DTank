@@ -76,7 +76,7 @@ void Game::Update(DX::StepTimer const& timer)
     m_blockManager->Update(m_world);
     m_tankManager->Update(m_world, m_blockManager, m_bulletManager, m_sceneManager->GetNowSceneState());
     m_bulletManager->Update(m_world, m_tankManager, m_blockManager);
-    m_particleManager->Update(m_world, m_blockManager);
+    m_particleManager->Update(m_world, m_blockManager, m_tankManager);
     m_sceneManager->Update(m_tankManager);
     if (m_sceneManager->GetIsChange())
     {
@@ -117,12 +117,14 @@ void Game::Render()
 
     // TODO: Add your rendering code here.
     m_spriteBatch->Begin(SpriteSortMode_FrontToBack, m_load->GetStates()->NonPremultiplied());
+    m_primitiveBatch->Begin();
     m_blockManager->Draw(context, m_load->GetStates(), m_view, m_proj);
     m_tankManager->Draw(context, m_load->GetStates(), m_view, m_proj, m_load->GetTankTexture(), m_load->GetEngineTexture());
     m_bulletManager->Draw(context, m_load->GetStates(), m_view, m_proj);
-    m_particleManager->Draw(context, m_load->GetStates(), m_view, m_proj);
+    m_particleManager->Draw(context, m_load->GetStates(), m_view, m_proj, m_primitiveBatch.get());
     m_sceneManager->Draw(m_spriteBatch.get());
     m_spriteBatch->End();
+    m_primitiveBatch->End();
     context;
 
     m_deviceResources->PIXEndEvent();
@@ -219,6 +221,9 @@ void Game::CreateDeviceDependentResources()
     // TODO: Initialize device dependent objects here (independent of window size).
     //オブジェクトのロード
     m_spriteBatch = std::make_unique<SpriteBatch>(context);
+    m_primitiveBatch = std::make_unique<PrimitiveBatch<VertexType>>(context);
+    m_basicEffect = std::make_unique<BasicEffect>(device);
+    m_basicEffect->SetVertexColorEnabled(true);
 
     Load::CreateInstance();
     m_load = Load::GetInstance();

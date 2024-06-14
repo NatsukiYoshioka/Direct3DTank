@@ -5,6 +5,7 @@ using namespace DirectX::SimpleMath;
 using namespace std;
 
 class BlockManager;
+class TankManager;
 class WoodParticleManager;
 class FireParticleManager;
 
@@ -33,7 +34,7 @@ public:
     /// </summary>
     /// <param name="world"></param>
     /// <param name="blockManager"></param>
-    void Update(DirectX::SimpleMath::Matrix world, BlockManager* blockManager);
+    void Update(DirectX::SimpleMath::Matrix world, BlockManager* blockManager, TankManager* tankManager);
 
     /// <summary>
     /// パーティクルの描画
@@ -42,7 +43,7 @@ public:
     /// <param name="states"></param>
     /// <param name="view"></param>
     /// <param name="projection"></param>
-    void Draw(ID3D11DeviceContext1* context, DirectX::CommonStates* states, DirectX::SimpleMath::Matrix view, DirectX::SimpleMath::Matrix projection);
+    void Draw(ID3D11DeviceContext1* context, DirectX::CommonStates* states, DirectX::SimpleMath::Matrix view, DirectX::SimpleMath::Matrix projection, DirectX::PrimitiveBatch<VertexPositionTexture>* primitiveBatch);
 
 private:
     WoodParticleManager* m_woodParticleManager;     //木片パーティクルマネージャー

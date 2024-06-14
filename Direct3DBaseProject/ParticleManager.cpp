@@ -1,5 +1,6 @@
 #include "pch.h"
 #include"BlockManager.h"
+#include"TankManager.h"
 #include"WoodParticleManager.h"
 #include"FireParticleManager.h"
 #include"common.h"
@@ -28,15 +29,15 @@ void ParticleManager::Init()
 }
 
 //パーティクルの更新
-void ParticleManager::Update(DirectX::SimpleMath::Matrix world, BlockManager* blockmanager)
+void ParticleManager::Update(DirectX::SimpleMath::Matrix world, BlockManager* blockmanager, TankManager* tankManager)
 {
     m_woodParticleManager->Update(world, blockmanager);
-    m_fireParticleManager->Update(world);
+    m_fireParticleManager->Update(world, tankManager);
 }
 
 //パーティクルの描画
-void ParticleManager::Draw(ID3D11DeviceContext1* context, DirectX::CommonStates* states, DirectX::SimpleMath::Matrix view, DirectX::SimpleMath::Matrix projection)
+void ParticleManager::Draw(ID3D11DeviceContext1* context, DirectX::CommonStates* states, DirectX::SimpleMath::Matrix view, DirectX::SimpleMath::Matrix projection, DirectX::PrimitiveBatch<VertexPositionTexture>* primitiveBatch)
 {
     m_woodParticleManager->Draw(context, states, view, projection);
-    m_fireParticleManager->Draw(context, states, view, projection);
+    m_fireParticleManager->Draw(context, states, view, projection, primitiveBatch);
 }
