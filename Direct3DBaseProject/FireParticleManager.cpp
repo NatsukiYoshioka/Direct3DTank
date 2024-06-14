@@ -1,11 +1,15 @@
 #include "pch.h"
+#include<random>
+#define _USE_MATH_DEFINES
 #include"TankManager.h"
 #include"Tank.h"
 #include"common.h"
 #include"FireParticle.h"
 #include "FireParticleManager.h"
 
-FireParticleManager::FireParticleManager(vector<Microsoft::WRL::ComPtr<ID3D11ShaderResourceView>> fireParticle)
+FireParticleManager::FireParticleManager(vector<Microsoft::WRL::ComPtr<ID3D11ShaderResourceView>> fireParticle, vector<unique_ptr<DirectX::BasicEffect>>&& fireBasicEffect, vector<Microsoft::WRL::ComPtr<ID3D11InputLayout>> fireInputLayout):
+    m_fireBasicEffect(move(fireBasicEffect)),
+    m_fireInputLayout(fireInputLayout)
 {
     for (int i = initializeNum; i < fireParticle.size(); i++)
     {
@@ -19,6 +23,8 @@ FireParticleManager::~FireParticleManager()
     for (int i = initializeNum; i < m_fireParticleHandle.size(); i++)
     {
         m_fireParticleHandle.at(i).Reset();
+        m_fireBasicEffect.at(i).reset();
+        m_fireInputLayout.at(i).Reset();
     }
 }
 
@@ -38,7 +44,7 @@ void FireParticleManager::Update(DirectX::SimpleMath::Matrix world, TankManager*
             {
                 if (!m_isUseParticle.at(j))
                 {
-                    m_fireParticles.push_back(new FireParticle(m_fireParticleHandle.at(j).Get(), j, tankManager->GetTanks().at(i)->GetPos()));
+                    m_fireParticles.push_back(new FireParticle(m_fireParticleHandle.at(j).Get(), j, tankManager->GetTanks().at(i)->GetPos(), m_fireBasicEffect.at(j).get(), m_fireInputLayout.at(j).Get()));
                     m_isUseParticle.at(j) = true;
                 }
             }
@@ -56,6 +62,7 @@ void FireParticleManager::Update(DirectX::SimpleMath::Matrix world, TankManager*
         if (m_fireParticles.at(i)->GetIsFinish())
         {
             m_isUseParticle.at(m_fireParticles.at(i)->GetHandleIndex()) = false;
+            m_fireParticles.erase(m_fireParticles.begin() + i);
         }
     }
 }

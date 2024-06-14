@@ -10,7 +10,7 @@ class TankManager;
 class FireParticleManager
 {
 public:
-    FireParticleManager(vector<Microsoft::WRL::ComPtr<ID3D11ShaderResourceView>> fireParticle);
+    FireParticleManager(vector<Microsoft::WRL::ComPtr<ID3D11ShaderResourceView>> fireParticle, vector<unique_ptr<DirectX::BasicEffect>>&& fireBasicEffect, vector<Microsoft::WRL::ComPtr<ID3D11InputLayout>> fireInputLayout);
     ~FireParticleManager();
 
     void Init();
@@ -19,6 +19,9 @@ public:
 private:
     vector<Microsoft::WRL::ComPtr<ID3D11ShaderResourceView>> m_fireParticleHandle;
     vector<FireParticle*> m_fireParticles;
+
+    vector<unique_ptr<DirectX::BasicEffect>> m_fireBasicEffect;
+    vector<Microsoft::WRL::ComPtr<ID3D11InputLayout>> m_fireInputLayout;
 
     vector<bool> m_isUseParticle;
 };

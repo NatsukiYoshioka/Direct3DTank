@@ -7,7 +7,7 @@ using namespace std;
 class FireParticle
 {
 public:
-    FireParticle(ID3D11ShaderResourceView* fireParticle, int handleIndex, Vector3 pos);
+    FireParticle(ID3D11ShaderResourceView* fireParticle, int handleIndex, Vector3 pos, BasicEffect* basicEffect, ID3D11InputLayout* inputLayout);
     ~FireParticle();
 
     void Update(DirectX::SimpleMath::Matrix world);
@@ -18,9 +18,12 @@ public:
     const int GetHandleIndex() { return m_handleIndex; }
 private:
     ID3D11ShaderResourceView* m_fireParticle;
-    
     const int m_handleIndex;
 
+    BasicEffect* m_basicEffect;
+    ID3D11InputLayout* m_inputLayout;
+
+    Vector3 m_direction;
     Vector3 m_pos;
     Matrix m_world;
     Matrix m_local;
@@ -29,7 +32,7 @@ private:
 
     float m_maxUpVectorY;
     static constexpr float m_minDistributionUpVectorY = 0.2f;
-    static constexpr float m_maxDistributionUpVectorY = 0.8f;
+    static constexpr float m_maxDistributionUpVectorY = 0.6f;
 
     float m_upSpeed;
     static constexpr float m_minUpSpeed = 0.001f;
@@ -39,8 +42,11 @@ private:
     static constexpr float m_maxDirection = 0.2f;
 
     static constexpr float m_minWidth = 0.f;
-    static constexpr float m_maxWidth = 0.7f;
+    static constexpr float m_maxWidth = 0.35f;
 
     static constexpr float m_scale = 0.1f;
+
+    static constexpr float m_textureWidth = 0.3f;
+    static constexpr float m_sponeHeight = 0.3f;
 };
 

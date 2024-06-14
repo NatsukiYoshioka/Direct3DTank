@@ -76,7 +76,6 @@ private:
     std::unique_ptr<DirectX::SpriteBatch> m_spriteBatch;
     using VertexType = DirectX::VertexPositionTexture;
     std::unique_ptr<DirectX::PrimitiveBatch<VertexType>> m_primitiveBatch;
-    std::unique_ptr<DirectX::BasicEffect> m_basicEffect;
 
     void Update(DX::StepTimer const& timer);
     void Render();

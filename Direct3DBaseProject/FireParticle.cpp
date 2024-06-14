@@ -5,20 +5,23 @@
 #include"common.h"
 #include "FireParticle.h"
 
-FireParticle::FireParticle(ID3D11ShaderResourceView* fireParticle, int handleIndex, Vector3 pos):
+FireParticle::FireParticle(ID3D11ShaderResourceView* fireParticle, int handleIndex, Vector3 pos, BasicEffect* basicEffect, ID3D11InputLayout* inputLayout):
     m_fireParticle(fireParticle),
     m_handleIndex(handleIndex),
+    m_basicEffect(basicEffect),
+    m_inputLayout(inputLayout),
     m_pos(pos),
     m_world(),
     m_local(),
     m_isFinish(false)
 {
+    m_pos.y += m_sponeHeight;
     //炎が上がる最大Y軸量の設定
     std::random_device random;
     std::mt19937 generator(random());
     using dist_type = std::uniform_real_distribution<float>;
     dist_type distribution(m_minDistributionUpVectorY, m_maxDistributionUpVectorY);
-    m_maxUpVectorY = distribution(generator);
+    m_maxUpVectorY = m_pos.y + distribution(generator);
 
     //炎の上昇スピード設定
     dist_type::param_type param(m_minUpSpeed, m_maxUpSpeed);
@@ -29,23 +32,22 @@ FireParticle::FireParticle(ID3D11ShaderResourceView* fireParticle, int handleInd
     param._Min = m_minDirection;
     param._Max = m_maxDirection;
     distribution.param(param);
-    Vector3 movePos = Vector3::Zero;
     float degree = distribution(generator) * 180.f / M_PI;
     float cos, sin;
     cos = std::cos(degree);
     sin = std::sin(degree);
-    movePos.x = sin;
-    movePos.z = cos;
+    m_direction.x = sin;
+    m_direction.z = cos;
 
     param._Min = m_minWidth;
     param._Max = m_maxWidth;
     distribution.param(param);
     float widthX = distribution(generator);
     float widthZ = distribution(generator);
-    movePos.x *= widthX;
-    movePos.z += widthZ;
+    m_direction.x *= widthX;
+    m_direction.z *= widthZ;
 
-    m_pos += movePos;
+    m_pos += m_direction;
 }
 
 FireParticle::~FireParticle()
@@ -68,5 +70,25 @@ void FireParticle::Update(DirectX::SimpleMath::Matrix world)
 
 void FireParticle::Draw(ID3D11DeviceContext1* context, DirectX::CommonStates* states, DirectX::SimpleMath::Matrix view, DirectX::SimpleMath::Matrix projection, DirectX::PrimitiveBatch<VertexPositionTexture>* primitiveBatch)
 {
-    
+    auto Context = context;
+    Context->OMSetBlendState(states->NonPremultiplied(), nullptr, 0xFFFFFFFF);
+    Context->OMSetDepthStencilState(states->DepthDefault(), initializeNum);
+    Context->RSSetState(states->CullNone());
+
+    m_basicEffect->Apply(Context);
+
+    auto sampler = states->LinearClamp();
+    Context->PSSetSamplers(0, 1, &sampler);
+
+    Context->IASetInputLayout(m_inputLayout);
+
+    m_basicEffect->SetView(view);
+    m_basicEffect->SetProjection(projection);
+
+    VertexPositionTexture v1(Vector3(m_pos.x - m_textureWidth, m_pos.y + m_textureWidth, m_pos.z), Vector2(0.f, 0.f));
+    VertexPositionTexture v2(Vector3(m_pos.x + m_textureWidth, m_pos.y + m_textureWidth, m_pos.z), Vector2(1.f, 0.f));
+    VertexPositionTexture v3(Vector3(m_pos.x - m_textureWidth, m_pos.y - m_textureWidth, m_pos.z), Vector2(0.f, 1.f));
+    VertexPositionTexture v4(Vector3(m_pos.x + m_textureWidth, m_pos.y - m_textureWidth, m_pos.z), Vector2(1.f, 1.f));
+
+    primitiveBatch->DrawQuad(v1, v2, v3, v4);
 }

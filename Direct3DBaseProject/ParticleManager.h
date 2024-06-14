@@ -8,6 +8,7 @@ class BlockManager;
 class TankManager;
 class WoodParticleManager;
 class FireParticleManager;
+class SceneManager;
 
 class ParticleManager
 {
@@ -17,7 +18,7 @@ public:
     /// </summary>
     /// <param name="woodModelHandle"></param>
     /// <param name="fireParticle"></param>
-    ParticleManager(vector<unique_ptr<DirectX::Model>>&& woodModelHandle, vector<Microsoft::WRL::ComPtr<ID3D11ShaderResourceView>> fireParticle);
+    ParticleManager(vector<unique_ptr<DirectX::Model>>&& woodModelHandle, vector<Microsoft::WRL::ComPtr<ID3D11ShaderResourceView>> fireParticle, vector<unique_ptr<DirectX::BasicEffect>>&& fireBasicEffect, vector<Microsoft::WRL::ComPtr<ID3D11InputLayout>> fireInputLayout);
 
     /// <summary>
     /// データ破棄
@@ -34,7 +35,7 @@ public:
     /// </summary>
     /// <param name="world"></param>
     /// <param name="blockManager"></param>
-    void Update(DirectX::SimpleMath::Matrix world, BlockManager* blockManager, TankManager* tankManager);
+    void Update(DirectX::SimpleMath::Matrix world, BlockManager* blockManager, TankManager* tankManager, SceneManager* sceneManager);
 
     /// <summary>
     /// パーティクルの描画
@@ -43,7 +44,7 @@ public:
     /// <param name="states"></param>
     /// <param name="view"></param>
     /// <param name="projection"></param>
-    void Draw(ID3D11DeviceContext1* context, DirectX::CommonStates* states, DirectX::SimpleMath::Matrix view, DirectX::SimpleMath::Matrix projection, DirectX::PrimitiveBatch<VertexPositionTexture>* primitiveBatch);
+    void Draw(ID3D11DeviceContext1* context, DirectX::CommonStates* states, DirectX::SimpleMath::Matrix view, DirectX::SimpleMath::Matrix projection, DirectX::PrimitiveBatch<VertexPositionTexture>* primitiveBatch, SceneManager* sceneManager);
 
 private:
     WoodParticleManager* m_woodParticleManager;     //木片パーティクルマネージャー

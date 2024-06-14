@@ -178,6 +178,14 @@ void Load::LoadData(ID3D11Device* deviceResources, ID3D11DeviceContext* context)
 		for (int j = initializeNum; j < m_fireParticleSize; j++)
 		{
 			DX::ThrowIfFailed(CreateWICTextureFromFile(device, Widen(str).c_str(), nullptr, m_fireParticle.at(i * m_fireParticleSize + j).ReleaseAndGetAddressOf()));
+			m_fireBasicEffect.push_back(make_unique<BasicEffect>(device));
+			m_fireBasicEffect.at(i * m_fireParticleSize + j)->SetTextureEnabled(true);
+			m_fireBasicEffect.at(i * m_fireParticleSize + j)->SetTexture(m_fireParticle.at(i * m_fireParticleSize + j).Get());
 		}
+	}
+	m_fireInputLayout.assign(m_fireParticle.size(), nullptr);
+	for (int i = initializeNum; i < m_fireInputLayout.size(); i++)
+	{
+		DX::ThrowIfFailed(CreateInputLayoutFromEffect<VertexType>(device, m_fireBasicEffect.at(i).get(), m_fireInputLayout.at(i).ReleaseAndGetAddressOf()));
 	}
 }
