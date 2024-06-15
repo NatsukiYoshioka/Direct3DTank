@@ -5,11 +5,10 @@
 #include"common.h"
 #include "FireParticle.h"
 
-FireParticle::FireParticle(ID3D11ShaderResourceView* fireParticle, int handleIndex, Vector3 pos, BasicEffect* basicEffect, ID3D11InputLayout* inputLayout):
+FireParticle::FireParticle(ID3D11ShaderResourceView* fireParticle, int handleIndex, Vector3 pos, BasicEffect* basicEffect):
     m_fireParticle(fireParticle),
     m_handleIndex(handleIndex),
     m_basicEffect(basicEffect),
-    m_inputLayout(inputLayout),
     m_pos(pos),
     m_world(),
     m_local(),
@@ -22,6 +21,7 @@ FireParticle::FireParticle(ID3D11ShaderResourceView* fireParticle, int handleInd
     using dist_type = std::uniform_real_distribution<float>;
     dist_type distribution(m_minDistributionUpVectorY, m_maxDistributionUpVectorY);
     m_maxUpVectorY = m_pos.y + distribution(generator);
+    m_basicEffect->SetDiffuseColor(Vector3(0, 0, 0));
 
     //炎の上昇スピード設定
     dist_type::param_type param(m_minUpSpeed, m_maxUpSpeed);
@@ -46,8 +46,6 @@ FireParticle::FireParticle(ID3D11ShaderResourceView* fireParticle, int handleInd
     float widthZ = distribution(generator);
     m_direction.x *= widthX;
     m_direction.z *= widthZ;
-
-    m_pos += m_direction;
 }
 
 FireParticle::~FireParticle()
@@ -57,22 +55,23 @@ FireParticle::~FireParticle()
 
 void FireParticle::Update(DirectX::SimpleMath::Matrix world)
 {
+    m_pos += m_direction;
     m_pos.y += m_upSpeed;
     if (m_pos.y >= m_maxUpVectorY)
     {
         m_isFinish = true;
     }
-
+    
     m_world = world;
     m_local = XMMatrixTranslation(m_pos.x, m_pos.y, m_pos.z);
     m_local = XMMatrixMultiply(m_world, m_local);
 }
 
-void FireParticle::Draw(ID3D11DeviceContext1* context, DirectX::CommonStates* states, DirectX::SimpleMath::Matrix view, DirectX::SimpleMath::Matrix projection, DirectX::PrimitiveBatch<VertexPositionTexture>* primitiveBatch)
+void FireParticle::Draw(ID3D11DeviceContext1* context, DirectX::CommonStates* states, DirectX::SimpleMath::Matrix view, DirectX::SimpleMath::Matrix projection, DirectX::PrimitiveBatch<VertexPositionTexture>* primitiveBatch, ID3D11InputLayout* inputLayout)
 {
     auto Context = context;
     Context->OMSetBlendState(states->NonPremultiplied(), nullptr, 0xFFFFFFFF);
-    Context->OMSetDepthStencilState(states->DepthDefault(), initializeNum);
+    Context->OMSetDepthStencilState(states->DepthRead(), initializeNum);
     Context->RSSetState(states->CullNone());
 
     m_basicEffect->Apply(Context);
@@ -80,15 +79,15 @@ void FireParticle::Draw(ID3D11DeviceContext1* context, DirectX::CommonStates* st
     auto sampler = states->LinearClamp();
     Context->PSSetSamplers(0, 1, &sampler);
 
-    Context->IASetInputLayout(m_inputLayout);
+    Context->IASetInputLayout(inputLayout);
 
     m_basicEffect->SetView(view);
     m_basicEffect->SetProjection(projection);
 
-    VertexPositionTexture v1(Vector3(m_pos.x - m_textureWidth, m_pos.y + m_textureWidth, m_pos.z), Vector2(0.f, 0.f));
-    VertexPositionTexture v2(Vector3(m_pos.x + m_textureWidth, m_pos.y + m_textureWidth, m_pos.z), Vector2(1.f, 0.f));
-    VertexPositionTexture v3(Vector3(m_pos.x - m_textureWidth, m_pos.y - m_textureWidth, m_pos.z), Vector2(0.f, 1.f));
-    VertexPositionTexture v4(Vector3(m_pos.x + m_textureWidth, m_pos.y - m_textureWidth, m_pos.z), Vector2(1.f, 1.f));
+    VertexPositionTexture v1(Vector3(m_pos.x, m_pos.y + m_textureWidth, m_pos.z - m_textureWidth), Vector2(0.f, 0.f));
+    VertexPositionTexture v2(Vector3(m_pos.x, m_pos.y + m_textureWidth, m_pos.z + m_textureWidth), Vector2(1.f, 0.f));
+    VertexPositionTexture v3(Vector3(m_pos.x, m_pos.y - m_textureWidth, m_pos.z + m_textureWidth), Vector2(1.f, 1.f));
+    VertexPositionTexture v4(Vector3(m_pos.x, m_pos.y - m_textureWidth, m_pos.z - m_textureWidth), Vector2(0.f, 1.f));
 
     primitiveBatch->DrawQuad(v1, v2, v3, v4);
 }

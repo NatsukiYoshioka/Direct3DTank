@@ -8,7 +8,7 @@
 #include "ParticleManager.h"
 
 //ÉfÅ[É^éÊìæ
-ParticleManager::ParticleManager(vector<unique_ptr<DirectX::Model>>&& woodModelHandle, vector<Microsoft::WRL::ComPtr<ID3D11ShaderResourceView>> fireParticle, vector<unique_ptr<DirectX::BasicEffect>>&& fireBasicEffect, vector<Microsoft::WRL::ComPtr<ID3D11InputLayout>> fireInputLayout)
+ParticleManager::ParticleManager(vector<unique_ptr<DirectX::Model>>&& woodModelHandle, vector<Microsoft::WRL::ComPtr<ID3D11ShaderResourceView>> fireParticle, vector<unique_ptr<DirectX::BasicEffect>>&& fireBasicEffect, Microsoft::WRL::ComPtr<ID3D11InputLayout> fireInputLayout)
 {
     m_woodParticleManager = new WoodParticleManager(move(woodModelHandle));
     m_fireParticleManager = new FireParticleManager(fireParticle, move(fireBasicEffect), fireInputLayout);

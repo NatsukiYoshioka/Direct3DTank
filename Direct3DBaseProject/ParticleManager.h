@@ -18,7 +18,7 @@ public:
     /// </summary>
     /// <param name="woodModelHandle"></param>
     /// <param name="fireParticle"></param>
-    ParticleManager(vector<unique_ptr<DirectX::Model>>&& woodModelHandle, vector<Microsoft::WRL::ComPtr<ID3D11ShaderResourceView>> fireParticle, vector<unique_ptr<DirectX::BasicEffect>>&& fireBasicEffect, vector<Microsoft::WRL::ComPtr<ID3D11InputLayout>> fireInputLayout);
+    ParticleManager(vector<unique_ptr<DirectX::Model>>&& woodModelHandle, vector<Microsoft::WRL::ComPtr<ID3D11ShaderResourceView>> fireParticle, vector<unique_ptr<DirectX::BasicEffect>>&& fireBasicEffect, Microsoft::WRL::ComPtr<ID3D11InputLayout> fireInputLayout);
 
     /// <summary>
     /// ÉfÅ[É^îjä¸

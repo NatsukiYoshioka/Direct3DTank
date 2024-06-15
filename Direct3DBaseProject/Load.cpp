@@ -66,7 +66,7 @@ void Load::LoadData(ID3D11Device* deviceResources, ID3D11DeviceContext* context)
 
 	m_fxFactory = make_unique<DirectX::EffectFactory>(device);
 	
-
+	
 	//プレイヤーモデルの情報をロード
 	string str = m_json["TankAPath"];
 	m_tankModelHandle.push_back(Model::CreateFromSDKMESH(device, Widen(str).c_str(), *m_fxFactory, ModelLoader_CounterClockwise | ModelLoader_IncludeBones));
@@ -77,6 +77,8 @@ void Load::LoadData(ID3D11Device* deviceResources, ID3D11DeviceContext* context)
 	str = m_json["TankBTexturePath2"];
 	m_fxFactory->CreateTexture(Widen(str).c_str(), context, &m_engineTexture);
 	str = m_json["TankBPath"];
+
+	
 	m_tankModelHandle.push_back(Model::CreateFromSDKMESH(device, Widen(str).c_str(), *m_fxFactory, ModelLoader_CounterClockwise | ModelLoader_IncludeBones));
 	m_tankPos.push_back({ m_json["TankBPosX"],m_json["TankBPosY"],m_json["TankBPosZ"] });
 	
@@ -183,9 +185,9 @@ void Load::LoadData(ID3D11Device* deviceResources, ID3D11DeviceContext* context)
 			m_fireBasicEffect.at(i * m_fireParticleSize + j)->SetTexture(m_fireParticle.at(i * m_fireParticleSize + j).Get());
 		}
 	}
-	m_fireInputLayout.assign(m_fireParticle.size(), nullptr);
-	for (int i = initializeNum; i < m_fireInputLayout.size(); i++)
+	for (int i = initializeNum; i < m_fireBasicEffect.size(); i++)
 	{
-		DX::ThrowIfFailed(CreateInputLayoutFromEffect<VertexType>(device, m_fireBasicEffect.at(i).get(), m_fireInputLayout.at(i).ReleaseAndGetAddressOf()));
+		DX::ThrowIfFailed(CreateInputLayoutFromEffect<VertexType>(device, m_fireBasicEffect.at(i).get(), m_fireInputLayout.ReleaseAndGetAddressOf()));
 	}
+	
 }

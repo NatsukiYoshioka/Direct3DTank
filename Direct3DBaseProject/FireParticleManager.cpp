@@ -7,7 +7,7 @@
 #include"FireParticle.h"
 #include "FireParticleManager.h"
 
-FireParticleManager::FireParticleManager(vector<Microsoft::WRL::ComPtr<ID3D11ShaderResourceView>> fireParticle, vector<unique_ptr<DirectX::BasicEffect>>&& fireBasicEffect, vector<Microsoft::WRL::ComPtr<ID3D11InputLayout>> fireInputLayout):
+FireParticleManager::FireParticleManager(vector<Microsoft::WRL::ComPtr<ID3D11ShaderResourceView>> fireParticle, vector<unique_ptr<DirectX::BasicEffect>>&& fireBasicEffect, Microsoft::WRL::ComPtr<ID3D11InputLayout> fireInputLayout):
     m_fireBasicEffect(move(fireBasicEffect)),
     m_fireInputLayout(fireInputLayout)
 {
@@ -24,8 +24,8 @@ FireParticleManager::~FireParticleManager()
     {
         m_fireParticleHandle.at(i).Reset();
         m_fireBasicEffect.at(i).reset();
-        m_fireInputLayout.at(i).Reset();
     }
+    m_fireInputLayout.Reset();
 }
 
 void FireParticleManager::Init()
@@ -36,15 +36,17 @@ void FireParticleManager::Init()
 void FireParticleManager::Update(DirectX::SimpleMath::Matrix world, TankManager* tankmanager)
 {
     auto tankManager = tankmanager;
+    int tankIndex;
     for (int i = initializeNum; i < tankManager->GetTanks().size(); i++)
     {
         if (tankManager->GetTanks().at(i)->GetIsBreak())
         {
+            tankIndex = i;
             for (int j = initializeNum; j < m_fireParticleHandle.size(); j++)
             {
                 if (!m_isUseParticle.at(j))
                 {
-                    m_fireParticles.push_back(new FireParticle(m_fireParticleHandle.at(j).Get(), j, tankManager->GetTanks().at(i)->GetPos(), m_fireBasicEffect.at(j).get(), m_fireInputLayout.at(j).Get()));
+                    m_fireParticles.push_back(new FireParticle(m_fireParticleHandle.at(j).Get(), j, tankManager->GetTanks().at(tankIndex)->GetPos(), m_fireBasicEffect.at(j).get()));
                     m_isUseParticle.at(j) = true;
                 }
             }
@@ -71,6 +73,6 @@ void FireParticleManager::Draw(ID3D11DeviceContext1* context, DirectX::CommonSta
 {
     for (int i = initializeNum; i < m_fireParticles.size(); i++)
     {
-        m_fireParticles.at(i)->Draw(context, states, view, projection, primitiveBatch);
+        m_fireParticles.at(i)->Draw(context, states, view, projection, primitiveBatch, m_fireInputLayout.Get());
     }
 }

@@ -7,11 +7,11 @@ using namespace std;
 class FireParticle
 {
 public:
-    FireParticle(ID3D11ShaderResourceView* fireParticle, int handleIndex, Vector3 pos, BasicEffect* basicEffect, ID3D11InputLayout* inputLayout);
+    FireParticle(ID3D11ShaderResourceView* fireParticle, int handleIndex, Vector3 pos, BasicEffect* basicEffect);
     ~FireParticle();
 
     void Update(DirectX::SimpleMath::Matrix world);
-    void Draw(ID3D11DeviceContext1* context, DirectX::CommonStates* states, DirectX::SimpleMath::Matrix view, DirectX::SimpleMath::Matrix projection, DirectX::PrimitiveBatch<VertexPositionTexture>* primitiveBatch);
+    void Draw(ID3D11DeviceContext1* context, DirectX::CommonStates* states, DirectX::SimpleMath::Matrix view, DirectX::SimpleMath::Matrix projection, DirectX::PrimitiveBatch<VertexPositionTexture>* primitiveBatch, ID3D11InputLayout* inputLayout);
 
     bool GetIsFinish() { return m_isFinish; }
 
@@ -21,7 +21,6 @@ private:
     const int m_handleIndex;
 
     BasicEffect* m_basicEffect;
-    ID3D11InputLayout* m_inputLayout;
 
     Vector3 m_direction;
     Vector3 m_pos;
@@ -41,12 +40,12 @@ private:
     static constexpr float m_minDirection = 0.f;
     static constexpr float m_maxDirection = 0.2f;
 
-    static constexpr float m_minWidth = 0.f;
-    static constexpr float m_maxWidth = 0.35f;
+    static constexpr float m_minWidth = 0.0005f;
+    static constexpr float m_maxWidth = 0.0025f;
 
     static constexpr float m_scale = 0.1f;
 
     static constexpr float m_textureWidth = 0.3f;
-    static constexpr float m_sponeHeight = 0.3f;
+    static constexpr float m_sponeHeight = 0.8f;
 };
 

@@ -162,11 +162,12 @@ void Tank::DrawFromTexture(ID3D11DeviceContext1* deviceContext, DirectX::CommonS
     size_t nbones = m_tankModelHandle->bones.size();
 
     m_tankModelHandle->CopyAbsoluteBoneTransforms(nbones, m_animBones.get(), m_drawBones.get());
-
+    
     m_tankModelHandle->Draw(context, *states, nbones, m_drawBones.get(), m_local, view, projection, false, [&]
         {
             context->PSSetShaderResources(initializeNum, m_shaderNumVeiw, &tankTexture);
             context->PSSetShaderResources(initializeNum, m_shaderNumVeiw, &engineTexture);
+            
         });
 }
 

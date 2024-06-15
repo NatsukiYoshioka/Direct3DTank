@@ -105,12 +105,6 @@ public:
     ModelMesh::Collection GetModelMesh() { return m_tankModelHandle->meshes; }
 
     /// <summary>
-    /// 座標の取得
-    /// </summary>
-    /// <returns></returns>
-    Vector3 GetPos() { return m_pos; }
-
-    /// <summary>
     /// タンクのタレットのアングルを取得
     /// </summary>
     /// <returns></returns>
@@ -139,6 +133,12 @@ public:
     /// </summary>
     /// <returns></returns>
     bool GetIsBreak() { return m_isBreak; }
+
+    /// <summary>
+    /// タンクの向き取得
+    /// </summary>
+    /// <returns></returns>
+    Vector2 GetDirection() { return m_direction; }
 
 private:
     int m_hp;                                           //プレイヤーの残機
