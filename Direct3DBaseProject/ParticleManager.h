@@ -18,7 +18,7 @@ public:
     /// </summary>
     /// <param name="woodModelHandle"></param>
     /// <param name="fireParticle"></param>
-    ParticleManager(vector<unique_ptr<DirectX::Model>>&& woodModelHandle, vector<Microsoft::WRL::ComPtr<ID3D11ShaderResourceView>> fireParticle, vector<unique_ptr<DirectX::BasicEffect>>&& fireBasicEffect, Microsoft::WRL::ComPtr<ID3D11InputLayout> fireInputLayout);
+    ParticleManager(vector<unique_ptr<DirectX::Model>>&& woodModelHandle, Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> fireParticle, ID3D11Device* deviceResources);
 
     /// <summary>
     /// データ破棄
@@ -44,10 +44,13 @@ public:
     /// <param name="states"></param>
     /// <param name="view"></param>
     /// <param name="projection"></param>
-    void Draw(ID3D11DeviceContext1* context, DirectX::CommonStates* states, DirectX::SimpleMath::Matrix view, DirectX::SimpleMath::Matrix projection, DirectX::PrimitiveBatch<VertexPositionTexture>* primitiveBatch, SceneManager* sceneManager);
+    void Draw(ID3D11DeviceContext1* context, DirectX::CommonStates* states, DirectX::SimpleMath::Matrix view, DirectX::SimpleMath::Matrix projection, DirectX::PrimitiveBatch<VertexPositionTexture>* primitiveBatch, SceneManager* sceneManager, ID3D11Device* deviceResources);
 
 private:
     WoodParticleManager* m_woodParticleManager;     //木片パーティクルマネージャー
     FireParticleManager* m_fireParticleManager;     //炎パーティクルマネージャー
+
+    unique_ptr<DirectX::BasicEffect> m_basicEffect;
+    Microsoft::WRL::ComPtr<ID3D11InputLayout> m_inputLayout;
 };
 

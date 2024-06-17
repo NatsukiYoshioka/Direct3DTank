@@ -7,11 +7,11 @@ using namespace std;
 class FireParticle
 {
 public:
-    FireParticle(ID3D11ShaderResourceView* fireParticle, int handleIndex, Vector3 pos, BasicEffect* basicEffect);
+    FireParticle(ID3D11ShaderResourceView* fireParticle, int handleIndex, Vector3 pos);
     ~FireParticle();
 
     void Update(DirectX::SimpleMath::Matrix world);
-    void Draw(ID3D11DeviceContext1* context, DirectX::CommonStates* states, DirectX::SimpleMath::Matrix view, DirectX::SimpleMath::Matrix projection, DirectX::PrimitiveBatch<VertexPositionTexture>* primitiveBatch, ID3D11InputLayout* inputLayout);
+    void Draw(ID3D11DeviceContext1* context, DirectX::CommonStates* states, DirectX::SimpleMath::Matrix view, DirectX::SimpleMath::Matrix projection, DirectX::PrimitiveBatch<VertexPositionTexture>* primitiveBatch, BasicEffect* basicEffect, ID3D11InputLayout* inputLayout);
 
     bool GetIsFinish() { return m_isFinish; }
 
@@ -19,8 +19,6 @@ public:
 private:
     ID3D11ShaderResourceView* m_fireParticle;
     const int m_handleIndex;
-
-    BasicEffect* m_basicEffect;
 
     Vector3 m_direction;
     Vector3 m_pos;
@@ -30,6 +28,7 @@ private:
     bool m_isFinish;
 
     float m_maxUpVectorY;
+    const float m_firstHeight;
     static constexpr float m_minDistributionUpVectorY = 0.2f;
     static constexpr float m_maxDistributionUpVectorY = 0.6f;
 

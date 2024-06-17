@@ -184,19 +184,19 @@ public:
 	/// 炎パーティクルの取得
 	/// </summary>
 	/// <returns></returns>
-	vector<Microsoft::WRL::ComPtr<ID3D11ShaderResourceView>> GetFireParticle() { return m_fireParticle; }
+	Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> GetFireParticle() { return m_fireParticle; }
 
 	/// <summary>
 	/// 画像パーティクル描画用変数の取得
 	/// </summary>
 	/// <returns></returns>
-	vector<unique_ptr<BasicEffect>>&& GetFireBasicEffect() { return move(m_fireBasicEffect); }
+	unique_ptr<BasicEffect>&& GetBasicEffect() { return move(m_basicEffect); }
 
 	/// <summary>
 	/// 画像パーティクル描画用レイアウトの取得
 	/// </summary>
 	/// <returns></returns>
-	Microsoft::WRL::ComPtr<ID3D11InputLayout> GetFireInputLayout() { return m_fireInputLayout; }
+	Microsoft::WRL::ComPtr<ID3D11InputLayout> GetInputLayout() { return m_inputLayout; }
 
 private:
 	static Load* m_load;				//ロードクラスのインスタンス
@@ -240,12 +240,11 @@ private:
 	vector<unique_ptr<DirectX::Model>> m_woodParticleModelHandle;	//木ブロックの破壊エフェクト用パーティクルモデル
 	static constexpr int m_maxWoodParticleNum = 10;					//パーティクルの最大数
 
-	vector<Microsoft::WRL::ComPtr<ID3D11ShaderResourceView>> m_fireParticle;	//炎パーティクルの配列
-	static constexpr int m_fireParticleSize = 30;								//各炎パーティクルの数
+	Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> m_fireParticle;	//炎パーティクルの配列
 
-	vector<unique_ptr<DirectX::BasicEffect>> m_fireBasicEffect;
+	unique_ptr<DirectX::BasicEffect> m_basicEffect;
 	using VertexType = VertexPositionTexture;
-	Microsoft::WRL::ComPtr<ID3D11InputLayout> m_fireInputLayout;
+	Microsoft::WRL::ComPtr<ID3D11InputLayout> m_inputLayout;
 
 	static constexpr int m_maxBulletNum = 6;						//弾の最大数
 };

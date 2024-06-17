@@ -114,13 +114,14 @@ void Game::Render()
 
     m_deviceResources->PIXBeginEvent(L"Render");
     auto context = m_deviceResources->GetD3DDeviceContext();
+    auto device = m_deviceResources->GetD3DDevice();
 
     // TODO: Add your rendering code here.
     m_spriteBatch->Begin(SpriteSortMode_FrontToBack, m_load->GetStates()->NonPremultiplied());
     m_blockManager->Draw(context, m_load->GetStates(), m_view, m_proj);
     m_tankManager->Draw(context, m_load->GetStates(), m_view, m_proj, m_load->GetTankTexture(), m_load->GetEngineTexture());
     m_bulletManager->Draw(context, m_load->GetStates(), m_view, m_proj);
-    m_particleManager->Draw(context, m_load->GetStates(), m_view, m_proj, m_primitiveBatch.get(), m_sceneManager);
+    m_particleManager->Draw(context, m_load->GetStates(), m_view, m_proj, m_primitiveBatch.get(), m_sceneManager, device);
     m_sceneManager->Draw(m_spriteBatch.get());
     m_spriteBatch->End();
     context;
@@ -232,7 +233,7 @@ void Game::CreateDeviceDependentResources()
 
     m_sceneManager = SceneManager::GetInstance();
 
-    m_particleManager = new ParticleManager(m_load->GetWoodParticleModelHandle(), m_load->GetFireParticle(), move(m_load->GetFireBasicEffect()), m_load->GetFireInputLayout());
+    m_particleManager = new ParticleManager(m_load->GetWoodParticleModelHandle(), m_load->GetFireParticle(), device);
 
     m_blockManager = new BlockManager(move(m_load->GetBlockModelHandle()), move(m_load->GetGroundBlockUnderWoodsModelHandle()), m_load->GetMap());
 

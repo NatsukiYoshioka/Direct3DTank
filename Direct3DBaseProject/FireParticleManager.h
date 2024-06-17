@@ -10,19 +10,18 @@ class TankManager;
 class FireParticleManager
 {
 public:
-    FireParticleManager(vector<Microsoft::WRL::ComPtr<ID3D11ShaderResourceView>> fireParticle, vector<unique_ptr<DirectX::BasicEffect>>&& fireBasicEffect, Microsoft::WRL::ComPtr<ID3D11InputLayout> fireInputLayout);
+    FireParticleManager(Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> fireParticle);
     ~FireParticleManager();
 
     void Init();
     void Update(DirectX::SimpleMath::Matrix world, TankManager* tankManager);
-    void Draw(ID3D11DeviceContext1* context, DirectX::CommonStates* states, DirectX::SimpleMath::Matrix view, DirectX::SimpleMath::Matrix projection, DirectX::PrimitiveBatch<VertexPositionTexture>* primitiveBatch);
+    void Draw(ID3D11DeviceContext1* context, DirectX::CommonStates* states, DirectX::SimpleMath::Matrix view, DirectX::SimpleMath::Matrix projection, BasicEffect* basicEffect, Microsoft::WRL::ComPtr<ID3D11InputLayout> inputLayout, DirectX::PrimitiveBatch<VertexPositionTexture>* primitiveBatch, ID3D11Device* deviceResources);
 private:
-    vector<Microsoft::WRL::ComPtr<ID3D11ShaderResourceView>> m_fireParticleHandle;
+    Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> m_fireParticleHandle;
     vector<FireParticle*> m_fireParticles;
 
-    vector<unique_ptr<DirectX::BasicEffect>> m_fireBasicEffect;
-    Microsoft::WRL::ComPtr<ID3D11InputLayout> m_fireInputLayout;
-
     vector<bool> m_isUseParticle;
+
+    static constexpr int m_particleSize = 30;
 };
 

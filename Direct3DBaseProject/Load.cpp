@@ -173,21 +173,6 @@ void Load::LoadData(ID3D11Device* deviceResources, ID3D11DeviceContext* context)
 	}
 
 	//炎パーティクルのロード
-	m_fireParticle.assign(m_json["FireParticle"].size() * m_fireParticleSize, nullptr);
-	for (int i = initializeNum; i < m_json["FireParticle"].size(); i++)
-	{
-		str = m_json["FireParticle"].at(i);
-		for (int j = initializeNum; j < m_fireParticleSize; j++)
-		{
-			DX::ThrowIfFailed(CreateWICTextureFromFile(device, Widen(str).c_str(), nullptr, m_fireParticle.at(i * m_fireParticleSize + j).ReleaseAndGetAddressOf()));
-			m_fireBasicEffect.push_back(make_unique<BasicEffect>(device));
-			m_fireBasicEffect.at(i * m_fireParticleSize + j)->SetTextureEnabled(true);
-			m_fireBasicEffect.at(i * m_fireParticleSize + j)->SetTexture(m_fireParticle.at(i * m_fireParticleSize + j).Get());
-		}
-	}
-	for (int i = initializeNum; i < m_fireBasicEffect.size(); i++)
-	{
-		DX::ThrowIfFailed(CreateInputLayoutFromEffect<VertexType>(device, m_fireBasicEffect.at(i).get(), m_fireInputLayout.ReleaseAndGetAddressOf()));
-	}
-	
+	str = m_json["FireParticle"];
+	DX::ThrowIfFailed(CreateWICTextureFromFile(device, Widen(str).c_str(), nullptr, m_fireParticle.ReleaseAndGetAddressOf()));
 }

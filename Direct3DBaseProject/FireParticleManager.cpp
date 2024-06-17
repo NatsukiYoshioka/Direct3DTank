@@ -7,30 +7,21 @@
 #include"FireParticle.h"
 #include "FireParticleManager.h"
 
-FireParticleManager::FireParticleManager(vector<Microsoft::WRL::ComPtr<ID3D11ShaderResourceView>> fireParticle, vector<unique_ptr<DirectX::BasicEffect>>&& fireBasicEffect, Microsoft::WRL::ComPtr<ID3D11InputLayout> fireInputLayout):
-    m_fireBasicEffect(move(fireBasicEffect)),
-    m_fireInputLayout(fireInputLayout)
+FireParticleManager::FireParticleManager(Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> fireParticle):
+    m_fireParticleHandle(fireParticle)
 {
-    for (int i = initializeNum; i < fireParticle.size(); i++)
-    {
-        m_fireParticleHandle.push_back(fireParticle.at(i));
-    }
-    m_isUseParticle.assign(m_fireParticleHandle.size(), false);
+    m_isUseParticle.assign(m_particleSize, false);
 }
 
 FireParticleManager::~FireParticleManager()
 {
-    for (int i = initializeNum; i < m_fireParticleHandle.size(); i++)
-    {
-        m_fireParticleHandle.at(i).Reset();
-        m_fireBasicEffect.at(i).reset();
-    }
-    m_fireInputLayout.Reset();
+    m_fireParticleHandle.Reset();
 }
 
 void FireParticleManager::Init()
 {
     m_fireParticles.clear();
+    m_isUseParticle.assign(m_particleSize, false);
 }
 
 void FireParticleManager::Update(DirectX::SimpleMath::Matrix world, TankManager* tankmanager)
@@ -42,11 +33,11 @@ void FireParticleManager::Update(DirectX::SimpleMath::Matrix world, TankManager*
         if (tankManager->GetTanks().at(i)->GetIsBreak())
         {
             tankIndex = i;
-            for (int j = initializeNum; j < m_fireParticleHandle.size(); j++)
+            for (int j = initializeNum; j < m_particleSize; j++)
             {
                 if (!m_isUseParticle.at(j))
                 {
-                    m_fireParticles.push_back(new FireParticle(m_fireParticleHandle.at(j).Get(), j, tankManager->GetTanks().at(tankIndex)->GetPos(), m_fireBasicEffect.at(j).get()));
+                    m_fireParticles.push_back(new FireParticle(m_fireParticleHandle.Get(), j, tankManager->GetTanks().at(tankIndex)->GetPos()));
                     m_isUseParticle.at(j) = true;
                 }
             }
@@ -69,10 +60,12 @@ void FireParticleManager::Update(DirectX::SimpleMath::Matrix world, TankManager*
     }
 }
 
-void FireParticleManager::Draw(ID3D11DeviceContext1* context, DirectX::CommonStates* states, DirectX::SimpleMath::Matrix view, DirectX::SimpleMath::Matrix projection, DirectX::PrimitiveBatch<VertexPositionTexture>* primitiveBatch)
+void FireParticleManager::Draw(ID3D11DeviceContext1* context, DirectX::CommonStates* states, DirectX::SimpleMath::Matrix view, DirectX::SimpleMath::Matrix projection, BasicEffect* basicEffect, Microsoft::WRL::ComPtr<ID3D11InputLayout> inputLayout, DirectX::PrimitiveBatch<VertexPositionTexture>* primitiveBatch, ID3D11Device* deviceResources)
 {
+    basicEffect->SetTexture(m_fireParticleHandle.Get());
+    DX::ThrowIfFailed(CreateInputLayoutFromEffect<VertexPositionTexture>(deviceResources, basicEffect, inputLayout.ReleaseAndGetAddressOf()));
     for (int i = initializeNum; i < m_fireParticles.size(); i++)
     {
-        m_fireParticles.at(i)->Draw(context, states, view, projection, primitiveBatch, m_fireInputLayout.Get());
+        m_fireParticles.at(i)->Draw(context, states, view, projection, primitiveBatch, basicEffect, inputLayout.Get());
     }
 }
