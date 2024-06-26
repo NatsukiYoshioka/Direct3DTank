@@ -65,6 +65,21 @@
     <Filter Include="Particle\FireParticleManager">
       <UniqueIdentifier>{f057638d-b4a8-4fdb-a5c3-84e15dbb16ed}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Particle\ReflectionParticle">
+      <UniqueIdentifier>{12524ad9-ebe9-4446-8919-f2d56ba3bb74}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Particle\ReflectionParticleManager">
+      <UniqueIdentifier>{c35b2e3a-b799-4e0d-9942-97bf33a2f5a5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Particle\HitEffectManager">
+      <UniqueIdentifier>{2024f498-a95a-4773-811d-dd2c19703256}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Particle\HitExplosionEffectManager">
+      <UniqueIdentifier>{de9dcf33-e02f-4dff-bfa2-ed7edd685239}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Particle\HitAroundEffectManager">
+      <UniqueIdentifier>{9e37d9fe-406c-4fd7-b8ed-d7d7c727aa1f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
@@ -130,6 +145,22 @@
     <ClInclude Include="FireParticleManager.h">
       <Filter>Particle\FireParticleManager</Filter>
     </ClInclude>
+    <ClInclude Include="ReflectionParticle.h">
+      <Filter>Particle\ReflectionParticle</Filter>
+    </ClInclude>
+    <ClInclude Include="ReflectionParticleManager.h">
+      <Filter>Particle\ReflectionParticleManager</Filter>
+    </ClInclude>
+    <ClInclude Include="HitEffectManager.h">
+      <Filter>Particle\HitEffectManager</Filter>
+    </ClInclude>
+    <ClInclude Include="HitExplosionManager.h">
+      <Filter>Particle\HitExplosionEffectManager</Filter>
+    </ClInclude>
+    <ClInclude Include="HitAroundEffectManager.h">
+      <Filter>Particle\HitAroundEffectManager</Filter>
+    </ClInclude>
+    <ClInclude Include="AnimatedTexture.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
@@ -185,6 +216,21 @@
     </ClCompile>
     <ClCompile Include="FireParticleManager.cpp">
       <Filter>Particle\FireParticleManager</Filter>
+    </ClCompile>
+    <ClCompile Include="ReflectionParticle.cpp">
+      <Filter>Particle\ReflectionParticle</Filter>
+    </ClCompile>
+    <ClCompile Include="ReflectionParticleManager.cpp">
+      <Filter>Particle\ReflectionParticleManager</Filter>
+    </ClCompile>
+    <ClCompile Include="HitEffectManager.cpp">
+      <Filter>Particle\HitEffectManager</Filter>
+    </ClCompile>
+    <ClCompile Include="HitExplosionManager.cpp">
+      <Filter>Particle\HitExplosionEffectManager</Filter>
+    </ClCompile>
+    <ClCompile Include="HitAroundEffectManager.cpp">
+      <Filter>Particle\HitAroundEffectManager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

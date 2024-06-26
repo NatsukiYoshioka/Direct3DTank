@@ -5,12 +5,8 @@
 #include"common.h"
 #include "FireParticle.h"
 
-FireParticle::FireParticle(ID3D11ShaderResourceView* fireParticle, int handleIndex, Vector3 pos):
-    m_fireParticle(fireParticle),
-    m_handleIndex(handleIndex),
+FireParticle::FireParticle(Vector3 pos):
     m_pos(pos),
-    m_world(),
-    m_local(),
     m_firstHeight(pos.y+m_sponeHeight),
     m_isFinish(false)
 {
@@ -52,7 +48,7 @@ FireParticle::~FireParticle()
 
 }
 
-void FireParticle::Update(DirectX::SimpleMath::Matrix world)
+void FireParticle::Update()
 {
     m_pos += m_direction;
     m_pos.y += m_upSpeed;
@@ -60,10 +56,6 @@ void FireParticle::Update(DirectX::SimpleMath::Matrix world)
     {
         m_isFinish = true;
     }
-    
-    m_world = world;
-    m_local = XMMatrixTranslation(m_pos.x, m_pos.y, m_pos.z);
-    m_local = XMMatrixMultiply(m_world, m_local);
 }
 
 void FireParticle::Draw(ID3D11DeviceContext1* context, DirectX::CommonStates* states, DirectX::SimpleMath::Matrix view, DirectX::SimpleMath::Matrix projection, DirectX::PrimitiveBatch<VertexPositionTexture>* primitiveBatch, BasicEffect* basicEffect, ID3D11InputLayout* inputLayout)

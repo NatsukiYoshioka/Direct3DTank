@@ -72,6 +72,12 @@ public:
     /// </summary>
     void HitTank() { m_isBreak = true; }
 
+    /// <summary>
+    /// ブロックに当たったかどうか取得
+    /// </summary>
+    /// <returns></returns>
+    bool GetIsHitBlock()const { return m_isHitBlock; }
+
 private:
     DirectX::Model* m_bulletModelHandle;            //弾モデルハンドル
     const int m_bulletIndex;
@@ -84,9 +90,9 @@ private:
     static constexpr float m_speed = 0.04f;         //弾の動くスピード         
 
     //弾の当たり判定範囲
-    static constexpr float m_boundingboxExtentsX = 0.2f;
+    static constexpr float m_boundingboxExtentsX = 0.1f;
     static constexpr float m_boundingboxExtentsY = 0.1f;
-    static constexpr float m_boundingboxExtentsZ = 0.2f;
+    static constexpr float m_boundingboxExtentsZ = 0.1f;
 
     bool m_isHitBlock;                              //ブロックと当たったかどうか
     bool m_isBreak;                                 //弾が壊れたかどうか

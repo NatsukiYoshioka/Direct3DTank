@@ -181,6 +181,7 @@
     </Manifest>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="AnimatedTexture.h" />
     <ClInclude Include="BaseScene.h" />
     <ClInclude Include="Block.h" />
     <ClInclude Include="BlockManager.h" />
@@ -191,11 +192,16 @@
     <ClInclude Include="FireParticle.h" />
     <ClInclude Include="FireParticleManager.h" />
     <ClInclude Include="Game.h" />
+    <ClInclude Include="HitAroundEffectManager.h" />
+    <ClInclude Include="HitEffectManager.h" />
+    <ClInclude Include="HitExplosionManager.h" />
     <ClInclude Include="json.hpp" />
     <ClInclude Include="Load.h" />
     <ClInclude Include="MainGameScene.h" />
     <ClInclude Include="ParticleManager.h" />
     <ClInclude Include="pch.h" />
+    <ClInclude Include="ReflectionParticle.h" />
+    <ClInclude Include="ReflectionParticleManager.h" />
     <ClInclude Include="ResultScene.h" />
     <ClInclude Include="SceneManager.h" />
     <ClInclude Include="StepTimer.h" />
@@ -214,6 +220,9 @@
     <ClCompile Include="FireParticle.cpp" />
     <ClCompile Include="FireParticleManager.cpp" />
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="HitAroundEffectManager.cpp" />
+    <ClCompile Include="HitEffectManager.cpp" />
+    <ClCompile Include="HitExplosionManager.cpp" />
     <ClCompile Include="Load.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="MainGameScene.cpp" />
@@ -224,6 +233,8 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="ReflectionParticle.cpp" />
+    <ClCompile Include="ReflectionParticleManager.cpp" />
     <ClCompile Include="ResultScene.cpp" />
     <ClCompile Include="SceneManager.cpp" />
     <ClCompile Include="Tank.cpp" />

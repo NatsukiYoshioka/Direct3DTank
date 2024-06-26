@@ -24,7 +24,7 @@ void FireParticleManager::Init()
     m_isUseParticle.assign(m_particleSize, false);
 }
 
-void FireParticleManager::Update(DirectX::SimpleMath::Matrix world, TankManager* tankmanager)
+void FireParticleManager::Update(TankManager* tankmanager)
 {
     auto tankManager = tankmanager;
     int tankIndex;
@@ -37,7 +37,7 @@ void FireParticleManager::Update(DirectX::SimpleMath::Matrix world, TankManager*
             {
                 if (!m_isUseParticle.at(j))
                 {
-                    m_fireParticles.push_back(new FireParticle(m_fireParticleHandle.Get(), j, tankManager->GetTanks().at(tankIndex)->GetPos()));
+                    m_fireParticles.push_back(new FireParticle(tankManager->GetTanks().at(tankIndex)->GetPos()));
                     m_isUseParticle.at(j) = true;
                 }
             }
@@ -47,14 +47,14 @@ void FireParticleManager::Update(DirectX::SimpleMath::Matrix world, TankManager*
 
     for (int i = initializeNum; i < m_fireParticles.size(); i++)
     {
-        m_fireParticles.at(i)->Update(world);
+        m_fireParticles.at(i)->Update();
     }
 
     for (int i = initializeNum; i < m_fireParticles.size(); i++)
     {
         if (m_fireParticles.at(i)->GetIsFinish())
         {
-            m_isUseParticle.at(m_fireParticles.at(i)->GetHandleIndex()) = false;
+            m_isUseParticle.at(i) = false;
             m_fireParticles.erase(m_fireParticles.begin() + i);
         }
     }

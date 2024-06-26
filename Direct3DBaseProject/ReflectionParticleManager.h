@@ -4,24 +4,20 @@ using namespace DirectX;
 using namespace DirectX::SimpleMath;
 using namespace std;
 
-class FireParticle;
-class TankManager;
+class ReflectionParticle;
+class BulletManager;
 
-class FireParticleManager
+class ReflectionParticleManager
 {
 public:
-    FireParticleManager(Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> fireParticle);
-    ~FireParticleManager();
+    ReflectionParticleManager(Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> reflectionParticleHandle);
+    ~ReflectionParticleManager();
 
     void Init();
-    void Update(TankManager* tankManager);
+    void Update(BulletManager* bulletManager);
     void Draw(ID3D11DeviceContext1* context, DirectX::CommonStates* states, DirectX::SimpleMath::Matrix view, DirectX::SimpleMath::Matrix projection, BasicEffect* basicEffect, Microsoft::WRL::ComPtr<ID3D11InputLayout> inputLayout, DirectX::PrimitiveBatch<VertexPositionTexture>* primitiveBatch, ID3D11Device* deviceResources);
 private:
-    Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> m_fireParticleHandle;
-    vector<FireParticle*> m_fireParticles;
-
-    vector<bool> m_isUseParticle;
-
-    static constexpr int m_particleSize = 30;
+    Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> m_reflectionParticleHandle;
+    vector<ReflectionParticle*> m_reflectionParticles;
 };
 

@@ -7,23 +7,17 @@ using namespace std;
 class FireParticle
 {
 public:
-    FireParticle(ID3D11ShaderResourceView* fireParticle, int handleIndex, Vector3 pos);
+    FireParticle(Vector3 pos);
     ~FireParticle();
 
-    void Update(DirectX::SimpleMath::Matrix world);
+    void Update();
     void Draw(ID3D11DeviceContext1* context, DirectX::CommonStates* states, DirectX::SimpleMath::Matrix view, DirectX::SimpleMath::Matrix projection, DirectX::PrimitiveBatch<VertexPositionTexture>* primitiveBatch, BasicEffect* basicEffect, ID3D11InputLayout* inputLayout);
 
-    bool GetIsFinish() { return m_isFinish; }
+    bool GetIsFinish()const { return m_isFinish; }
 
-    const int GetHandleIndex() { return m_handleIndex; }
 private:
-    ID3D11ShaderResourceView* m_fireParticle;
-    const int m_handleIndex;
-
     Vector3 m_direction;
     Vector3 m_pos;
-    Matrix m_world;
-    Matrix m_local;
 
     bool m_isFinish;
 

@@ -187,16 +187,28 @@ public:
 	Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> GetFireParticle() { return m_fireParticle; }
 
 	/// <summary>
-	/// 画像パーティクル描画用変数の取得
+	/// 反射パーティクルの取得
 	/// </summary>
 	/// <returns></returns>
-	unique_ptr<BasicEffect>&& GetBasicEffect() { return move(m_basicEffect); }
+	Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> GetReflectionParticle() { return m_reflectionParticle; }
 
 	/// <summary>
-	/// 画像パーティクル描画用レイアウトの取得
+	/// ヒットエフェクト用炎パーティクルの取得
 	/// </summary>
 	/// <returns></returns>
-	Microsoft::WRL::ComPtr<ID3D11InputLayout> GetInputLayout() { return m_inputLayout; }
+	Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> GetHitFlameParticle() { return m_hitFlameParticle; }
+
+	/// <summary>
+	/// ヒットエフェクト用周辺炎パーティクルの取得
+	/// </summary>
+	/// <returns></returns>
+	Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> GetHitFlameAroundParticle() { return m_hitAroundFlameParticle; }
+
+	/// <summary>
+	/// ヒットエフェクト用煙パーティクルの取得
+	/// </summary>
+	/// <returns></returns>
+	Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> GetHitSmokeParticle() { return m_hitSmokeParticle; }
 
 private:
 	static Load* m_load;				//ロードクラスのインスタンス
@@ -240,11 +252,13 @@ private:
 	vector<unique_ptr<DirectX::Model>> m_woodParticleModelHandle;	//木ブロックの破壊エフェクト用パーティクルモデル
 	static constexpr int m_maxWoodParticleNum = 10;					//パーティクルの最大数
 
-	Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> m_fireParticle;	//炎パーティクルの配列
+	Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> m_fireParticle;	//炎パーティクル
 
-	unique_ptr<DirectX::BasicEffect> m_basicEffect;
-	using VertexType = VertexPositionTexture;
-	Microsoft::WRL::ComPtr<ID3D11InputLayout> m_inputLayout;
+	Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> m_reflectionParticle;	//反射パーティクル
+
+	Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> m_hitFlameParticle;		//ヒットエフェクト用炎パーティクル
+	Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> m_hitAroundFlameParticle;	//ヒットエフェクト用周辺炎パーティクル
+	Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> m_hitSmokeParticle;		//ヒットエフェクト用煙パーティクル
 
 	static constexpr int m_maxBulletNum = 6;						//弾の最大数
 };
