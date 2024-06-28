@@ -5,6 +5,8 @@ using namespace DirectX::SimpleMath;
 using namespace std;
 
 class AnimatedTexture;
+class HitExplosionManager;
+class HitAroundEffectManager;
 
 class HitEffectManager
 {
@@ -17,6 +19,9 @@ public:
     void Draw();
 
 private:
+    HitExplosionManager* m_hitExplosionManager;
+    HitAroundEffectManager* m_hitAroundEffectManager;
+
     Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> m_hitFlameParticleHandle;
     Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> m_hitAroundFlameParticleHandle;
     Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> m_hitSmokeParticleHandle;

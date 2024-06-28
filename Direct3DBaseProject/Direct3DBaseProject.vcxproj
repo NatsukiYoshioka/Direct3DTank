@@ -193,8 +193,11 @@
     <ClInclude Include="FireParticleManager.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="HitAroundEffectManager.h" />
+    <ClInclude Include="HitAroundFlameParticle.h" />
     <ClInclude Include="HitEffectManager.h" />
     <ClInclude Include="HitExplosionManager.h" />
+    <ClInclude Include="HitFlameParticle.h" />
+    <ClInclude Include="HitSmokeParticle.h" />
     <ClInclude Include="json.hpp" />
     <ClInclude Include="Load.h" />
     <ClInclude Include="MainGameScene.h" />
@@ -221,8 +224,11 @@
     <ClCompile Include="FireParticleManager.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="HitAroundEffectManager.cpp" />
+    <ClCompile Include="HitAroundFlameParticle.cpp" />
     <ClCompile Include="HitEffectManager.cpp" />
     <ClCompile Include="HitExplosionManager.cpp" />
+    <ClCompile Include="HitFlameParticle.cpp" />
+    <ClCompile Include="HitSmokeParticle.cpp" />
     <ClCompile Include="Load.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="MainGameScene.cpp" />
@@ -247,13 +253,58 @@
     <ResourceCompile Include="resource.rc" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="data\a.png" />
+    <Image Include="data\analog_l.png" />
+    <Image Include="data\analog_r.png" />
+    <Image Include="data\b.png" />
+    <Image Include="data\Blue.png" />
+    <Image Include="data\board.png" />
+    <Image Include="data\BTN_Big.png" />
+    <Image Include="data\BTN_Big2.png" />
+    <Image Include="data\BTN_Medium.png" />
+    <Image Include="data\BTN_Medium2.png" />
+    <Image Include="data\bumper_r.png" />
+    <Image Include="data\defeat.png" />
+    <Image Include="data\engine_diff_tex.dds" />
+    <Image Include="data\engine_diff_tex2.dds" />
+    <Image Include="data\Heart.png" />
+    <Image Include="data\HeartBlue.png" />
+    <Image Include="data\HeartRed.png" />
+    <Image Include="data\hitaroundflame.tif" />
+    <Image Include="data\hitflame.tif" />
+    <Image Include="data\hitsmoke.tif" />
+    <Image Include="data\Red.png" />
+    <Image Include="data\reflection.png" />
+    <Image Include="data\Samples_04.jpg" />
+    <Image Include="data\Samples_05.jpg" />
+    <Image Include="data\Sample_03.jpg" />
+    <Image Include="data\smoke.png" />
+    <Image Include="data\TITLE.png" />
+    <Image Include="data\turret_alt_diff_tex.dds" />
+    <Image Include="data\turret_alt_diff_tex2.dds" />
+    <Image Include="data\victory.png" />
+    <Image Include="data\Wood_Plain_A_BasecolorClaro.png" />
+    <Image Include="data\Yellow.png" />
     <Image Include="directx.ico" />
   </ItemGroup>
   <ItemGroup>
     <Manifest Include="settings.manifest" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="data.json" />
+    <None Include="data\bluecube.cmo" />
+    <None Include="data\bluecube.mtl" />
+    <None Include="data\bullet.cmo" />
+    <None Include="data\bullet.mtl" />
+    <None Include="data\data.json" />
+    <None Include="data\plank.cmo" />
+    <None Include="data\plank.mtl" />
+    <None Include="data\redcube.cmo" />
+    <None Include="data\redcube.mtl" />
+    <None Include="data\tank.sdkmesh" />
+    <None Include="data\woodcube.cmo" />
+    <None Include="data\woodcube.mtl" />
+    <None Include="data\yellowcube.cmo" />
+    <None Include="data\yellowcube.mtl" />
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -7,27 +7,33 @@
 #include"FireParticle.h"
 #include "FireParticleManager.h"
 
+//マネージャー初期化
 FireParticleManager::FireParticleManager(Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> fireParticle):
     m_fireParticleHandle(fireParticle)
 {
     m_isUseParticle.assign(m_particleSize, false);
 }
 
+//データ解放
 FireParticleManager::~FireParticleManager()
 {
     m_fireParticleHandle.Reset();
 }
 
+//初期化
 void FireParticleManager::Init()
 {
     m_fireParticles.clear();
     m_isUseParticle.assign(m_particleSize, false);
 }
 
+//マネージャー更新
 void FireParticleManager::Update(TankManager* tankmanager)
 {
     auto tankManager = tankmanager;
     int tankIndex;
+
+    //負けた戦車の座標にパーティクル生成
     for (int i = initializeNum; i < tankManager->GetTanks().size(); i++)
     {
         if (tankManager->GetTanks().at(i)->GetIsBreak())
@@ -45,11 +51,13 @@ void FireParticleManager::Update(TankManager* tankmanager)
         }
     }
 
+    //パーティクル更新
     for (int i = initializeNum; i < m_fireParticles.size(); i++)
     {
         m_fireParticles.at(i)->Update();
     }
 
+    //パーティクル削除
     for (int i = initializeNum; i < m_fireParticles.size(); i++)
     {
         if (m_fireParticles.at(i)->GetIsFinish())
@@ -60,10 +68,13 @@ void FireParticleManager::Update(TankManager* tankmanager)
     }
 }
 
+//パーティクル描画
 void FireParticleManager::Draw(ID3D11DeviceContext1* context, DirectX::CommonStates* states, DirectX::SimpleMath::Matrix view, DirectX::SimpleMath::Matrix projection, BasicEffect* basicEffect, Microsoft::WRL::ComPtr<ID3D11InputLayout> inputLayout, DirectX::PrimitiveBatch<VertexPositionTexture>* primitiveBatch, ID3D11Device* deviceResources)
 {
+    //テクスチャの設定
     basicEffect->SetTexture(m_fireParticleHandle.Get());
     DX::ThrowIfFailed(CreateInputLayoutFromEffect<VertexPositionTexture>(deviceResources, basicEffect, inputLayout.ReleaseAndGetAddressOf()));
+    //パーティクル描画
     for (int i = initializeNum; i < m_fireParticles.size(); i++)
     {
         m_fireParticles.at(i)->Draw(context, states, view, projection, primitiveBatch, basicEffect, inputLayout.Get());

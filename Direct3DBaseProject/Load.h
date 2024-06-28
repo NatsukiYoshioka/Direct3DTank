@@ -217,7 +217,7 @@ private:
 	json m_json;						//jsonファイルの情報を格納
 
 	unique_ptr<DirectX::CommonStates> m_states;		//D3DStateオブジェクト
-	unique_ptr<DirectX::IEffectFactory> m_fxFactory;//モデルロード用ヘルパーオブジェクト
+	unique_ptr<DirectX::EffectFactory> m_fxFactory;//モデルロード用ヘルパーオブジェクト
 
 	unique_ptr<DirectX::SpriteFont> m_defaultFontHandle;			//ゲーム内のデフォルトフォント
 
@@ -261,5 +261,7 @@ private:
 	Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> m_hitSmokeParticle;		//ヒットエフェクト用煙パーティクル
 
 	static constexpr int m_maxBulletNum = 6;						//弾の最大数
+
+	static constexpr const wchar_t* m_dataDirectory = L"data";
 };
 

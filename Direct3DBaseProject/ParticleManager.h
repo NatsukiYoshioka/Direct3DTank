@@ -53,7 +53,7 @@ private:
     ReflectionParticleManager* m_reflectionParticleManager; //反射パーティクルマネージャー
     FireParticleManager* m_fireParticleManager;             //炎パーティクルマネージャー
 
-    unique_ptr<DirectX::BasicEffect> m_basicEffect;
-    Microsoft::WRL::ComPtr<ID3D11InputLayout> m_inputLayout;
+    unique_ptr<DirectX::BasicEffect> m_basicEffect;         //描画オプションの設定クラス
+    Microsoft::WRL::ComPtr<ID3D11InputLayout> m_inputLayout;//描画用レイアウトクラス
 };
 

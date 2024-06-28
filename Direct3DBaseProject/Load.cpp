@@ -7,12 +7,13 @@
 #include"common.h"
 #include"json.hpp"
 #include"BlockManager.h"
+#include<WinBase.h>
 #include "Load.h"
 
 using json = nlohmann::json;
 
 Load* Load::m_load = nullptr;
-const string Load::m_fileName = "data.json";
+const string Load::m_fileName = "data/data.json";
 
 //コンストラクタ
 Load::Load():
@@ -66,7 +67,7 @@ void Load::LoadData(ID3D11Device* deviceResources, ID3D11DeviceContext* context)
 
 	m_fxFactory = make_unique<DirectX::EffectFactory>(device);
 	
-	
+	SetCurrentDirectory(m_dataDirectory);
 	//プレイヤーモデルの情報をロード
 	string str = m_json["TankAPath"];
 	m_tankModelHandle.push_back(Model::CreateFromSDKMESH(device, Widen(str).c_str(), *m_fxFactory, ModelLoader_CounterClockwise | ModelLoader_IncludeBones));

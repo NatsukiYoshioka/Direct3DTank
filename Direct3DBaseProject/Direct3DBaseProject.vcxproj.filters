@@ -80,6 +80,15 @@
     <Filter Include="Particle\HitAroundEffectManager">
       <UniqueIdentifier>{9e37d9fe-406c-4fd7-b8ed-d7d7c727aa1f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Particle\HitFlameParticle">
+      <UniqueIdentifier>{83aa2104-4c68-498a-83bf-15815ca04813}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Particle\HitSmokeParticle">
+      <UniqueIdentifier>{90ed9019-178b-4027-9970-fd2f2f5587e7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Particle\HitAroundFlameParticle">
+      <UniqueIdentifier>{de3798c9-0149-4805-8193-d554d8405754}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
@@ -161,6 +170,15 @@
       <Filter>Particle\HitAroundEffectManager</Filter>
     </ClInclude>
     <ClInclude Include="AnimatedTexture.h" />
+    <ClInclude Include="HitFlameParticle.h">
+      <Filter>Particle\HitFlameParticle</Filter>
+    </ClInclude>
+    <ClInclude Include="HitSmokeParticle.h">
+      <Filter>Particle\HitSmokeParticle</Filter>
+    </ClInclude>
+    <ClInclude Include="HitAroundFlameParticle.h">
+      <Filter>Particle\HitAroundFlameParticle</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
@@ -232,12 +250,117 @@
     <ClCompile Include="HitAroundEffectManager.cpp">
       <Filter>Particle\HitAroundEffectManager</Filter>
     </ClCompile>
+    <ClCompile Include="HitFlameParticle.cpp">
+      <Filter>Particle\HitFlameParticle</Filter>
+    </ClCompile>
+    <ClCompile Include="HitSmokeParticle.cpp">
+      <Filter>Particle\HitSmokeParticle</Filter>
+    </ClCompile>
+    <ClCompile Include="HitAroundFlameParticle.cpp">
+      <Filter>Particle\HitAroundFlameParticle</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="resource.rc" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="directx.ico">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="data\a.png">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="data\analog_l.png">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="data\analog_r.png">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="data\b.png">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="data\Blue.png">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="data\board.png">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="data\BTN_Big.png">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="data\BTN_Big2.png">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="data\BTN_Medium.png">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="data\BTN_Medium2.png">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="data\bumper_r.png">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="data\defeat.png">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="data\engine_diff_tex.dds">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="data\engine_diff_tex2.dds">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="data\Heart.png">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="data\HeartBlue.png">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="data\HeartRed.png">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="data\hitaroundflame.tif">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="data\hitflame.tif">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="data\hitsmoke.tif">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="data\Red.png">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="data\reflection.png">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="data\Sample_03.jpg">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="data\Samples_04.jpg">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="data\Samples_05.jpg">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="data\smoke.png">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="data\TITLE.png">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="data\turret_alt_diff_tex.dds">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="data\turret_alt_diff_tex2.dds">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="data\victory.png">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="data\Wood_Plain_A_BasecolorClaro.png">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="data\Yellow.png">
       <Filter>Assets</Filter>
     </Image>
   </ItemGroup>
@@ -248,7 +371,46 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-    <None Include="data.json">
+    <None Include="data\bluecube.cmo">
+      <Filter>Assets</Filter>
+    </None>
+    <None Include="data\bluecube.mtl">
+      <Filter>Assets</Filter>
+    </None>
+    <None Include="data\bullet.cmo">
+      <Filter>Assets</Filter>
+    </None>
+    <None Include="data\bullet.mtl">
+      <Filter>Assets</Filter>
+    </None>
+    <None Include="data\plank.cmo">
+      <Filter>Assets</Filter>
+    </None>
+    <None Include="data\plank.mtl">
+      <Filter>Assets</Filter>
+    </None>
+    <None Include="data\redcube.cmo">
+      <Filter>Assets</Filter>
+    </None>
+    <None Include="data\redcube.mtl">
+      <Filter>Assets</Filter>
+    </None>
+    <None Include="data\tank.sdkmesh">
+      <Filter>Assets</Filter>
+    </None>
+    <None Include="data\woodcube.cmo">
+      <Filter>Assets</Filter>
+    </None>
+    <None Include="data\woodcube.mtl">
+      <Filter>Assets</Filter>
+    </None>
+    <None Include="data\yellowcube.cmo">
+      <Filter>Assets</Filter>
+    </None>
+    <None Include="data\yellowcube.mtl">
+      <Filter>Assets</Filter>
+    </None>
+    <None Include="data\data.json">
       <Filter>json</Filter>
     </None>
   </ItemGroup>

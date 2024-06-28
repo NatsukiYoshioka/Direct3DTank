@@ -5,6 +5,7 @@
 #include"common.h"
 #include "FireParticle.h"
 
+//炎上エフェクトパーティクルの追加
 FireParticle::FireParticle(Vector3 pos):
     m_pos(pos),
     m_firstHeight(pos.y+m_sponeHeight),
@@ -43,29 +44,35 @@ FireParticle::FireParticle(Vector3 pos):
     m_direction.z *= widthZ;
 }
 
+//データ解放
 FireParticle::~FireParticle()
 {
 
 }
 
+//パーティクル更新
 void FireParticle::Update()
 {
     m_pos += m_direction;
     m_pos.y += m_upSpeed;
+
+    //目標Y座標に達したらパーティクル更新終了
     if (m_pos.y >= m_maxUpVectorY)
     {
         m_isFinish = true;
     }
 }
 
+//パーティクル描画
 void FireParticle::Draw(ID3D11DeviceContext1* context, DirectX::CommonStates* states, DirectX::SimpleMath::Matrix view, DirectX::SimpleMath::Matrix projection, DirectX::PrimitiveBatch<VertexPositionTexture>* primitiveBatch, BasicEffect* basicEffect, ID3D11InputLayout* inputLayout)
 {
     auto Context = context;
+    //乗算なしの透過に設定
     Context->OMSetBlendState(states->NonPremultiplied(), nullptr, 0xFFFFFFFF);
     Context->OMSetDepthStencilState(states->DepthRead(), initializeNum);
     Context->RSSetState(states->CullNone());
 
-    auto a = 1.f - m_pos.y / (m_maxDistributionUpVectorY + m_firstHeight);
+    //色、透過度の設定
     basicEffect->SetDiffuseColor(Vector3(1.f - (m_pos.y - m_firstHeight) / (m_maxDistributionUpVectorY + m_firstHeight), 0.f, 0.f));
     basicEffect->SetAlpha(1.f - m_pos.y / (m_maxDistributionUpVectorY + m_firstHeight));
     basicEffect->Apply(Context);
@@ -75,14 +82,17 @@ void FireParticle::Draw(ID3D11DeviceContext1* context, DirectX::CommonStates* st
 
     Context->IASetInputLayout(inputLayout);
 
+    //カメラ位置、視野角の取得
     basicEffect->SetView(view);
     basicEffect->SetProjection(projection);
 
+    //テクスチャ用のビルボード設定
     VertexPositionTexture v1(Vector3(m_pos.x, m_pos.y + m_textureWidth, m_pos.z - m_textureWidth), Vector2(0.f, 0.f));
     VertexPositionTexture v2(Vector3(m_pos.x, m_pos.y + m_textureWidth, m_pos.z + m_textureWidth), Vector2(1.f, 0.f));
     VertexPositionTexture v3(Vector3(m_pos.x, m_pos.y - m_textureWidth, m_pos.z + m_textureWidth), Vector2(1.f, 1.f));
     VertexPositionTexture v4(Vector3(m_pos.x, m_pos.y - m_textureWidth, m_pos.z - m_textureWidth), Vector2(0.f, 1.f));
 
+    //描画
     primitiveBatch->Begin();
     primitiveBatch->DrawQuad(v1, v2, v3, v4);
     primitiveBatch->End();

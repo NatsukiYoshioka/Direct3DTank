@@ -2,6 +2,7 @@
 #include"common.h"
 #include "ReflectionParticle.h"
 
+//パーティクル生成
 ReflectionParticle::ReflectionParticle(Vector3 pos):
     m_pos(pos),
     m_textureWidth(m_textureWidthExpansionSpeed),
@@ -10,20 +11,24 @@ ReflectionParticle::ReflectionParticle(Vector3 pos):
 
 }
 
+//データ解放
 ReflectionParticle::~ReflectionParticle()
 {
 
 }
 
+//パーティクル更新
 void ReflectionParticle::Update()
 {
     m_textureWidth += m_textureWidthExpansionSpeed;
+    //一定の大きさになったら更新終了
     if (m_textureWidth >= m_maxTextureWidth)
     {
         m_isFinish = true;
     }
 }
 
+//パーティクル描画
 void ReflectionParticle::Draw(ID3D11DeviceContext1* context, DirectX::CommonStates* states, DirectX::SimpleMath::Matrix view, DirectX::SimpleMath::Matrix projection, BasicEffect* basicEffect, Microsoft::WRL::ComPtr<ID3D11InputLayout> inputLayout, DirectX::PrimitiveBatch<VertexPositionTexture>* primitiveBatch, ID3D11Device* deviceResources)
 {
     auto Context = context;
