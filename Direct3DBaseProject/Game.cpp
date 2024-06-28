@@ -76,7 +76,7 @@ void Game::Update(DX::StepTimer const& timer)
     m_blockManager->Update(m_world);
     m_tankManager->Update(m_world, m_blockManager, m_bulletManager, m_sceneManager->GetNowSceneState());
     m_bulletManager->Update(m_world, m_tankManager, m_blockManager);
-    m_particleManager->Update(m_world, m_blockManager, m_bulletManager, m_tankManager, m_sceneManager);
+    m_particleManager->Update(m_world, m_blockManager, m_bulletManager, m_tankManager, m_sceneManager, elapsedTime);
     m_sceneManager->Update(m_tankManager);
     if (m_sceneManager->GetIsChange())
     {
@@ -233,7 +233,7 @@ void Game::CreateDeviceDependentResources()
 
     m_sceneManager = SceneManager::GetInstance();
 
-    m_particleManager = new ParticleManager(m_load->GetWoodParticleModelHandle(), m_load->GetReflectionParticle(), m_load->GetFireParticle(), device);
+    m_particleManager = new ParticleManager(m_load->GetWoodParticleModelHandle(), m_load->GetReflectionParticle(), m_load->GetHitFlameParticle(), m_load->GetHitSmokeParticle(), m_load->GetHitFlameAroundParticle(), m_load->GetFireParticle(), device);
 
     m_blockManager = new BlockManager(move(m_load->GetBlockModelHandle()), move(m_load->GetGroundBlockUnderWoodsModelHandle()), m_load->GetMap());
 

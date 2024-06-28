@@ -135,6 +135,12 @@ public:
     bool GetIsBreak() { return m_isBreak; }
 
     /// <summary>
+    /// ’e‚É“–‚½‚Á‚½‚©Žæ“¾
+    /// </summary>
+    /// <returns></returns>
+    bool GetIsHitBullet() { return m_isHitBullet; }
+
+    /// <summary>
     /// ƒ^ƒ“ƒN‚ÌŒü‚«Žæ“¾
     /// </summary>
     /// <returns></returns>

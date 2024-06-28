@@ -122,7 +122,7 @@ public:
             mRotation, mOrigin, mScale, DirectX::SpriteEffects_None, mDepth);
     }
 
-    void Draw(DirectX::PrimitiveBatch<VertexPositionTexture>* batch, int frame, const DirectX::XMFLOAT3& pos, float width)const
+    void Draw(DirectX::PrimitiveBatch<VertexPositionTexture>* batch, const DirectX::XMFLOAT3& pos, float width)const
     {
         DrawPrimitive(batch, mFrame, pos, width);
     }
@@ -132,18 +132,20 @@ public:
         int frameWidth = mTextureWidth / mSideFrameCount;
         int frameHeight = mTextureHeight / mWarpFrameCount;
 
-        RECT sourceRect;
-        sourceRect.left = frameWidth * (frame % mSideFrameCount);
-        sourceRect.top = frameHeight * (frame % mWarpFrameCount);
-        sourceRect.right = sourceRect.left + frameWidth;
-        sourceRect.bottom = sourceRect.top + frameHeight;
+        float left, top, right, bottom;
+        left = frameWidth * (frame % mSideFrameCount);
+        top = frameHeight * (frame % mWarpFrameCount);
+        right = left + frameWidth;
+        bottom = top + frameHeight;
 
-        VertexPositionTexture v1(Vector3(pos.x + width, pos.y, pos.z - width), Vector2(sourceRect.left, sourceRect.top));
-        VertexPositionTexture v2(Vector3(pos.x + width, pos.y, pos.z + width), Vector2(sourceRect.right, sourceRect.top));
-        VertexPositionTexture v3(Vector3(pos.x - width, pos.y, pos.z + width), Vector2(sourceRect.right, sourceRect.bottom));
-        VertexPositionTexture v4(Vector3(pos.x - width, pos.y, pos.z - width), Vector2(sourceRect.left, sourceRect.bottom));
+        VertexPositionTexture v1(Vector3(pos.x - width, pos.y, pos.z + width), Vector2(left / mTextureWidth, top / mTextureHeight));
+        VertexPositionTexture v2(Vector3(pos.x + width, pos.y, pos.z + width), Vector2(right / mTextureWidth, top / mTextureHeight));
+        VertexPositionTexture v3(Vector3(pos.x + width, pos.y, pos.z - width), Vector2(right / mTextureWidth, bottom / mTextureHeight));
+        VertexPositionTexture v4(Vector3(pos.x - width, pos.y, pos.z - width), Vector2(left / mTextureWidth, bottom / mTextureHeight));
 
+        batch->Begin();
         batch->DrawQuad(v1, v2, v3, v4);
+        batch->End();
     }
 
     void Reset()

@@ -7,6 +7,7 @@ using namespace std;
 class AnimatedTexture;
 class HitExplosionManager;
 class HitAroundEffectManager;
+class TankManager;
 
 class HitEffectManager
 {
@@ -15,8 +16,8 @@ public:
     ~HitEffectManager();
 
     void Init();
-    void Update();
-    void Draw();
+    void Update(float elapsedTime, TankManager* tankManager);
+    void Draw(ID3D11DeviceContext1* context, DirectX::CommonStates* states, DirectX::SimpleMath::Matrix view, DirectX::SimpleMath::Matrix projection, BasicEffect* basicEffect, Microsoft::WRL::ComPtr<ID3D11InputLayout> inputLayout, DirectX::PrimitiveBatch<VertexPositionTexture>* primitiveBatch, ID3D11Device* deviceResources);
 
 private:
     HitExplosionManager* m_hitExplosionManager;
@@ -39,6 +40,6 @@ private:
     static constexpr int m_smokeWarpCount = 5;
     static constexpr int m_smokeSideCount = 5;
 
-    static constexpr int m_framesPerSecond = 20;
+    static constexpr int m_framesPerSecond = 30;
 };
 
