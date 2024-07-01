@@ -138,10 +138,10 @@ public:
         right = left + frameWidth;
         bottom = top + frameHeight;
 
-        VertexPositionTexture v1(Vector3(pos.x - width, pos.y, pos.z + width), Vector2(left / mTextureWidth, top / mTextureHeight));
-        VertexPositionTexture v2(Vector3(pos.x + width, pos.y, pos.z + width), Vector2(right / mTextureWidth, top / mTextureHeight));
-        VertexPositionTexture v3(Vector3(pos.x + width, pos.y, pos.z - width), Vector2(right / mTextureWidth, bottom / mTextureHeight));
-        VertexPositionTexture v4(Vector3(pos.x - width, pos.y, pos.z - width), Vector2(left / mTextureWidth, bottom / mTextureHeight));
+        VertexPositionTexture v1(Vector3(pos.x - width, pos.y, pos.z + width), Vector2(left / mTextureWidth, bottom / mTextureHeight));
+        VertexPositionTexture v2(Vector3(pos.x + width, pos.y, pos.z + width), Vector2(left / mTextureWidth, top / mTextureHeight));
+        VertexPositionTexture v3(Vector3(pos.x + width, pos.y, pos.z - width), Vector2(right / mTextureWidth, top / mTextureHeight));
+        VertexPositionTexture v4(Vector3(pos.x - width, pos.y, pos.z - width), Vector2(right / mTextureWidth, bottom / mTextureHeight));
 
         batch->Begin();
         batch->DrawQuad(v1, v2, v3, v4);

@@ -157,11 +157,11 @@
 
     "ReflectionParticle": "reflection.png",
 
-    "HitFlameParticle": "hitflame.tif",
+    "HitFlameParticle": "hitflame.png",
 
     "HitAroundFlameParticle": "hitaroundflame.png",
 
-    "HitSmokeParticle": "hitsmoke.tif",
+    "HitSmokeParticle": "hitsmoke.png",
 
     "Mapchip": [
         [ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2 ],

@@ -40,6 +40,6 @@ private:
     static constexpr int m_smokeWarpCount = 5;
     static constexpr int m_smokeSideCount = 5;
 
-    static constexpr int m_framesPerSecond = 30;
+    static constexpr int m_framesPerSecond = 10;
 };
 

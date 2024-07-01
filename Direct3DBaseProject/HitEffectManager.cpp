@@ -25,15 +25,18 @@ HitEffectManager::~HitEffectManager()
 
 void HitEffectManager::Init()
 {
+    m_hitExplosionManager->Init();
     m_hitAroundEffectManager->Init();
 }
 
 void HitEffectManager::Update(float elapsedTime, TankManager* tankManager)
 {
+    m_hitExplosionManager->Update(elapsedTime, tankManager);
     m_hitAroundEffectManager->Update(elapsedTime, tankManager);
 }
 
 void HitEffectManager::Draw(ID3D11DeviceContext1* context, DirectX::CommonStates* states, DirectX::SimpleMath::Matrix view, DirectX::SimpleMath::Matrix projection, BasicEffect* basicEffect, Microsoft::WRL::ComPtr<ID3D11InputLayout> inputLayout, DirectX::PrimitiveBatch<VertexPositionTexture>* primitiveBatch, ID3D11Device* deviceResources)
 {
+    m_hitExplosionManager->Draw(context, states, view, projection, basicEffect, inputLayout, primitiveBatch, deviceResources);
     m_hitAroundEffectManager->Draw(context, states, view, projection, basicEffect, inputLayout, primitiveBatch, deviceResources);
 }
