@@ -108,7 +108,14 @@ void SceneManager::Update(TankManager* tankManager)
 }
 
 //ÉVÅ[ÉìÇÃï`âÊ
-void SceneManager::Draw(DirectX::SpriteBatch* spriteBatch)
+void SceneManager::Draw(DirectX::SpriteBatch* spriteBatch, ID3D11DeviceContext1* context, DirectX::CommonStates* states, DirectX::SimpleMath::Matrix view, DirectX::SimpleMath::Matrix projection, DirectX::PrimitiveBatch<VertexPositionTexture>* primitiveBatch, BasicEffect* basicEffect, Microsoft::WRL::ComPtr<ID3D11InputLayout> inputLayout, ID3D11Device* deviceResources)
 {
-	m_nowScene->Draw(m_defaultFontHandle.get(), spriteBatch);
+	if (m_sceneState == SCENE::MAINGAME)
+	{
+		m_nowScene->Draw(m_defaultFontHandle.get(), spriteBatch, context, states, view, projection, primitiveBatch, basicEffect, inputLayout, deviceResources);
+	}
+	else
+	{
+		m_nowScene->Draw(m_defaultFontHandle.get(), spriteBatch);
+	}
 }

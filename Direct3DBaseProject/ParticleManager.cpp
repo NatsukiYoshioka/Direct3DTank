@@ -47,8 +47,11 @@ void ParticleManager::Init()
 void ParticleManager::Update(DirectX::SimpleMath::Matrix world, BlockManager* blockmanager, BulletManager* bulletManager, TankManager* tankManager, SceneManager* sceneManager, float elapsedTime)
 {
     m_woodParticleManager->Update(world, blockmanager);
-    m_reflectionParticleManager->Update(bulletManager);
-    m_hitEffectManager->Update(elapsedTime, tankManager);
+    if (sceneManager->GetNowSceneState() == SceneManager::SCENE::MAINGAME)
+    {
+        m_reflectionParticleManager->Update(bulletManager);
+        m_hitEffectManager->Update(elapsedTime, tankManager);
+    }
     if (sceneManager->GetNowSceneState() == SceneManager::SCENE::RESULT)m_fireParticleManager->Update(tankManager);
 }
 
@@ -56,8 +59,11 @@ void ParticleManager::Update(DirectX::SimpleMath::Matrix world, BlockManager* bl
 void ParticleManager::Draw(ID3D11DeviceContext1* context, DirectX::CommonStates* states, DirectX::SimpleMath::Matrix view, DirectX::SimpleMath::Matrix projection, DirectX::PrimitiveBatch<VertexPositionTexture>* primitiveBatch, SceneManager* sceneManager, ID3D11Device* deviceResources)
 {
     m_woodParticleManager->Draw(context, states, view, projection);
-    m_reflectionParticleManager->Draw(context, states, view, projection, m_basicEffect.get(), m_inputLayout, primitiveBatch, deviceResources);
-    m_hitEffectManager->Draw(context, states, view, projection, m_basicEffect.get(), m_inputLayout, primitiveBatch, deviceResources);
+    if (sceneManager->GetNowSceneState() == SceneManager::SCENE::MAINGAME)
+    {
+        m_reflectionParticleManager->Draw(context, states, view, projection, m_basicEffect.get(), m_inputLayout, primitiveBatch, deviceResources);
+        m_hitEffectManager->Draw(context, states, view, projection, m_basicEffect.get(), m_inputLayout, primitiveBatch, deviceResources);
+    }
     if (sceneManager->GetNowSceneState() == SceneManager::SCENE::RESULT)
     {
         m_fireParticleManager->Draw(context, states, view, projection, m_basicEffect.get(), m_inputLayout, primitiveBatch, deviceResources);

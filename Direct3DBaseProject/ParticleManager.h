@@ -49,6 +49,17 @@ public:
     /// <param name="projection"></param>
     void Draw(ID3D11DeviceContext1* context, DirectX::CommonStates* states, DirectX::SimpleMath::Matrix view, DirectX::SimpleMath::Matrix projection, DirectX::PrimitiveBatch<VertexPositionTexture>* primitiveBatch, SceneManager* sceneManager, ID3D11Device* deviceResources);
 
+    /// <summary>
+    /// 描画デバイス取得
+    /// </summary>
+    /// <returns></returns>
+    BasicEffect* GetBasicEffect() { return m_basicEffect.get(); }
+
+    /// <summary>
+    /// レイアウト取得
+    /// </summary>
+    /// <returns></returns>
+    Microsoft::WRL::ComPtr<ID3D11InputLayout> GetInputLayout() { return m_inputLayout; }
 private:
     WoodParticleManager* m_woodParticleManager;             //木片パーティクルマネージャー
     ReflectionParticleManager* m_reflectionParticleManager; //反射パーティクルマネージャー

@@ -39,7 +39,7 @@ void ResultScene::Update(DirectX::GamePad::State padState, TankManager* tankMana
 }
 
 //リザルトシーン描画
-void ResultScene::Draw(DirectX::SpriteFont* defaultfont, DirectX::SpriteBatch* spritebatch)
+void ResultScene::Draw(DirectX::SpriteFont* defaultfont, DirectX::SpriteBatch* spritebatch, ID3D11DeviceContext1* context, DirectX::CommonStates* states, DirectX::SimpleMath::Matrix view, DirectX::SimpleMath::Matrix projection, DirectX::PrimitiveBatch<VertexPositionTexture>* primitiveBatch, BasicEffect* basicEffect, Microsoft::WRL::ComPtr<ID3D11InputLayout> inputLayout, ID3D11Device* deviceResources)
 {
     auto spriteBatch = spritebatch;
     for (int i = initializeNum; i < m_resultUI.size(); i++)

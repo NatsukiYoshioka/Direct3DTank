@@ -29,13 +29,15 @@ public:
 	/// <summary>
 	/// メインゲームシーン描画
 	/// </summary>
-	void Draw(DirectX::SpriteFont* defaultfont, DirectX::SpriteBatch* spriteBatch);
+	void Draw(DirectX::SpriteFont* defaultfont, DirectX::SpriteBatch* spriteBatch, ID3D11DeviceContext1* context, DirectX::CommonStates* states, DirectX::SimpleMath::Matrix view, DirectX::SimpleMath::Matrix projection, DirectX::PrimitiveBatch<VertexPositionTexture>* primitiveBatch, BasicEffect* basicEffect, Microsoft::WRL::ComPtr<ID3D11InputLayout> inputLayout, ID3D11Device* deviceResources);
 
 	/// <summary>
 	/// シーンが終了したかどうか取得
 	/// </summary>
 	/// <returns></returns>
 	bool GetIsFinish() { return isFinish; }
+
+	void DrawBackGround(ID3D11DeviceContext1* context, DirectX::CommonStates* states, DirectX::SimpleMath::Matrix view, DirectX::SimpleMath::Matrix projection, DirectX::PrimitiveBatch<VertexPositionTexture>* primitiveBatch, BasicEffect* basicEffect, Microsoft::WRL::ComPtr<ID3D11InputLayout> inputLayout, ID3D11Device* deviceResources);
 private:
 	vector<Microsoft::WRL::ComPtr<ID3D11ShaderResourceView>> m_mainGameUI; //タイトルUI
 	vector<Vector2> m_mainGameUIPos;									   //タイトルUI座標
@@ -44,6 +46,10 @@ private:
 	bool m_isEnableHeartUI[playerNum * maxHp];			//ハートUIが描画有効かどうか
 
 	static constexpr float m_UIDepth = 0.1f;
+
+	static constexpr int m_backgroundIndex = 20;
+	static constexpr float m_backgroundHeight = -10.f;
+	static constexpr float m_backgroundWidth = 1000.f;
 
 	bool isFinish;		//シーンが終了したかどうか
 };

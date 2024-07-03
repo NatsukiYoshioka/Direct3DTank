@@ -4,8 +4,10 @@
 #include "BlockManager.h"
 
 //ブロックインスタンスの生成
-BlockManager::BlockManager(vector<unique_ptr<DirectX::Model>>&& blockModelHandle, vector<unique_ptr<DirectX::Model>>&& groundBlockUnderWoodsModelHandle, vector<vector<int>> map):
-    m_woodBlockNum(initializeNum)
+BlockManager::BlockManager(vector<unique_ptr<DirectX::Model>>&& blockModelHandle, vector<unique_ptr<DirectX::Model>>&& groundBlockUnderWoodsModelHandle, vector<vector<int>> map, unique_ptr<DirectX::Model>&& skydomeModelHandle, Vector3 skydomePos):
+    m_woodBlockNum(initializeNum),
+    m_skydomeModelHandle(move(skydomeModelHandle)),
+    m_pos(skydomePos)
 {
     int groundBlockUnderWoodsNum = 0;
     for (int i = initializeNum; i < mapSize; i++)
@@ -62,6 +64,11 @@ void BlockManager::Update(DirectX::SimpleMath::Matrix world)
     {
         m_blocks.at(i)->Update(world);
     }
+
+    m_world = world;
+    m_world = XMMatrixMultiply(m_world, Matrix::CreateScale(m_domeScale));
+    m_local = XMMatrixTranslation(m_pos.x, m_pos.y, m_pos.z);
+    m_local = XMMatrixMultiply(m_world, m_local);
 }
 
 //全ブロックの描画
@@ -71,4 +78,5 @@ void BlockManager::Draw(ID3D11DeviceContext1* context, DirectX::CommonStates* st
     {
         m_blocks.at(i)->Draw(context, states, view, projection);
     }
+    m_skydomeModelHandle->Draw(context, *states, m_local, view, projection);
 }

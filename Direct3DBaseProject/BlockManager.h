@@ -3,6 +3,7 @@
 #include"Model.h"
 
 using namespace DirectX;
+using namespace DirectX::SimpleMath;
 using namespace std;
 
 class Block;
@@ -29,7 +30,7 @@ public:
     /// </summary>
     /// <param name="blockModelHandle">ブロックモデルハンドル配列</param>
     /// <param name="map">マップ情報</param>
-    BlockManager(vector<unique_ptr<DirectX::Model>>&& blockModelHandle, vector<unique_ptr<DirectX::Model>>&& groundBlockUnderWoodsModelHandle, vector<vector<int>> map);
+    BlockManager(vector<unique_ptr<DirectX::Model>>&& blockModelHandle, vector<unique_ptr<DirectX::Model>>&& groundBlockUnderWoodsModelHandle, vector<vector<int>> map, unique_ptr<DirectX::Model>&& skydomeModelHandle, Vector3 skydomePos);
     ~BlockManager();
 
     /// <summary>
@@ -65,6 +66,13 @@ public:
     int GetWoodBlockNum()const { return m_woodBlockNum; }
 private:
     vector<Block*> m_blocks;                //各ブロックのインスタンス
+    unique_ptr<DirectX::Model> m_skydomeModelHandle;
     int m_woodBlockNum;
+
+    Vector3 m_pos;
+    Matrix m_world;
+    Matrix m_local;
+
+    static constexpr float m_domeScale = 10.f;
 };
 

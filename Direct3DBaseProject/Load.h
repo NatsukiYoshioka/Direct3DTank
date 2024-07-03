@@ -210,6 +210,18 @@ public:
 	/// <returns></returns>
 	Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> GetHitSmokeParticle() { return m_hitSmokeParticle; }
 
+	/// <summary>
+	/// スカイドームモデルハンドル取得
+	/// </summary>
+	/// <returns></returns>
+	unique_ptr<DirectX::Model>&& GetSkydomeModelHandle() { return move(m_skydomeModelHandle); }
+
+	/// <summary>
+	/// スカイドームの座標取得
+	/// </summary>
+	/// <returns></returns>
+	Vector3 GetSkydomePos() { return m_skydomePos; }
+
 private:
 	static Load* m_load;				//ロードクラスのインスタンス
 
@@ -235,6 +247,9 @@ private:
 
 	static constexpr int m_xIndex = 0;
 	static constexpr int m_yIndex = 1;
+
+	unique_ptr<DirectX::Model> m_skydomeModelHandle;		//スカイドームモデルハンドル
+	Vector3 m_skydomePos;									//スカイドームの座標
 
 	vector<unique_ptr<DirectX::Model>> m_tankModelHandle;	//戦車のモデルハンドル配列
 	vector<Vector3> m_tankPos;								//戦車の座標配列

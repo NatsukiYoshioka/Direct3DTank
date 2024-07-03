@@ -28,7 +28,7 @@ public:
 	/// <summary>
 	/// タイトルシーンの描画
 	/// </summary>
-	void Draw(DirectX::SpriteFont* defaultfont, DirectX::SpriteBatch* spriteBatch);
+	void Draw(DirectX::SpriteFont* defaultfont, DirectX::SpriteBatch* spriteBatch, ID3D11DeviceContext1* context, DirectX::CommonStates* states, DirectX::SimpleMath::Matrix view, DirectX::SimpleMath::Matrix projection, DirectX::PrimitiveBatch<VertexPositionTexture>* primitiveBatch, BasicEffect* basicEffect, Microsoft::WRL::ComPtr<ID3D11InputLayout> inputLayout, ID3D11Device* deviceResources);
 
 	/// <summary>
 	/// シーンが終了したかどうか

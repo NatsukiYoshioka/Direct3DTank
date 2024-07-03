@@ -21,6 +21,9 @@ TankManager::TankManager(vector<unique_ptr<DirectX::Model>>&& tankModelHandle, v
     for (int i = initializeNum; i < playerNum; i++)
     {
         m_tank.push_back(new Tank(move(tankModelHandle.at(i)), pos.at(i), playerAngle[i]));
+        m_isFireVibration[i] = false;
+        m_isHitVibration[i] = false;
+        m_totalVibrationTime[i] = float(initializeNum);
     }
     InitTitle();
 }
@@ -72,11 +75,15 @@ void TankManager::InitResult(Vector3 cameraEye)
 }
 
 //全タンクの更新
-void TankManager::Update(DirectX::SimpleMath::Matrix world, BlockManager* blockManager, BulletManager* bulletManager, SceneManager::SCENE sceneState)
+void TankManager::Update(DirectX::SimpleMath::Matrix world, BlockManager* blockManager, BulletManager* bulletManager, SceneManager::SCENE sceneState, float elapsedTime)
 {
     for (int i = initializeNum; i < playerNum; i++)
     {
         m_tank[i]->Update(world, m_gamePad->GetState(i), sceneState);
+        if (m_tank[i]->GetIsFire())
+        {
+            m_isFireVibration[i] = true;
+        }
     }
 
     m_tank[player1]->CheckHitBlockTank(m_tank[player2]->GetModelMesh().at(initializeNum)->boundingBox, m_tank[player2]->GetPos());
@@ -102,7 +109,26 @@ void TankManager::Update(DirectX::SimpleMath::Matrix world, BlockManager* blockM
                 if (m_tank[i]->CheckHitBullet(bulletManager->GetBullets()[j].at(l)->GetBulletModelHandle()->meshes.at(initializeNum)->boundingBox, bulletManager->GetBullets()[j].at(l)->GetPos()))
                 {
                     bulletManager->GetBullets()[j].at(l)->HitTank();
+                    m_isHitVibration[i] = true;
                 }
+            }
+        }
+    }
+
+    for (int i = initializeNum; i < playerNum; i++)
+    {
+        float vibrationPower = (m_isFireVibration[i]) ? m_fireVibrationPower : 0;
+        vibrationPower = (m_isHitVibration[i]) ? m_hitVibrationPower : vibrationPower;
+        m_gamePad->SetVibration(i, vibrationPower, vibrationPower);
+
+        if (m_isFireVibration[i] || m_isHitVibration[i])
+        {
+            m_totalVibrationTime[i] += elapsedTime;
+            if (m_totalVibrationTime[i] >= m_maxVibrationTime)
+            {
+                m_isFireVibration[i] = false;
+                m_isHitVibration[i] = false;
+                m_totalVibrationTime[i] = float(initializeNum);
             }
         }
     }

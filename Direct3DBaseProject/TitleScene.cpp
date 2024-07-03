@@ -76,7 +76,7 @@ void TitleScene::Update(DirectX::GamePad::State padState, TankManager* tankManag
 }
 
 //タイトルシーン描画
-void TitleScene::Draw(DirectX::SpriteFont* defaultfont, DirectX::SpriteBatch* spritebatch)
+void TitleScene::Draw(DirectX::SpriteFont* defaultfont, DirectX::SpriteBatch* spritebatch, ID3D11DeviceContext1* context, DirectX::CommonStates* states, DirectX::SimpleMath::Matrix view, DirectX::SimpleMath::Matrix projection, DirectX::PrimitiveBatch<VertexPositionTexture>* primitiveBatch, BasicEffect* basicEffect, Microsoft::WRL::ComPtr<ID3D11InputLayout> inputLayout, ID3D11Device* deviceResources)
 {
     auto defaultFont = defaultfont;
     auto spriteBatch = spritebatch;

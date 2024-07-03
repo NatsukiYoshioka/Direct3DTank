@@ -66,7 +66,8 @@
         "Heart.png",
         "HeartRed.png",
         "Heart.png",
-        "HeartRed.png"
+        "HeartRed.png",
+        "woodbackground.jpg"
     ],
 
     "MainGameUIPos": [
@@ -89,7 +90,8 @@
         [ 1570, 550 ],
         [ 1570, 550 ],
         [ 1570, 700 ],
-        [ 1570, 700 ]
+        [ 1570, 700 ],
+        [ 7.5, 7.5 ]
     ],
 
     "MainGameUIScale": [
@@ -112,7 +114,8 @@
         3,
         3,
         3,
-        3
+        3,
+        1
     ],
 
     "ResultUI": [
@@ -129,6 +132,11 @@
         0.25,
         0.2
     ],
+
+    "Skydome": "indoor.cmo",
+    "SkydomePosX": 7.5,
+    "SkydomePosY": -10,
+    "SkydomePosZ": 7.5,
 
     "TankAPath": "tank.sdkmesh",
     "TankAPosX": 13,

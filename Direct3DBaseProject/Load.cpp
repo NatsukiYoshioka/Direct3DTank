@@ -89,6 +89,11 @@ void Load::LoadData(ID3D11Device* deviceResources, ID3D11DeviceContext* context)
 		m_bulletModelHandle.push_back(Model::CreateFromCMO(device, Widen(str).c_str(), *m_fxFactory));
 	}
 
+	//スカイドームのロード
+	str = m_json["Skydome"];
+	m_skydomeModelHandle = Model::CreateFromCMO(device, Widen(str).c_str(), *m_fxFactory);
+	m_skydomePos = Vector3(m_json["SkydomePosX"], m_json["SkydomePosY"], m_json["SkydomePosZ"]);
+
 	//マップチップのロード
 	m_map.assign(mapSize, vector<int>(mapSize, initializeNum));
 	for (int i = initializeNum; i < mapSize; i++)

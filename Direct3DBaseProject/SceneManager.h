@@ -75,7 +75,7 @@ public:
 	/// <summary>
 	/// シーンの描画
 	/// </summary>
-	void Draw(DirectX::SpriteBatch* spriteBatch);
+	void Draw(DirectX::SpriteBatch* spriteBatch, ID3D11DeviceContext1* context, DirectX::CommonStates* states, DirectX::SimpleMath::Matrix view, DirectX::SimpleMath::Matrix projection, DirectX::PrimitiveBatch<VertexPositionTexture>* primitiveBatch, BasicEffect* basicEffect, Microsoft::WRL::ComPtr<ID3D11InputLayout> inputLayout, ID3D11Device* deviceResources);
 
 private:
 	static SceneManager* m_sceneManager;				//シングルトンのインスタンス

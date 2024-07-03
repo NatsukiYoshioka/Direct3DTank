@@ -46,7 +46,7 @@ public:
     /// 全タンクの更新処理
     /// </summary>
     /// <param name="world">単位行列</param>
-    void Update(DirectX::SimpleMath::Matrix world, BlockManager* blockManager, BulletManager* bulletManager, SceneManager::SCENE sceneState);
+    void Update(DirectX::SimpleMath::Matrix world, BlockManager* blockManager, BulletManager* bulletManager, SceneManager::SCENE sceneState, float elapsedTime);
 
     /// <summary>
     /// 全タンクの描画
@@ -70,5 +70,15 @@ private:
     static const Vector3 m_initResultTankPos[playerNum];    //リザルト時の各タンクの座標
 
     static constexpr int m_maxBulletNum = 3;            //自分がステージ上に撃てる弾の最大数
+
+    bool m_isFireVibration[playerNum];
+    bool m_isHitVibration[playerNum];
+
+    static constexpr float m_fireVibrationPower = 0.5f;
+    static constexpr float m_hitVibrationPower = 1.0f;
+
+    float m_totalVibrationTime[playerNum];
+
+    static constexpr float m_maxVibrationTime = 1.f;
 };
 
