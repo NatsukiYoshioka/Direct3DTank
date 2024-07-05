@@ -186,6 +186,7 @@ void Load::LoadData(ID3D11Device* deviceResources, ID3D11DeviceContext* context)
 	str = m_json["ReflectionParticle"];
 	DX::ThrowIfFailed(CreateWICTextureFromFile(device, Widen(str).c_str(), nullptr, m_reflectionParticle.ReleaseAndGetAddressOf()));
 
+	//ヒットエフェクト用のパーティクルロード
 	str = m_json["HitFlameParticle"];
 	DX::ThrowIfFailed(CreateWICTextureFromFile(device, Widen(str).c_str(), nullptr, m_hitFlameParticle.ReleaseAndGetAddressOf()));
 
@@ -194,4 +195,8 @@ void Load::LoadData(ID3D11Device* deviceResources, ID3D11DeviceContext* context)
 
 	str = m_json["HitSmokeParticle"];
 	DX::ThrowIfFailed(CreateWICTextureFromFile(device, Widen(str).c_str(), nullptr, m_hitSmokeParticle.ReleaseAndGetAddressOf()));
+
+	//勝利時のパーティクルのロード
+	str = m_json["VictoryParticle"];
+	DX::ThrowIfFailed(CreateWICTextureFromFile(device, Widen(str).c_str(), nullptr, m_victoryParticle.ReleaseAndGetAddressOf()));
 }

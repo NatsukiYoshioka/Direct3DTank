@@ -79,6 +79,7 @@ private:
 
     float m_totalVibrationTime[playerNum];
 
-    static constexpr float m_maxVibrationTime = 1.f;
+    static constexpr float m_maxHitVibrationTime = 1.f;
+    static constexpr float m_maxFireVibrationTime = 0.2f;
 };
 

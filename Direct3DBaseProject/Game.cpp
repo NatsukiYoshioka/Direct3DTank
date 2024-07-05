@@ -77,6 +77,7 @@ void Game::Update(DX::StepTimer const& timer)
     m_tankManager->Update(m_world, m_blockManager, m_bulletManager, m_sceneManager->GetNowSceneState(), elapsedTime);
     m_bulletManager->Update(m_world, m_tankManager, m_blockManager);
     m_particleManager->Update(m_world, m_blockManager, m_bulletManager, m_tankManager, m_sceneManager, elapsedTime);
+    m_bulletManager->CheckIsBreak();
     m_sceneManager->Update(m_tankManager);
     if (m_sceneManager->GetIsChange())
     {
@@ -121,7 +122,7 @@ void Game::Render()
     m_blockManager->Draw(context, m_load->GetStates(), m_view, m_proj);
     m_tankManager->Draw(context, m_load->GetStates(), m_view, m_proj, m_load->GetTankTexture(), m_load->GetEngineTexture());
     m_bulletManager->Draw(context, m_load->GetStates(), m_view, m_proj);
-    m_particleManager->Draw(context, m_load->GetStates(), m_view, m_proj, m_primitiveBatch.get(), m_sceneManager, device);
+    m_particleManager->Draw(m_spriteBatch.get(), context, m_load->GetStates(), m_view, m_proj, m_primitiveBatch.get(), m_sceneManager, device);
     m_sceneManager->Draw(m_spriteBatch.get(), context, m_load->GetStates(), m_view, m_proj, m_primitiveBatch.get(), m_particleManager->GetBasicEffect(), m_particleManager->GetInputLayout(), device);
     m_spriteBatch->End();
     context;
@@ -233,7 +234,7 @@ void Game::CreateDeviceDependentResources()
 
     m_sceneManager = SceneManager::GetInstance();
 
-    m_particleManager = new ParticleManager(m_load->GetWoodParticleModelHandle(), m_load->GetReflectionParticle(), m_load->GetHitFlameParticle(), m_load->GetHitSmokeParticle(), m_load->GetHitFlameAroundParticle(), m_load->GetFireParticle(), device);
+    m_particleManager = new ParticleManager(m_load->GetWoodParticleModelHandle(), m_load->GetReflectionParticle(), m_load->GetHitFlameParticle(), m_load->GetHitSmokeParticle(), m_load->GetHitFlameAroundParticle(), m_load->GetFireParticle(), m_load->GetVictoryParticle(), device);
 
     m_blockManager = new BlockManager(move(m_load->GetBlockModelHandle()), move(m_load->GetGroundBlockUnderWoodsModelHandle()), m_load->GetMap(), m_load->GetSkydomeModelHandle(), m_load->GetSkydomePos());
 

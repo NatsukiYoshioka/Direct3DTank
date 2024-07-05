@@ -89,6 +89,12 @@
     <Filter Include="Particle\HitAroundFlameParticle">
       <UniqueIdentifier>{de3798c9-0149-4805-8193-d554d8405754}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Particle\VictoryParticle">
+      <UniqueIdentifier>{2f7a23a6-0b23-49b3-b6ad-7ae9137ae243}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Particle\VictoryParticleManager">
+      <UniqueIdentifier>{328a1172-1d81-408f-a9f4-926b232be787}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
@@ -179,6 +185,12 @@
     <ClInclude Include="HitAroundFlameParticle.h">
       <Filter>Particle\HitAroundFlameParticle</Filter>
     </ClInclude>
+    <ClInclude Include="VictoryParticle.h">
+      <Filter>Particle\VictoryParticle</Filter>
+    </ClInclude>
+    <ClInclude Include="VictoryParticleManager.h">
+      <Filter>Particle\VictoryParticleManager</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
@@ -258,6 +270,12 @@
     </ClCompile>
     <ClCompile Include="HitAroundFlameParticle.cpp">
       <Filter>Particle\HitAroundFlameParticle</Filter>
+    </ClCompile>
+    <ClCompile Include="VictoryParticle.cpp">
+      <Filter>Particle\VictoryParticle</Filter>
+    </ClCompile>
+    <ClCompile Include="VictoryParticleManager.cpp">
+      <Filter>Particle\VictoryParticleManager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

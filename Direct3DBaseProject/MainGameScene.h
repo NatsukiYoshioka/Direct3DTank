@@ -49,7 +49,7 @@ private:
 
 	static constexpr int m_backgroundIndex = 20;
 	static constexpr float m_backgroundHeight = -10.f;
-	static constexpr float m_backgroundWidth = 1000.f;
+	static constexpr float m_backgroundWidth = 50.f;
 
 	bool isFinish;		//ƒV[ƒ“‚ªI—¹‚µ‚½‚©‚Ç‚¤‚©
 };

@@ -11,6 +11,7 @@ class WoodParticleManager;
 class ReflectionParticleManager;
 class FireParticleManager;
 class HitEffectManager;
+class VictoryParticleManager;
 class SceneManager;
 
 class ParticleManager
@@ -21,7 +22,7 @@ public:
     /// </summary>
     /// <param name="woodModelHandle"></param>
     /// <param name="fireParticle"></param>
-    ParticleManager(vector<unique_ptr<DirectX::Model>>&& woodModelHandle, Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> reflectionParticle, Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> hitFlameParticle, Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> hitSmokeParticle, Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> hitAroundFlameParticle, Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> fireParticle, ID3D11Device* deviceResources);
+    ParticleManager(vector<unique_ptr<DirectX::Model>>&& woodModelHandle, Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> reflectionParticle, Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> hitFlameParticle, Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> hitSmokeParticle, Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> hitAroundFlameParticle, Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> fireParticle, Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> victoryParticle, ID3D11Device* deviceResources);
 
     /// <summary>
     /// データ破棄
@@ -47,7 +48,7 @@ public:
     /// <param name="states"></param>
     /// <param name="view"></param>
     /// <param name="projection"></param>
-    void Draw(ID3D11DeviceContext1* context, DirectX::CommonStates* states, DirectX::SimpleMath::Matrix view, DirectX::SimpleMath::Matrix projection, DirectX::PrimitiveBatch<VertexPositionTexture>* primitiveBatch, SceneManager* sceneManager, ID3D11Device* deviceResources);
+    void Draw(DirectX::SpriteBatch* spritebatch, ID3D11DeviceContext1* context, DirectX::CommonStates* states, DirectX::SimpleMath::Matrix view, DirectX::SimpleMath::Matrix projection, DirectX::PrimitiveBatch<VertexPositionTexture>* primitiveBatch, SceneManager* sceneManager, ID3D11Device* deviceResources);
 
     /// <summary>
     /// 描画デバイス取得
@@ -65,6 +66,7 @@ private:
     ReflectionParticleManager* m_reflectionParticleManager; //反射パーティクルマネージャー
     HitEffectManager* m_hitEffectManager;                   //ヒットエフェクト管理マネージャー
     FireParticleManager* m_fireParticleManager;             //炎パーティクルマネージャー
+    VictoryParticleManager* m_victoryParticleManager;
 
     unique_ptr<DirectX::BasicEffect> m_basicEffect;         //描画オプションの設定クラス
     Microsoft::WRL::ComPtr<ID3D11InputLayout> m_inputLayout;//描画用レイアウトクラス

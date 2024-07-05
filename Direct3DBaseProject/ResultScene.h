@@ -39,7 +39,7 @@ private:
 	vector<Vector2> m_resultUIPos;											//リザルトUI座標
 	vector<float> m_resultUIScale;											//リザルトUIスケール
 
-	static constexpr float m_UIDepth = 0.f;
+	static constexpr float m_UIDepth = 0.1f;
 
 	bool isFinish;			//シーンが終了したかどうか
 };

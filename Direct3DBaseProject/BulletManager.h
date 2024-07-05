@@ -30,6 +30,8 @@ public:
     /// <param name="blockManager">ブロック管理クラス</param>
     void Update(DirectX::SimpleMath::Matrix world, TankManager* tankManager, BlockManager* blockManager);
 
+    void CheckIsBreak();
+
     /// <summary>
     /// 弾の描画
     /// </summary>

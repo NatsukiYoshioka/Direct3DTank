@@ -121,13 +121,21 @@ void TankManager::Update(DirectX::SimpleMath::Matrix world, BlockManager* blockM
         vibrationPower = (m_isHitVibration[i]) ? m_hitVibrationPower : vibrationPower;
         m_gamePad->SetVibration(i, vibrationPower, vibrationPower);
 
-        if (m_isFireVibration[i] || m_isHitVibration[i])
+        if (m_isHitVibration[i])
         {
             m_totalVibrationTime[i] += elapsedTime;
-            if (m_totalVibrationTime[i] >= m_maxVibrationTime)
+            if (m_totalVibrationTime[i] >= m_maxHitVibrationTime)
+            {
+                m_isHitVibration[i] = false;
+                m_totalVibrationTime[i] = float(initializeNum);
+            }
+        }
+        if (m_isFireVibration[i])
+        {
+            m_totalVibrationTime[i] += elapsedTime;
+            if (m_totalVibrationTime[i] >= m_maxFireVibrationTime)
             {
                 m_isFireVibration[i] = false;
-                m_isHitVibration[i] = false;
                 m_totalVibrationTime[i] = float(initializeNum);
             }
         }

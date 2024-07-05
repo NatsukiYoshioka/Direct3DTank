@@ -76,6 +76,10 @@ void BulletManager::Update(DirectX::SimpleMath::Matrix world, TankManager* tankM
             }
         }
     }
+}
+
+void BulletManager::CheckIsBreak()
+{
     for (int i = initializeNum; i < playerNum; i++)
     {
         for (int j = initializeNum; j < m_bullets[i].size(); j++)

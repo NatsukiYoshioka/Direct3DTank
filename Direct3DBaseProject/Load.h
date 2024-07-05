@@ -211,6 +211,12 @@ public:
 	Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> GetHitSmokeParticle() { return m_hitSmokeParticle; }
 
 	/// <summary>
+	/// 勝利時のパーティクル取得
+	/// </summary>
+	/// <returns></returns>
+	Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> GetVictoryParticle() { return m_victoryParticle; }
+
+	/// <summary>
 	/// スカイドームモデルハンドル取得
 	/// </summary>
 	/// <returns></returns>
@@ -274,6 +280,8 @@ private:
 	Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> m_hitFlameParticle;		//ヒットエフェクト用炎パーティクル
 	Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> m_hitAroundFlameParticle;	//ヒットエフェクト用周辺炎パーティクル
 	Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> m_hitSmokeParticle;		//ヒットエフェクト用煙パーティクル
+
+	Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> m_victoryParticle;			//勝利時のパーティクル
 
 	static constexpr int m_maxBulletNum = 6;						//弾の最大数
 
