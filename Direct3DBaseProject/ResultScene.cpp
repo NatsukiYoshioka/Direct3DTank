@@ -6,6 +6,9 @@
 
 extern void ExitGame() noexcept;
 
+const Vector2 ResultScene::m_backPos = Vector2(325.f, 150.f);
+const Vector2 ResultScene::m_descriptionStringScale = Vector2(0.35f, 0.35f);
+
 //リザルトシーン生成
 ResultScene::ResultScene(vector<Microsoft::WRL::ComPtr<ID3D11ShaderResourceView>> resultUI, vector<Vector2> resultUIPos, vector<float> resultUIScale):
     m_resultUI(resultUI),
@@ -46,4 +49,6 @@ void ResultScene::Draw(DirectX::SpriteFont* defaultfont, DirectX::SpriteBatch* s
     {
         spriteBatch->Draw(m_resultUI.at(i).Get(), m_resultUIPos.at(i), nullptr, Colors::White, static_cast<float>(initializeNum), Vector2::Zero, m_resultUIScale.at(i), SpriteEffects_None, m_UIDepth);
     }
+    auto origin = defaultfont->MeasureString(m_back) / hemipartition;
+    defaultfont->DrawString(spriteBatch, m_back, m_backPos, Colors::Beige, static_cast<float>(initializeNum), origin, m_descriptionStringScale, SpriteEffects_None, m_stringDepth);
 }

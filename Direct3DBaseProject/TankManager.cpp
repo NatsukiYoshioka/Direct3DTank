@@ -110,6 +110,7 @@ void TankManager::Update(DirectX::SimpleMath::Matrix world, BlockManager* blockM
                 {
                     bulletManager->GetBullets()[j].at(l)->HitTank();
                     m_isHitVibration[i] = true;
+                    break;
                 }
             }
         }

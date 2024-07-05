@@ -120,17 +120,20 @@
 
     "ResultUI": [
         "victory.png",
-        "defeat.png"
+        "defeat.png",
+        "b.png"
     ],
 
     "ResultUIPos": [
         [ 650, 50 ],
-        [ 1150, 75 ]
+        [ 1150, 75 ],
+        [0,100]
     ],
 
     "ResultUIScale": [
         0.25,
-        0.2
+        0.2,
+        0.25
     ],
 
     "Skydome": "indoor.cmo",

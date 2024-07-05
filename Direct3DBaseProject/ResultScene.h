@@ -42,5 +42,12 @@ private:
 	static constexpr float m_UIDepth = 0.1f;
 
 	bool isFinish;			//シーンが終了したかどうか
+
+	static const Vector2 m_backPos;								//backの座標
+	static constexpr const wchar_t* m_back = L"BACK TO TITLE";			//back文字列
+
+	static const Vector2 m_descriptionStringScale;
+
+	static constexpr float m_stringDepth = 0.1f;
 };
 
