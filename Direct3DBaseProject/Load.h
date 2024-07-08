@@ -181,6 +181,12 @@ public:
 	vector<float> GetResultUIScale() { return m_resultUIScale; }
 
 	/// <summary>
+	/// トランジション用の画僧取得
+	/// </summary>
+	/// <returns></returns>
+	Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> GetTransitionTexture() { return m_transitionTextureHandle; }
+
+	/// <summary>
 	/// 炎パーティクルの取得
 	/// </summary>
 	/// <returns></returns>
@@ -250,6 +256,8 @@ private:
 	vector<Microsoft::WRL::ComPtr<ID3D11ShaderResourceView>> m_resultUI;	//リザルトUI
 	vector<Vector2> m_resultUIPos;											//リザルトUI座標
 	vector<float> m_resultUIScale;											//リザルトUIスケール
+
+	Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> m_transitionTextureHandle;
 
 	static constexpr int m_xIndex = 0;
 	static constexpr int m_yIndex = 1;

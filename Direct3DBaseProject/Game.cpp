@@ -9,6 +9,7 @@
 #include"BulletManager.h"
 #include"ParticleManager.h"
 #include"SceneManager.h"
+#include"Transition.h"
 #include "Game.h"
 
 extern void ExitGame() noexcept;
@@ -27,7 +28,8 @@ Game::Game() noexcept(false):
     m_tankManager(nullptr),
     m_bulletManager(nullptr),
     m_particleManager(nullptr),
-    m_sceneManager(nullptr)
+    m_sceneManager(nullptr),
+    m_transition(nullptr)
 {
     m_deviceResources = std::make_unique<DX::DeviceResources>();
     // TODO: Provide parameters for swapchain format, depth/stencil format, and backbuffer count.
@@ -78,7 +80,8 @@ void Game::Update(DX::StepTimer const& timer)
     m_bulletManager->Update(m_world, m_tankManager, m_blockManager);
     m_particleManager->Update(m_world, m_blockManager, m_bulletManager, m_tankManager, m_sceneManager, elapsedTime);
     m_bulletManager->CheckIsBreak();
-    m_sceneManager->Update(m_tankManager);
+    m_sceneManager->Update(m_tankManager,m_transition->GetIsFinishFadeout());
+    m_transition->Update(m_sceneManager->GetIsChange());
     if (m_sceneManager->GetIsChange())
     {
         CreateWindowSizeDependentResources();
@@ -125,6 +128,8 @@ void Game::Render()
     m_particleManager->Draw(m_spriteBatch.get(), context, m_load->GetStates(), m_view, m_proj, m_primitiveBatch.get(), m_sceneManager, device);
     m_sceneManager->Draw(m_spriteBatch.get(), context, m_load->GetStates(), m_view, m_proj, m_primitiveBatch.get(), m_particleManager->GetBasicEffect(), m_particleManager->GetInputLayout(), device);
     m_spriteBatch->End();
+    m_transition->Draw(m_spriteBatch.get(), m_load->GetStates(), device, context, m_particleManager->GetBasicEffect(), m_view, m_proj);
+    
     context;
 
     m_deviceResources->PIXEndEvent();
@@ -234,6 +239,8 @@ void Game::CreateDeviceDependentResources()
 
     m_sceneManager = SceneManager::GetInstance();
 
+    m_transition = new Transition(m_load->GetTransitionTexture());
+
     m_particleManager = new ParticleManager(m_load->GetWoodParticleModelHandle(), m_load->GetReflectionParticle(), m_load->GetHitFlameParticle(), m_load->GetHitSmokeParticle(), m_load->GetHitFlameAroundParticle(), m_load->GetFireParticle(), m_load->GetVictoryParticle(), device);
 
     m_blockManager = new BlockManager(move(m_load->GetBlockModelHandle()), move(m_load->GetGroundBlockUnderWoodsModelHandle()), m_load->GetMap(), m_load->GetSkydomeModelHandle(), m_load->GetSkydomePos());
@@ -254,13 +261,13 @@ void Game::CreateWindowSizeDependentResources()
     switch (m_sceneManager->GetNowSceneState())
     {
     case SceneManager::SCENE::TITLE:
-        m_view = Matrix::CreateLookAt(Vector3(0.f, 2.f, 15.0f),
+        m_view = Matrix::CreateLookAt(m_titleCameraEye,
             Vector3(7.5f, 0.f, 7.5f), Vector3::UnitY);
         m_proj = Matrix::CreatePerspectiveFieldOfView(XM_PI / 4.f,
             float(size.right) / float(size.bottom), 0.1f, 500.f);
         break;
     case SceneManager::SCENE::MAINGAME:
-        m_view = Matrix::CreateLookAt(Vector3(7.5f, 25.f, 7.5f),
+        m_view = Matrix::CreateLookAt(m_mainGameCameraEye,
             Vector3(7.5f, 0.f, 7.5f), Vector3::UnitX);
         m_proj = Matrix::CreatePerspectiveFieldOfView(XM_PI / 4.f,
             float(size.right) / float(size.bottom), 0.1f, 500.f);
@@ -282,6 +289,8 @@ void Game::OnDeviceLost()
     delete(m_blockManager);
     delete(m_tankManager);
     delete(m_bulletManager);
+    delete(m_particleManager);
+    delete(m_transition);
 }
 
 void Game::OnDeviceRestored()

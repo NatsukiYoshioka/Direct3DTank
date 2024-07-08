@@ -95,6 +95,9 @@
     <Filter Include="Particle\VictoryParticleManager">
       <UniqueIdentifier>{328a1172-1d81-408f-a9f4-926b232be787}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Scene\Transition">
+      <UniqueIdentifier>{2fe3217c-c9f0-4f83-9009-4a670b9883ea}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
@@ -191,6 +194,9 @@
     <ClInclude Include="VictoryParticleManager.h">
       <Filter>Particle\VictoryParticleManager</Filter>
     </ClInclude>
+    <ClInclude Include="Transition.h">
+      <Filter>Scene\Transition</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
@@ -276,6 +282,9 @@
     </ClCompile>
     <ClCompile Include="VictoryParticleManager.cpp">
       <Filter>Particle\VictoryParticleManager</Filter>
+    </ClCompile>
+    <ClCompile Include="Transition.cpp">
+      <Filter>Scene\Transition</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

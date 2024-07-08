@@ -136,6 +136,8 @@
         0.25
     ],
 
+    "Transition": "Background.png",
+
     "Skydome": "indoor.cmo",
     "SkydomePosX": 7.5,
     "SkydomePosY": -10,

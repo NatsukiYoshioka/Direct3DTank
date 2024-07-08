@@ -15,6 +15,7 @@ class TankManager;
 class BulletManager;
 class ParticleManager;
 class SceneManager;
+class Transition;
 
 using namespace DirectX::SimpleMath;
 
@@ -68,9 +69,12 @@ private:
     BulletManager* m_bulletManager;
     ParticleManager* m_particleManager;
     SceneManager* m_sceneManager;
+    Transition* m_transition;
 
     unique_ptr<DirectX::GamePad> m_gamePad;
 
+    static constexpr Vector3 m_titleCameraEye = { 0.f, 2.f, 15.0f };
+    static constexpr Vector3 m_mainGameCameraEye = { 7.5f, 25.f, 7.5f };
     static const Vector3 m_resultCameraEye;
 
     std::unique_ptr<DirectX::SpriteBatch> m_spriteBatch;

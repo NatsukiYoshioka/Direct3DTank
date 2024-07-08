@@ -211,6 +211,7 @@
     <ClInclude Include="Tank.h" />
     <ClInclude Include="TankManager.h" />
     <ClInclude Include="TitleScene.h" />
+    <ClInclude Include="Transition.h" />
     <ClInclude Include="VictoryParticle.h" />
     <ClInclude Include="VictoryParticleManager.h" />
     <ClInclude Include="WoodParticle.h" />
@@ -248,6 +249,7 @@
     <ClCompile Include="Tank.cpp" />
     <ClCompile Include="TankManager.cpp" />
     <ClCompile Include="TitleScene.cpp" />
+    <ClCompile Include="Transition.cpp" />
     <ClCompile Include="VictoryParticle.cpp" />
     <ClCompile Include="VictoryParticleManager.cpp" />
     <ClCompile Include="WoodParticle.cpp" />

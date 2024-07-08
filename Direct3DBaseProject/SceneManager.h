@@ -70,7 +70,7 @@ public:
 	/// シーンの更新
 	/// </summary>
 	/// <param name="tankManager"></param>
-	void Update(TankManager* tankManager);
+	void Update(TankManager* tankManager, bool isFinishFadeout);
 
 	/// <summary>
 	/// シーンの描画

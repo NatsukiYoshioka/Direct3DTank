@@ -178,6 +178,10 @@ void Load::LoadData(ID3D11Device* deviceResources, ID3D11DeviceContext* context)
 		m_resultUIScale.push_back(m_json["ResultUIScale"][i]);
 	}
 
+	//トランジション用の画像ロード
+	str = m_json["Transition"];
+	DX::ThrowIfFailed(CreateWICTextureFromFile(device, Widen(str).c_str(), nullptr, m_transitionTextureHandle.ReleaseAndGetAddressOf()));
+
 	//炎パーティクルのロード
 	str = m_json["FireParticle"];
 	DX::ThrowIfFailed(CreateWICTextureFromFile(device, Widen(str).c_str(), nullptr, m_fireParticle.ReleaseAndGetAddressOf()));

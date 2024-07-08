@@ -82,23 +82,26 @@ void SceneManager::ChangeScene(SCENE sceneState)
 }
 
 //シーンの更新
-void SceneManager::Update(TankManager* tankManager)
+void SceneManager::Update(TankManager* tankManager, bool isFinishFadeout)
 {
 	m_nowScene->Update(m_gamePad->GetState(player1), tankManager);
 	if (m_nowScene->GetIsFinish() || (m_sceneState == SCENE::MAINGAME && (tankManager->GetTanks().at(player1)->GetIsBreak() || tankManager->GetTanks().at(player2)->GetIsBreak())))
 	{
 		isChange = true;
-		switch (m_sceneState)
+		if (isFinishFadeout)
 		{
-		case SCENE::TITLE:
-			ChangeScene(SCENE::MAINGAME);
-			break;
-		case SCENE::MAINGAME:
-			ChangeScene(SCENE::RESULT);
-			break;
-		case SCENE::RESULT:
-			ChangeScene(SCENE::TITLE);
-			break;
+			switch (m_sceneState)
+			{
+			case SCENE::TITLE:
+				ChangeScene(SCENE::MAINGAME);
+				break;
+			case SCENE::MAINGAME:
+				ChangeScene(SCENE::RESULT);
+				break;
+			case SCENE::RESULT:
+				ChangeScene(SCENE::TITLE);
+				break;
+			}
 		}
 	}
 	else
