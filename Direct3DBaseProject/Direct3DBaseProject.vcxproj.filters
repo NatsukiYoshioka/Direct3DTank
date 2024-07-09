@@ -98,6 +98,9 @@
     <Filter Include="Scene\Transition">
       <UniqueIdentifier>{2fe3217c-c9f0-4f83-9009-4a670b9883ea}</UniqueIdentifier>
     </Filter>
+    <Filter Include="SoundManager">
+      <UniqueIdentifier>{a9b519be-3588-47e9-a0e1-fc3faec1f7de}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
@@ -197,6 +200,9 @@
     <ClInclude Include="Transition.h">
       <Filter>Scene\Transition</Filter>
     </ClInclude>
+    <ClInclude Include="SoundManager.h">
+      <Filter>SoundManager</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
@@ -285,6 +291,9 @@
     </ClCompile>
     <ClCompile Include="Transition.cpp">
       <Filter>Scene\Transition</Filter>
+    </ClCompile>
+    <ClCompile Include="SoundManager.cpp">
+      <Filter>SoundManager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

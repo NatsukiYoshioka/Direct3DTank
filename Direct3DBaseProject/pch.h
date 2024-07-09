@@ -5,6 +5,8 @@
 
 #pragma once
 
+#define _USE_MATH_DEFINES
+
 #include "BufferHelpers.h"
 #include "CommonStates.h"
 #include "DDSTextureLoader.h"
@@ -24,9 +26,10 @@
 #include "SpriteFont.h"
 #include "VertexTypes.h"
 #include "WICTextureLoader.h"
+#include "Audio.h"
 
 #include <winsdkver.h>
-#ifndef _WIN32_WINNT
+#ifndef _WIN32_WINNT 0x0A00
 #define _WIN32_WINNT 0x0601
 #endif
 #include <sdkddkver.h>

@@ -61,6 +61,12 @@ public:
 	bool GetIsChange() { return isChange; }
 
 	/// <summary>
+	/// シーンのインスタンス取得
+	/// </summary>
+	/// <returns></returns>
+	BaseScene* GetSceneInstance() { return m_nowScene; }
+
+	/// <summary>
 	/// シーンの遷移処理
 	/// </summary>
 	/// <param name="sceneState"></param>
@@ -70,7 +76,7 @@ public:
 	/// シーンの更新
 	/// </summary>
 	/// <param name="tankManager"></param>
-	void Update(TankManager* tankManager, bool isFinishFadeout);
+	void Update(TankManager* tankManager, bool isFinishFadeout, bool isFinishFadein, float elapsedTime);
 
 	/// <summary>
 	/// シーンの描画

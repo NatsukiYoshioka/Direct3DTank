@@ -114,7 +114,7 @@ public:
 
         RECT sourceRect;
         sourceRect.left = frameWidth * (frame % mSideFrameCount);
-        sourceRect.top = frameHeight * (frame % mWarpFrameCount);
+        sourceRect.top = frameHeight * (frame / mSideFrameCount);
         sourceRect.right = sourceRect.left + frameWidth;
         sourceRect.bottom = sourceRect.top + frameHeight;
 
@@ -134,7 +134,7 @@ public:
 
         float left, top, right, bottom;
         left = frameWidth * (frame % mSideFrameCount);
-        top = frameHeight * (frame % mWarpFrameCount);
+        top = frameHeight * (frame / mSideFrameCount);
         right = left + frameWidth;
         bottom = top + frameHeight;
 
@@ -165,6 +165,8 @@ public:
     void Paused() { mPaused = true; }
 
     bool IsPaused() const { return mPaused; }
+
+    int GetFrame() { return mFrame; }
 
 private:
     bool                                                mPaused;

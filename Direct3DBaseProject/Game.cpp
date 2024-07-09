@@ -9,6 +9,7 @@
 #include"BulletManager.h"
 #include"ParticleManager.h"
 #include"SceneManager.h"
+#include"SoundManager.h"
 #include"Transition.h"
 #include "Game.h"
 
@@ -29,6 +30,7 @@ Game::Game() noexcept(false):
     m_bulletManager(nullptr),
     m_particleManager(nullptr),
     m_sceneManager(nullptr),
+    m_soundManager(nullptr),
     m_transition(nullptr)
 {
     m_deviceResources = std::make_unique<DX::DeviceResources>();
@@ -38,9 +40,23 @@ Game::Game() noexcept(false):
     m_deviceResources->RegisterDeviceNotify(this);
 }
 
+Game::~Game()
+{
+    if (m_audioEngine)
+    {
+        m_audioEngine->Suspend();
+    }
+}
+
 // Initialize the Direct3D resources required to run.
 void Game::Initialize(HWND window, int width, int height)
 {
+    AUDIO_ENGINE_FLAGS eflags = AudioEngine_Default;
+#ifdef _DEBUG
+    eflags |= AudioEngine_Debug;
+#endif
+    m_audioEngine = std::make_unique<AudioEngine>(eflags);
+
     m_deviceResources->SetWindow(window, width, height);
 
     m_deviceResources->CreateDeviceResources();
@@ -75,14 +91,19 @@ void Game::Update(DX::StepTimer const& timer)
     m_time = float(timer.GetTotalSeconds());
 
     // TODO: Add your game logic here.
+    if (!m_audioEngine->Update())
+    {
+
+    }
     m_blockManager->Update(m_world);
     m_tankManager->Update(m_world, m_blockManager, m_bulletManager, m_sceneManager->GetNowSceneState(), elapsedTime);
     m_bulletManager->Update(m_world, m_tankManager, m_blockManager);
     m_particleManager->Update(m_world, m_blockManager, m_bulletManager, m_tankManager, m_sceneManager, elapsedTime);
+    m_sceneManager->Update(m_tankManager, m_transition->GetIsFinishFadeout(), m_transition->GetIsFinishFadein(), elapsedTime);
+    m_soundManager->Update(m_sceneManager, m_gamePad->GetState(player1), m_tankManager, m_bulletManager, m_blockManager);
     m_bulletManager->CheckIsBreak();
-    m_sceneManager->Update(m_tankManager,m_transition->GetIsFinishFadeout());
     m_transition->Update(m_sceneManager->GetIsChange());
-    if (m_sceneManager->GetIsChange())
+    if (m_sceneManager->GetIsChange() && m_transition->GetIsFinishFadeout())
     {
         CreateWindowSizeDependentResources();
         switch (m_sceneManager->GetNowSceneState())
@@ -91,6 +112,8 @@ void Game::Update(DX::StepTimer const& timer)
             m_blockManager->Init();
             m_particleManager->Init();
             m_tankManager->InitTitle();
+            m_bulletManager->Init();
+            m_soundManager->Init();
             break;
         case SceneManager::SCENE::MAINGAME:
             m_tankManager->InitMainGame();
@@ -175,6 +198,7 @@ void Game::OnDeactivated()
 void Game::OnSuspending()
 {
     // TODO: Game is being power-suspended (or minimized).
+    m_audioEngine->Suspend();
     m_gamePad->Suspend();
 }
 
@@ -183,6 +207,7 @@ void Game::OnResuming()
     m_timer.ResetElapsedTime();
 
     // TODO: Game is being power-resumed (or returning from minimize).
+    m_audioEngine->Resume();
     m_gamePad->Resume();
 }
 
@@ -239,6 +264,8 @@ void Game::CreateDeviceDependentResources()
 
     m_sceneManager = SceneManager::GetInstance();
 
+    m_soundManager = new SoundManager(m_load->GetSoundFile(), m_audioEngine.get());
+
     m_transition = new Transition(m_load->GetTransitionTexture());
 
     m_particleManager = new ParticleManager(m_load->GetWoodParticleModelHandle(), m_load->GetReflectionParticle(), m_load->GetHitFlameParticle(), m_load->GetHitSmokeParticle(), m_load->GetHitFlameAroundParticle(), m_load->GetFireParticle(), m_load->GetVictoryParticle(), device);
@@ -290,6 +317,7 @@ void Game::OnDeviceLost()
     delete(m_tankManager);
     delete(m_bulletManager);
     delete(m_particleManager);
+    delete(m_soundManager);
     delete(m_transition);
 }
 

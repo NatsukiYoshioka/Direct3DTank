@@ -1,0 +1,214 @@
+{
+    "DefaultFont": "buddy.spritefont",
+
+    "TitleUI": [
+        "TITLE.png",
+        "BTN_Big2.png",
+        "BTN_Big2.png",
+        "BTN_Big.png",
+        "BTN_Big.png",
+        "board.png",
+        "a.png",
+        "b.png",
+        "analog_l.png",
+        "analog_l.png",
+        "analog_r.png",
+        "bumper_r.png"
+    ],
+
+    "TitleUIPos": [
+        [ 570, 90 ],
+        [ 550, 780 ],
+        [ 1050, 780 ],
+        [ 550, 780 ],
+        [ 1050, 780 ],
+        [ 450, 300 ],
+        [ 0, 0 ],
+        [ 0, 100 ],
+        [ 0, 200 ],
+        [ 750, 400 ],
+        [ 750, 600 ],
+        [ 750, 800 ]
+    ],
+
+    "TitleUIScale": [
+        2,
+        1,
+        1,
+        1,
+        1,
+        1.5,
+        0.25,
+        0.25,
+        0.25,
+        0.25,
+        0.25,
+        0.25
+    ],
+
+  "MainGameUI": [
+    "blueheartbreak.png",
+    "movingblueheart.png",
+    "blueheartbreak.png",
+    "movingblueheart.png",
+    "blueheartbreak.png",
+    "movingblueheart.png",
+    "blueheartbreak.png",
+    "movingblueheart.png",
+    "blueheartbreak.png",
+    "movingblueheart.png",
+    "heartbreak.png",
+    "movingheart.png",
+    "heartbreak.png",
+    "movingheart.png",
+    "heartbreak.png",
+    "movingheart.png",
+    "heartbreak.png",
+    "movingheart.png",
+    "heartbreak.png",
+    "movingheart.png",
+    "woodbackground.jpg"
+  ],
+
+    "MainGameUIPos": [
+        [ 200, 100 ],
+        [ 200, 100 ],
+        [ 200, 250 ],
+        [ 200, 250 ],
+        [ 200, 400 ],
+        [ 200, 400 ],
+        [ 200, 550 ],
+        [ 200, 550 ],
+        [ 200, 700 ],
+        [ 200, 700 ],
+        [ 1570, 100 ],
+        [ 1570, 100 ],
+        [ 1570, 250 ],
+        [ 1570, 250 ],
+        [ 1570, 400 ],
+        [ 1570, 400 ],
+        [ 1570, 550 ],
+        [ 1570, 550 ],
+        [ 1570, 700 ],
+        [ 1570, 700 ],
+        [ 7.5, 7.5 ]
+    ],
+
+    "MainGameUIScale": [
+        3,
+        3,
+        3,
+        3,
+        3,
+        3,
+        3,
+        3,
+        3,
+        3,
+        3,
+        3,
+        3,
+        3,
+        3,
+        3,
+        3,
+        3,
+        3,
+        3,
+        1
+    ],
+
+    "ResultUI": [
+        "victory.png",
+        "defeat.png",
+        "b.png"
+    ],
+
+    "ResultUIPos": [
+        [ 650, 50 ],
+        [ 1150, 75 ],
+        [0,100]
+    ],
+
+    "ResultUIScale": [
+        0.25,
+        0.2,
+        0.25
+    ],
+
+    "Transition": "Background.png",
+
+    "Skydome": "indoor.cmo",
+    "SkydomePosX": 7.5,
+    "SkydomePosY": -10,
+    "SkydomePosZ": 7.5,
+
+    "TankAPath": "tank.sdkmesh",
+    "TankAPosX": 13,
+    "TankAPosY": 0.5,
+    "TankAPosZ": 2,
+
+    "TankBPath": "tank.sdkmesh",
+    "TankBTexturePath1": "turret_alt_diff_tex2.dds",
+    "TankBTexturePath2": "engine_diff_tex2.dds",
+    "TankBPosX": 2,
+    "TankBPosY": 0.5,
+    "TankBPosZ": 13,
+
+    "Bullet": "bullet.cmo",
+
+    "Blocks": [
+        "yellowcube.cmo",
+        "redcube.cmo",
+        "bluecube.cmo",
+        "woodcube.cmo"
+    ],
+
+    "WoodParticle": "plank.cmo",
+
+    "FireParticle": "smoke.png",
+
+    "ReflectionParticle": "reflection.png",
+
+    "HitFlameParticle": "hitflame.png",
+
+    "HitAroundFlameParticle": "hitaroundflame.png",
+
+    "HitSmokeParticle": "hitsmoke.png",
+
+  "VictoryParticle": "star.png",
+
+  "SoundFile": [
+    "Keystroke.wav",
+    "swipe.wav",
+    "openpaper.wav",
+    "closepaper.wav",
+    "title.wav",
+    "firebullet.wav",
+    "hitbullet.wav",
+    "reflection.wav",
+    "breakbullet.wav",
+    "breakblock.wav",
+    "maingame.wav",
+    "result.wav"
+  ],
+
+    "Mapchip": [
+        [ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2 ],
+        [ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2 ],
+        [ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2 ],
+        [ 1, 0, 0, 3, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2 ],
+        [ 1, 0, 0, 3, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2 ],
+        [ 1, 0, 0, 3, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2 ],
+        [ 1, 0, 0, 3, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2 ],
+        [ 1, 0, 0, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 0, 0, 2 ],
+        [ 1, 0, 0, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 0, 0, 2 ],
+        [ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 3, 0, 0, 2 ],
+        [ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 3, 0, 0, 2 ],
+        [ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 3, 0, 0, 2 ],
+        [ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 3, 0, 0, 2 ],
+        [ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2 ],
+        [ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2 ],
+        [ 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2 ]
+    ]
+}

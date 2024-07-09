@@ -234,6 +234,12 @@ public:
 	/// <returns></returns>
 	Vector3 GetSkydomePos() { return m_skydomePos; }
 
+	/// <summary>
+	/// サウンドファイルの取得
+	/// </summary>
+	/// <returns></returns>
+	vector<string> GetSoundFile() { return m_soundFile; }
+
 private:
 	static Load* m_load;				//ロードクラスのインスタンス
 
@@ -290,6 +296,8 @@ private:
 	Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> m_hitSmokeParticle;		//ヒットエフェクト用煙パーティクル
 
 	Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> m_victoryParticle;			//勝利時のパーティクル
+
+	vector<string> m_soundFile;
 
 	static constexpr int m_maxBulletNum = 6;						//弾の最大数
 

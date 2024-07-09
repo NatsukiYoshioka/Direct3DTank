@@ -21,6 +21,10 @@ Transition::Transition(Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> transiti
 Transition::~Transition()
 {
     m_transitionTexture.Reset();
+    if (m_basicEffect.get())
+    {
+        m_basicEffect.reset();
+    }
 }
 
 void Transition::Update(bool isChangeScene)
@@ -29,43 +33,45 @@ void Transition::Update(bool isChangeScene)
     {
         if (!m_isFinishFadeout)
         {
-            m_alpha += m_alphaAdd;
+            m_alpha += m_alphaAdd * 2;
         }
         if (m_alpha >= 1.f)
         {
             m_isFinishFadeout = true;
         }
     }
-    if (m_isFinishFadeout)
-    {
-        m_alpha -= m_alphaAdd;
-        if (m_alpha <= float(initializeNum))
-        {
-            m_isFinishFadein = true;
-        }
-    }
-    if (m_isFinishFadeout && m_isFinishFadein)
+    else
     {
         m_isFinishFadeout = false;
-        m_isFinishFadein = false;
+    }
+    m_alpha -= m_alphaAdd;
+    if (m_alpha <= float(initializeNum))
+    {
+        m_alpha = float(initializeNum);
+        m_isFinishFadein = true;
     }
 }
 
 void Transition::Draw(DirectX::SpriteBatch* spritebatch, DirectX::CommonStates* states, ID3D11Device* deviceResources, ID3D11DeviceContext1* context, BasicEffect* basicEffect, DirectX::SimpleMath::Matrix view, DirectX::SimpleMath::Matrix projection)
 {
+    if (!m_basicEffect.get())
+    {
+        m_basicEffect = make_unique<BasicEffect>(deviceResources);
+        m_basicEffect->SetTextureEnabled(true);
+        m_basicEffect->SetTexture(m_transitionTexture.Get());
+    }
+
     void const* shaderByteCode;
     size_t byteCodeLength;
     
-    basicEffect->GetVertexShaderBytecode(&shaderByteCode, &byteCodeLength);
+    m_basicEffect->GetVertexShaderBytecode(&shaderByteCode, &byteCodeLength);
     deviceResources->CreateInputLayout(VertexPositionColorTexture::InputElements, VertexPositionColorTexture::InputElementCount, shaderByteCode, byteCodeLength, m_inputLayout.GetAddressOf());
 
     spritebatch->Begin(SpriteSortMode_Deferred, states->NonPremultiplied(), nullptr, states->DepthRead(), states->CullNone(), [=]
         {
-            basicEffect->SetDiffuseColor(Vector3::One);
-            basicEffect->SetAlpha(m_alpha);
-            basicEffect->SetView(view);
-            basicEffect->SetProjection(projection);
-            basicEffect->Apply(context);
+            m_basicEffect->SetAlpha(m_alpha);
+            m_basicEffect->SetView(Matrix::Identity);
+            m_basicEffect->Apply(context);
             context->IASetInputLayout(m_inputLayout.Get());
         });
     spritebatch->Draw(m_transitionTexture.Get(), m_pos, nullptr, Colors::White, float(initializeNum), m_origin, m_scale, SpriteEffects_None, m_layerDepth);

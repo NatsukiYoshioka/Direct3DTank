@@ -203,4 +203,10 @@ void Load::LoadData(ID3D11Device* deviceResources, ID3D11DeviceContext* context)
 	//勝利時のパーティクルのロード
 	str = m_json["VictoryParticle"];
 	DX::ThrowIfFailed(CreateWICTextureFromFile(device, Widen(str).c_str(), nullptr, m_victoryParticle.ReleaseAndGetAddressOf()));
+
+	m_soundFile.assign(m_json["SoundFile"].size(), "");
+	for (int i = initializeNum; i < m_soundFile.size(); i++)
+	{
+		m_soundFile.at(i) = m_json["SoundFile"].at(i);
+	}
 }

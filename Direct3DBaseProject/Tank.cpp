@@ -125,7 +125,7 @@ void Tank::InitResult(Vector3 pos, Vector3 cameraEye)
 void Tank::Update(DirectX::SimpleMath::Matrix world, DirectX::GamePad::State padState, SceneManager::SCENE sceneState)
 {
     m_isHitBullet = false;
-    if (sceneState == SceneManager::SCENE::MAINGAME)
+    if (sceneState == SceneManager::SCENE::MAINGAME && !m_isBreak)
     {
         UpdateInput(padState);
     }

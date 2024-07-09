@@ -23,6 +23,11 @@ public:
     ~BulletManager();
 
     /// <summary>
+    /// 初期化
+    /// </summary>
+    void Init();
+
+    /// <summary>
     /// 弾全体の更新
     /// </summary>
     /// <param name="world">ワールド単位行列</param>

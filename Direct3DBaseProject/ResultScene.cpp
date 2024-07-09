@@ -26,7 +26,7 @@ ResultScene::~ResultScene()
 }
 
 //リザルトシーン更新
-void ResultScene::Update(DirectX::GamePad::State padState, TankManager* tankManager)
+void ResultScene::Update(DirectX::GamePad::State padState, TankManager* tankManager, float elapsedTime)
 {
     if (padState.IsConnected())
     {

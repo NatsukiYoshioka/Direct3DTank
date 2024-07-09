@@ -6,6 +6,7 @@ using namespace DirectX::SimpleMath;
 using namespace std;
 
 class BaseScene;
+class AnimatedTexture;
 
 class MainGameScene:public BaseScene
 {
@@ -24,7 +25,7 @@ public:
 	/// メインゲームシーン更新
 	/// </summary>
 	/// <param name=""></param>
-	void Update(DirectX::GamePad::State, TankManager* tankManager);
+	void Update(DirectX::GamePad::State, TankManager* tankManager, float elapsedTime);
 
 	/// <summary>
 	/// メインゲームシーン描画
@@ -40,12 +41,19 @@ public:
 	void DrawBackGround(ID3D11DeviceContext1* context, DirectX::CommonStates* states, DirectX::SimpleMath::Matrix view, DirectX::SimpleMath::Matrix projection, DirectX::PrimitiveBatch<VertexPositionTexture>* primitiveBatch, BasicEffect* basicEffect, Microsoft::WRL::ComPtr<ID3D11InputLayout> inputLayout, ID3D11Device* deviceResources);
 private:
 	vector<Microsoft::WRL::ComPtr<ID3D11ShaderResourceView>> m_mainGameUI; //タイトルUI
+	vector<unique_ptr<AnimatedTexture>> m_animatedTexture;
 	vector<Vector2> m_mainGameUIPos;									   //タイトルUI座標
 	vector<float> m_mainGameUIScale;									   //タイトルUIスケール
 
 	bool m_isEnableHeartUI[playerNum * maxHp];			//ハートUIが描画有効かどうか
 
+	unique_ptr<DirectX::BasicEffect> m_basicEffect;         //描画オプションの設定クラス
+
 	static constexpr float m_UIDepth = 0.1f;
+
+	static constexpr int m_maxFrame = 7;
+
+	static constexpr float m_framesPerSencond = 5.f;
 
 	static constexpr int m_backgroundIndex = 20;
 	static constexpr float m_backgroundHeight = -10.f;

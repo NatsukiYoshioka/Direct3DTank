@@ -46,29 +46,29 @@
         0.25
     ],
 
-    "MainGameUI": [
-        "Heart.png",
-        "HeartBlue.png",
-        "Heart.png",
-        "HeartBlue.png",
-        "Heart.png",
-        "HeartBlue.png",
-        "Heart.png",
-        "HeartBlue.png",
-        "Heart.png",
-        "HeartBlue.png",
-        "Heart.png",
-        "HeartRed.png",
-        "Heart.png",
-        "HeartRed.png",
-        "Heart.png",
-        "HeartRed.png",
-        "Heart.png",
-        "HeartRed.png",
-        "Heart.png",
-        "HeartRed.png",
-        "woodbackground.jpg"
-    ],
+  "MainGameUI": [
+    "blueheartbreak.png",
+    "movingblueheart.png",
+    "blueheartbreak.png",
+    "movingblueheart.png",
+    "blueheartbreak.png",
+    "movingblueheart.png",
+    "blueheartbreak.png",
+    "movingblueheart.png",
+    "blueheartbreak.png",
+    "movingblueheart.png",
+    "heartbreak.png",
+    "movingheart.png",
+    "heartbreak.png",
+    "movingheart.png",
+    "heartbreak.png",
+    "movingheart.png",
+    "heartbreak.png",
+    "movingheart.png",
+    "heartbreak.png",
+    "movingheart.png",
+    "woodbackground.jpg"
+  ],
 
     "MainGameUIPos": [
         [ 200, 100 ],
@@ -176,7 +176,22 @@
 
     "HitSmokeParticle": "hitsmoke.png",
 
-    "VictoryParticle": "star.png",
+  "VictoryParticle": "star.png",
+
+  "SoundFile": [
+    "Keystroke.wav",
+    "swipe.wav",
+    "openpaper.wav",
+    "closepaper.wav",
+    "title.wav",
+    "firebullet.wav",
+    "hitbullet.wav",
+    "reflection.wav",
+    "breakbullet.wav",
+    "breakblock.wav",
+    "maingame.wav",
+    "result.wav"
+  ],
 
     "Mapchip": [
         [ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2 ],

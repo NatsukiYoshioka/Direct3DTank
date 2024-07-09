@@ -41,7 +41,7 @@ TitleScene::~TitleScene()
 }
 
 //タイトルシーン更新
-void TitleScene::Update(DirectX::GamePad::State padState, TankManager* tankManager)
+void TitleScene::Update(DirectX::GamePad::State padState, TankManager* tankManager, float elapsedTime)
 {
     if (padState.IsConnected())
     {

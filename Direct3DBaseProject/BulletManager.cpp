@@ -15,10 +15,7 @@ BulletManager::BulletManager(vector<unique_ptr<DirectX::Model>>&& bulletModelHan
     {
         m_bulletModelHandle.push_back(move(bulletModelHandle.at(i)));
     }
-    for (int i = initializeNum; i < m_maxBulletNum * playerNum; i++)
-    {
-        m_isUsedBullet[i] = false;
-    }
+    Init();
 }
 
 //インスタンス破棄
@@ -28,6 +25,15 @@ BulletManager::~BulletManager()
     {
         m_bulletModelHandle.at(i).reset();
     }
+}
+
+void BulletManager::Init()
+{
+    for (int i = initializeNum; i < m_maxBulletNum * playerNum; i++)
+    {
+        m_isUsedBullet[i] = false;
+    }
+    m_bullets->clear();
 }
 
 //弾全体の更新

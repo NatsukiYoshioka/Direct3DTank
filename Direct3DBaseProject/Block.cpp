@@ -47,7 +47,6 @@ void Block::Draw(ID3D11DeviceContext1* context, DirectX::CommonStates* states, D
     {
         m_blockModelHandle->Draw(context, *states, m_local, view, projection);
     }
-    
 }
 
 void Block::DecreaseEndurance()

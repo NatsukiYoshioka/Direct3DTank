@@ -15,6 +15,7 @@ class TankManager;
 class BulletManager;
 class ParticleManager;
 class SceneManager;
+class SoundManager;
 class Transition;
 
 using namespace DirectX::SimpleMath;
@@ -26,7 +27,7 @@ class Game final : public DX::IDeviceNotify
 public:
 
     Game() noexcept(false);
-    ~Game() = default;
+    ~Game();
 
     Game(Game&&) = default;
     Game& operator= (Game&&) = default;
@@ -69,6 +70,7 @@ private:
     BulletManager* m_bulletManager;
     ParticleManager* m_particleManager;
     SceneManager* m_sceneManager;
+    SoundManager* m_soundManager;
     Transition* m_transition;
 
     unique_ptr<DirectX::GamePad> m_gamePad;
@@ -80,6 +82,7 @@ private:
     std::unique_ptr<DirectX::SpriteBatch> m_spriteBatch;
     using VertexType = DirectX::VertexPositionTexture;
     std::unique_ptr<DirectX::PrimitiveBatch<VertexType>> m_primitiveBatch;
+    std::unique_ptr<DirectX::AudioEngine> m_audioEngine;
 
     void Update(DX::StepTimer const& timer);
     void Render();
